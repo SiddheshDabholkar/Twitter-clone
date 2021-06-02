@@ -6,7 +6,14 @@ const StyledFooter = styled.footer`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  height: auto;
   width: 100%;
+  color: #8b949e;
+  font-size: 22px;
+  a {
+    text-decoration: none;
+    color: #8b949e;
+  }
 `;
 
 export default function Footer() {
@@ -14,7 +21,10 @@ export default function Footer() {
     <>
       <StyledFooter>
         <p>
-          made with &#10084; by <a href="lol">Siddhesh</a>
+          made with &#10084; by{" "}
+          <a href="https://github.com/SiddheshDabholkar/Twitter-clone">
+            Siddhesh
+          </a>
         </p>
       </StyledFooter>
     </>

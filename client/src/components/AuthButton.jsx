@@ -18,8 +18,10 @@ export const StyledButton = styled.button`
   margin: 15px;
   @media (min-width: 1200px) {
     width: 70%;
+    padding: 35px;
   }
   @media (max-width: 500px) {
     width: 85%;
+    padding: 23px;
   }
 `;

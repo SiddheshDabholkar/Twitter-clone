@@ -1,9 +1,11 @@
-import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { MainContainer } from "../container/MainContainer";
 import { StyledButton } from "../components/AuthButton";
 import { ButtonContainer } from "../container/ButtonContainer";
 import Footer from "../components/Footer";
+import Signup from "./Signup";
+import { Link, useLocation, useHistory } from "react-router-dom";
 
 const LeftImage = styled.img`
   height: auto;
@@ -46,6 +48,10 @@ const Logo = styled.img`
   background-repeat: no-repeat;
 `;
 export default function WelcomePage() {
+  const [show, setShow] = useState(false);
+  const location = useLocation();
+  const history = useHistory();
+
   return (
     <>
       <MainContainer rev col>
@@ -65,15 +71,32 @@ export default function WelcomePage() {
                   bgColor="#1da1f2"
                   borderColor="transparent"
                   txtColor="#fff"
+                  onClick={() => {
+                    setShow(true);
+                  }}
                 >
-                  lmao
+                  <Link
+                    to={{
+                      pathname: "/signin",
+                      state: { background: location },
+                    }}
+                  >
+                    Signup
+                  </Link>
                 </StyledButton>
+                <Signup
+                  show={show}
+                  onClose={() => {
+                    setShow(false);
+                    history.goBack();
+                  }}
+                />
                 <StyledButton
                   bgColor={"#fff"}
                   borderColor="#1da1f2"
                   txtColor="#1da1f2"
                 >
-                  lmao
+                  Login
                 </StyledButton>
               </ButtonContainer>
             </RightContainer>
