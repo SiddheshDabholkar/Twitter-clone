@@ -57,7 +57,7 @@ export default function Login() {
               show={show}
               onClose={() => {
                 setShow(false);
-                history.goBack();
+                history.push("/");
               }}
             />
           </MainContainer>

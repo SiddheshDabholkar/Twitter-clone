@@ -8,50 +8,15 @@ import { StyledButton } from "../components/AuthButton";
 import { ButtonContainer } from "../container/ButtonContainer";
 import { Bg, ModalContainer, ModalContent } from "../container/ModalUtils";
 import { CardContainer } from "../container/CardContainer";
-import Confirmotp from "./Confirmotp";
 import { Link, useLocation, useHistory } from "react-router-dom";
 
-export default function Signin({ onClose, show }) {
-  const [useFirst, setUseFirst] = useState(true);
-  const [showModal, setShowModal] = useState(false);
+export default function Confirmotp({ showModal, onCloseModal }) {
   const location = useLocation();
-  const history = useHistory();
-
-  const Input = () => {
-    if (useFirst) {
-      return (
-        <>
-          <StyledInput placeholder="phone" />
-          <SmallParagraph
-            start
-            onClick={() => setUseFirst(false)}
-            style={{ cursor: "pointer" }}
-          >
-            use Email instead
-          </SmallParagraph>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <StyledInput placeholder="email" />
-          <SmallParagraph
-            start
-            onClick={() => setUseFirst(true)}
-            style={{ cursor: "pointer" }}
-          >
-            use phone instead
-          </SmallParagraph>
-        </>
-      );
-    }
-  };
-
-  if (!show) return null;
+  if (!showModal) return null;
   return (
     <>
       <Bg>
-        <ModalContainer onClick={onClose}>
+        <ModalContainer onClick={onCloseModal}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
             <CardContainer>
               <MainContainer nowrap style={{ flexDirection: "row" }}>
@@ -60,8 +25,7 @@ export default function Signin({ onClose, show }) {
                 </LogoContainer>
               </MainContainer>
               <SmallHeader>Create your account</SmallHeader>
-              <StyledInput placeholder="name" />
-              <Input />
+              <StyledInput placeholder="enter verification code" />
               <ButtonContainer>
                 <StyledButton
                   bgColor="#1da1f2"
@@ -74,11 +38,8 @@ export default function Signin({ onClose, show }) {
                       pathname: "/confirmotp",
                       state: { background: location },
                     }}
-                    onClick={() => {
-                      setShowModal(true);
-                    }}
                   >
-                    Signup
+                    confirm
                   </Link>
                 </StyledButton>
               </ButtonContainer>
@@ -86,13 +47,6 @@ export default function Signin({ onClose, show }) {
           </ModalContent>
         </ModalContainer>
       </Bg>
-      <Confirmotp
-        showModal={showModal}
-        onCloseModal={() => {
-          setShowModal(false);
-          history.push("/");
-        }}
-      />
     </>
   );
 }

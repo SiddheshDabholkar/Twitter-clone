@@ -29,10 +29,15 @@ export const ModalContainer = styled.div`
   top: 0;
   bottom: 0;
   right: 0;
-  /* margin: 200px 500px; */
   margin: 20% 10%;
   border-radius: 30px;
   background-color: #fff;
+
+  @media (min-width: 920px) {
+    margin: 10% 25%;
+    height: auto;
+  }
+
   @media (max-width: 550px) {
     /* position: relative; */
     margin: 0px;

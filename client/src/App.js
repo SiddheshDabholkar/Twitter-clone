@@ -1,6 +1,7 @@
 import WelcomePage from "./screens/Welcome";
 import Login from "./screens/Login";
 import Signup from "./screens/Signup";
+import Confirmotp from "./screens/Confirmotp";
 import {
   Route,
   useLocation,
@@ -23,8 +24,12 @@ const Routing = () => {
         <Route exact path="/signup">
           <Signup />
         </Route>
+        <Route exact path="/confirmotp">
+          <Confirmotp />
+        </Route>
       </Switch>
       {background && <Route path="/signup" children={<Signup />} />}
+      {background && <Route path="/confirmotp" children={<Confirmotp />} />}
     </>
   );
 };
