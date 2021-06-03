@@ -1,70 +1,77 @@
-import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { StyledInput } from "../components/Input";
+import { SmallHeader, SmallParagraph } from "../Typography";
+import { LogoContainer } from "../container/LogoContainer";
+import { Logo } from "../components/Logo";
+import { MainContainer } from "../container/MainContainer";
+import { StyledButton } from "../components/AuthButton";
+import { ButtonContainer } from "../container/ButtonContainer";
+import { Bg, ModalContainer, ModalContent } from "../container/ModalUtils";
+import { CardContainer } from "../container/CardContainer";
 
-const Bg = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  background-color: #b5b5b591;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-`;
+export default function Signin({ onClose, show }) {
+  const [useFirst, setUseFirst] = useState(true);
 
-const ModalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  margin: 200px 500px;
-  border-radius: 30px;
-  background-color: blue;
-`;
-const ModalContent = styled.div``;
-const ModalHeader = styled.h1``;
-const ModalTitle = styled.h1``;
-const ModalBody = styled.p``;
-const ModalFooter = styled.div``;
-
-export default function Signin({ show, onClose }) {
-  // const closeOnEscapeKeyDown = (e) => {
-  //   if ((e.charCode || e.keyCode) === 27) {
-  //     onClose();
-  //   }
-  // };
-  // useEffect(() => {
-  //   document.body.addEventListener("keydown", closeOnEscapeKeyDown);
-  //   return function cleanup() {
-  //     document.body.removeEventListener("keydown", closeOnEscapeKeyDown);
-  //   };
-  // }, []);
-  const history = useHistory();
-  const closeModal = (e) => {
-    e.stopPropagation();
-    history.goBack();
+  const Input = () => {
+    if (useFirst) {
+      return (
+        <>
+          <StyledInput placeholder="phone" />
+          <SmallParagraph
+            start
+            onClick={() => setUseFirst(false)}
+            style={{ cursor: "pointer" }}
+          >
+            use Email instead
+          </SmallParagraph>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <StyledInput placeholder="email" />
+          <SmallParagraph
+            start
+            onClick={() => setUseFirst(true)}
+            style={{ cursor: "pointer" }}
+          >
+            use phone instead
+          </SmallParagraph>
+        </>
+      );
+    }
   };
-  if (!show) return null;
 
+  if (!show) return null;
   return (
     <>
       <Bg>
         <ModalContainer onClick={onClose}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
-            <ModalHeader>
-              <ModalTitle>iugjh</ModalTitle>
-            </ModalHeader>
-            <ModalBody>lmaoododjjd</ModalBody>
-            <ModalFooter>
-              <button onClick={onClose}>close</button>
-            </ModalFooter>
+            <CardContainer>
+              <MainContainer nowrap style={{ flexDirection: "row" }}>
+                <LogoContainer style={{ width: "90%" }}>
+                  <Logo src={`${process.env.PUBLIC_URL}/icons8-twitter.svg`} />
+                </LogoContainer>
+                <ButtonContainer style={{ width: "10%" }}>
+                  <StyledButton
+                    bgColor="#1da1f2"
+                    borderColor="transparent"
+                    txtColor="#fff"
+                    style={{
+                      borderRadius: "20px",
+                      padding: "20px 40px",
+                      fontWeight: "bolder",
+                    }}
+                  >
+                    confirm
+                  </StyledButton>
+                </ButtonContainer>
+              </MainContainer>
+              <SmallHeader>Create your account</SmallHeader>
+              <StyledInput placeholder="name" />
+              <Input />
+            </CardContainer>
           </ModalContent>
         </ModalContainer>
       </Bg>

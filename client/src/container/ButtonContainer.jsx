@@ -14,5 +14,6 @@ export const ButtonContainer = styled.div`
   @media (max-width: 501px) {
     flex-wrap: wrap;
     width: 100%;
+    padding: 5px;
   }
 `;

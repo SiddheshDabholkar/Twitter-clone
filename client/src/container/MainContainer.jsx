@@ -9,8 +9,7 @@ export const MainContainer = styled.div`
   width: 100%;
   flex-wrap: nowrap;
   @media (max-width: 972px) {
-    flex-wrap: wrap;
-    /* flex-direction: column-reverse; */
+    flex-wrap: ${({ nowrap }) => (nowrap ? "nowrap" : "wrap")};
     flex-direction: ${({ rev }) => (rev ? "column" : "column-reverse")};
   }
 `;

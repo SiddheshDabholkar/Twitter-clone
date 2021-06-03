@@ -14,11 +14,15 @@ export const StyledButton = styled.button`
   background-color: ${({ bgColor }) => bgColor};
   border-color: ${({ borderColor }) => borderColor};
   padding: 25px;
-  width: 45%;
+  width: ${({ input }) => (input ? "100%" : "45%")};
   margin: 15px;
+  a {
+    color: ${({ txtColor }) => txtColor};
+    text-decoration: none;
+  }
   @media (min-width: 1200px) {
-    width: 70%;
-    padding: 35px;
+    width: ${({ input }) => (input ? "100%" : "70%")};
+    padding: ${({ input }) => (input ? "1px" : "30px")};
   }
   @media (max-width: 500px) {
     width: 85%;

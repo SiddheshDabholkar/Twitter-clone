@@ -1,6 +1,6 @@
 import WelcomePage from "./screens/Welcome";
 import Login from "./screens/Login";
-import Signin from "./screens/Signup";
+import Signup from "./screens/Signup";
 import {
   Route,
   useLocation,
@@ -20,11 +20,11 @@ const Routing = () => {
         <Route exact path="/login">
           <Login />
         </Route>
-        <Route exact path="/signin">
-          <Signin />
+        <Route exact path="/signup">
+          <Signup />
         </Route>
       </Switch>
-      {background && <Route path="/signin" children={<Signin />} />}
+      {background && <Route path="/signup" children={<Signup />} />}
     </>
   );
 };

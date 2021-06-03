@@ -6,18 +6,14 @@ import { ButtonContainer } from "../container/ButtonContainer";
 import Footer from "../components/Footer";
 import Signup from "./Signup";
 import { Link, useLocation, useHistory } from "react-router-dom";
+import { LogoContainer } from "../container/LogoContainer";
+import { Logo } from "../components/Logo";
 
 const LeftImage = styled.img`
   height: auto;
   width: 100%;
   background-repeat: no-repeat;
   background-size: auto;
-`;
-const LogoContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  float: left;
-  width: 100%;
 `;
 const RightContainer = styled.div`
   display: flex;
@@ -27,6 +23,9 @@ const RightContainer = styled.div`
   height: auto;
   padding: 50px 25px;
   width: 90%;
+  @media (max-width: 760px) {
+    padding: 30px 15px;
+  }
 `;
 const StyledHeader = styled.h1`
   display: flex;
@@ -40,13 +39,10 @@ const StyledHeader = styled.h1`
     font-size: ${({ small }) => (small ? "35px" : "85px")};
   }
   @media (max-width: 500px) {
-    font-size: ${({ small }) => (small ? "25px" : "65px")};
+    font-size: ${({ small }) => (small ? "25px" : "55px")};
   }
 `;
-const Logo = styled.img`
-  height: 70px;
-  background-repeat: no-repeat;
-`;
+
 export default function WelcomePage() {
   const [show, setShow] = useState(false);
   const location = useLocation();
@@ -77,7 +73,7 @@ export default function WelcomePage() {
                 >
                   <Link
                     to={{
-                      pathname: "/signin",
+                      pathname: "/signup",
                       state: { background: location },
                     }}
                   >
@@ -96,7 +92,7 @@ export default function WelcomePage() {
                   borderColor="#1da1f2"
                   txtColor="#1da1f2"
                 >
-                  Login
+                  <Link to="/login">Login</Link>
                 </StyledButton>
               </ButtonContainer>
             </RightContainer>
