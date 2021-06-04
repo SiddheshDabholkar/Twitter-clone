@@ -4,7 +4,10 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../../model/User");
 const { SECRET_KEY } = require("../../Keys");
-const { validateRegisterInput } = require("../../utils/validator");
+const {
+  validateRegisterInput,
+  validateLoginInput,
+} = require("../../utils/validator");
 
 module.exports = {
   Query: {
@@ -81,6 +84,54 @@ module.exports = {
         return {
           ...res.toJSON(),
           id: res._id,
+          token,
+        };
+      }
+    },
+
+    async login(_, { loginInput: { username, password, phone, email } }) {
+      const { valid, errors } = validateLoginInput(username, password, email);
+      const user =
+        (await User.findOne({ username })) ||
+        (await User.findOne({ phone })) ||
+        (await User.findOne({ email }));
+
+      console.log("user----->", user);
+      if (!valid) {
+        throw new UserInputError("Errors", { errors });
+      }
+
+      if (!user) {
+        errors.general = "Users not found";
+        throw new UserInputError("user not found", { errors });
+      }
+
+      const matchPassword = await bcrypt.compare(password, user.password);
+
+      if (!matchPassword) {
+        errors.general = "Wrong credentials";
+        throw new UserInputError("Wrong credentials", { errors });
+      }
+
+      if (
+        matchPassword &&
+        valid &&
+        (username === user.username ||
+          email === user.email ||
+          phone === user.phone)
+      ) {
+        const token = await jwt.sign(
+          {
+            id: user._id,
+          },
+          SECRET_KEY,
+          { expiresIn: "1h" }
+        );
+        console.log(token);
+
+        return {
+          ...user.toJSON(),
+          id: user._id,
           token,
         };
       }
