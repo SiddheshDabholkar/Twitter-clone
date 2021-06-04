@@ -30,40 +30,60 @@ module.exports = {
         confirmPassword
       );
       if (!valid) {
-        // throw new UserInputError({ errors });
-        return new UserInputError("Errorsssss", { errors });
+        throw new UserInputError("Errors", { errors });
       }
-      //* cheking if user already exists with same email || phone number
-      // const user = await User.findOne({ username, email, phone });
-      const user = await User.findOne({ username });
-      if (user) {
-        // throw new UserInputError({ errors });
-        return new UserInputError("username is already taken", {
-          errors: { username: "this username is taken" },
+      //* cheking if user already exists with same email || phone number || username
+      const usedUsername = await User.findOne({ username });
+      if (usedUsername) {
+        throw new UserInputError("username already in use", {
+          errors: {
+            username: "username already taken",
+          },
         });
       }
 
-      hashedPassword = await bcrypt.hash(password, 12);
-      const newUser = new User({
-        email,
-        username,
-        password: hashedPassword,
-        phone,
-      });
-      const res = await newUser.save();
-      const token = await jwt.sign(
-        {
+      const usedEmail = await User.findOne({ email });
+      if (usedEmail) {
+        throw new UserInputError("Email already in use", {
+          errors: {
+            email: "email already taken",
+          },
+        });
+      }
+
+      const usedPhoneNo = await User.findOne({ phone });
+      if (usedPhoneNo) {
+        throw new UserInputError("phone number already in use", {
+          errors: {
+            phone: "phone number already in use",
+          },
+        });
+      }
+
+      if (valid && !usedUsername && !usedEmail && !usedPhoneNo) {
+        hashedPassword = await bcrypt.hash(password, 12);
+        const newUser = new User({
+          email,
+          username,
+          password: hashedPassword,
+          phone,
+        });
+        const res = await newUser.save();
+        const token = await jwt.sign(
+          {
+            id: res._id,
+          },
+          SECRET_KEY,
+          { expiresIn: "1h" }
+        );
+        // console.log(token);
+        // console.log(res);
+        return {
+          ...res.toJSON(),
           id: res._id,
-        },
-        SECRET_KEY,
-        { expiresIn: "1h" }
-      );
-      console.log(token);
-      console.log(res);
-      return {
-        token,
-        res,
-      };
+          token,
+        };
+      }
     },
   },
 };
