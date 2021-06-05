@@ -20,7 +20,7 @@ module.exports = {
       }
     },
   },
-  //!MUTATIONS
+
   Mutation: {
     async register(
       _,
@@ -72,15 +72,18 @@ module.exports = {
           phone,
         });
         const res = await newUser.save();
+        // console.log("res--->", res);
         const token = await jwt.sign(
           {
             id: res._id,
+            email: res.email,
+            username: res.username,
+            phone: res.phone,
           },
           SECRET_KEY,
           { expiresIn: "1h" }
         );
-        // console.log(token);
-        // console.log(res);
+        console.log("register token--->", token);
         return {
           ...res.toJSON(),
           id: res._id,
@@ -96,7 +99,6 @@ module.exports = {
         (await User.findOne({ phone })) ||
         (await User.findOne({ email }));
 
-      console.log("user----->", user);
       if (!valid) {
         throw new UserInputError("Errors", { errors });
       }
@@ -107,7 +109,7 @@ module.exports = {
       }
 
       const matchPassword = await bcrypt.compare(password, user.password);
-
+      // console.log("user---->", user);
       if (!matchPassword) {
         errors.general = "Wrong credentials";
         throw new UserInputError("Wrong credentials", { errors });
@@ -123,6 +125,9 @@ module.exports = {
         const token = await jwt.sign(
           {
             id: user._id,
+            email: user.email,
+            username: user.username,
+            phone: user.phone,
           },
           SECRET_KEY,
           { expiresIn: "1h" }

@@ -1,10 +1,10 @@
 const { model, Schema } = require("mongoose");
+const { ObjectId } = Schema.Types;
 
 const tweetSchema = new Schema(
   {
     body: String,
     username: String,
-    likes: String,
     comments: [
       {
         body: String,
@@ -16,13 +16,14 @@ const tweetSchema = new Schema(
       {
         username: String,
       },
+      { timeStamp: true },
     ],
     user: {
-      type: Schema.Types.ObjectId,
-      ref: "users",
+      type: ObjectId,
+      ref: "User",
     },
   },
   { timeStamp: true }
 );
 
-module.exports = model("Post", tweetSchema);
+module.exports = model("Tweet", tweetSchema);
