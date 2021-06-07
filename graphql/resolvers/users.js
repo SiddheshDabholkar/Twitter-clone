@@ -92,12 +92,12 @@ module.exports = {
       }
     },
 
-    async login(_, { loginInput: { username, password, phone, email } }) {
-      const { valid, errors } = validateLoginInput(username, password, email);
+    async login(_, { input, password }) {
+      const { valid, errors } = validateLoginInput(input, password);
       const user =
-        (await User.findOne({ username })) ||
-        (await User.findOne({ phone })) ||
-        (await User.findOne({ email }));
+        (await User.findOne({ username: `${input}` })) ||
+        (await User.findOne({ phone: `${input}` })) ||
+        (await User.findOne({ email: `${input}` }));
 
       if (!valid) {
         throw new UserInputError("Errors", { errors });
@@ -107,21 +107,13 @@ module.exports = {
         errors.general = "Users not found";
         throw new UserInputError("user not found", { errors });
       }
-
       const matchPassword = await bcrypt.compare(password, user.password);
       // console.log("user---->", user);
       if (!matchPassword) {
         errors.general = "Wrong credentials";
         throw new UserInputError("Wrong credentials", { errors });
       }
-
-      if (
-        matchPassword &&
-        valid &&
-        (username === user.username ||
-          email === user.email ||
-          phone === user.phone)
-      ) {
+      if (matchPassword && valid && user) {
         const token = await jwt.sign(
           {
             id: user._id,

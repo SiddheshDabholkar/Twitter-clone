@@ -25,13 +25,6 @@ module.exports = gql`
     phone: String
     email: String
   }
-  input LoginInput {
-    username: String
-    password: String!
-    phone: String
-    email: String
-  }
-
   type Query {
     getTweets: [Tweet]
     getUsers: [User]
@@ -40,7 +33,7 @@ module.exports = gql`
 
   type Mutation {
     register(registerInput: RegisterInput): User!
-    login(loginInput: LoginInput): User!
+    login(input: String!, password: String!): User!
     createTweet(body: String!): Tweet!
     deleteTweet(tweetId: ID!): String
     createComment(tweetId: String!, body: String!): Tweet!
