@@ -1,6 +1,7 @@
 const { AuthenticationError, UserInputError } = require("apollo-server-errors");
 const Tweet = require("../../model/Tweet");
 const checkAuth = require("../../utils/checkAuth");
+const reTweet = require("../../model/reTweet");
 
 module.exports = {
   Query: {
@@ -119,5 +120,19 @@ module.exports = {
       } else throw new UserInputError("Tweet not found");
     },
     //*-----------------------------------//
+    async reTweets(_, { tweetId, body }, context) {
+      const user = checkAuth(context);
+      if (body.trim() === "") {
+        throw new Error("Post body cannot be empty");
+      }
+      const newReTweet = new reTweet({
+        body,
+        user: user.id,
+        tweet: tweetId,
+      });
+
+      const ReTweet = await newReTweet.save();
+      return ReTweet;
+    },
   },
 };

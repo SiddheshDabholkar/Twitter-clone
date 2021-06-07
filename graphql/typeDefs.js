@@ -6,6 +6,11 @@ module.exports = gql`
     body: String!
     username: String
   }
+  type reTweet {
+    id: ID!
+    body: String!
+    username: String
+  }
   type User {
     id: ID!
     username: String
@@ -41,5 +46,6 @@ module.exports = gql`
     createComment(tweetId: String!, body: String!): Tweet!
     deleteComment(tweetId: ID!, commentId: ID!): Tweet!
     likeTweet(tweetId: ID!): Tweet!
+    reTweets(tweetId: ID!, body: String!): reTweet!
   }
 `;

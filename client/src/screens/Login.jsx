@@ -9,11 +9,50 @@ import { Link, useLocation, useHistory } from "react-router-dom";
 import Signup from "./Signup";
 import { LogoContainer } from "../container/LogoContainer";
 import { Logo } from "../components/Logo";
+import { gql, useMutation } from "@apollo/client";
+import { useForm } from "../hooks/useForm";
+
+const LOGIN_USER = gql`
+  mutation login(
+    $username: String
+    $password: password!
+    $phone: phone
+    $email: email
+  ) {
+    login(
+      username: $username
+      password: $password
+      email: $email
+      phone: $phone
+    ) {
+      id
+      username
+      phone
+      email
+    }
+  }
+`;
 
 export default function Login() {
   const [show, setShow] = useState(false);
   const location = useLocation();
   const history = useHistory();
+
+  const initialState = {
+    username: "",
+    password: "",
+    email: "",
+    phone: "",
+  };
+  // const { onChange, onSubmit, values } = useForm(
+  //   LoginUserCallback,
+  //   initialState
+  // );
+  // function LoginUserCallback() {
+  //   LoginUser();
+  // }
+  // const [LoginUser, { loading }] = useMutation(LOGIN_USER, {});
+
   return (
     <>
       <MainContainer col>
@@ -23,7 +62,7 @@ export default function Login() {
           </LogoContainer>
           <SmallHeader>Log in to Twitter</SmallHeader>
           <MainContainer col>
-            <StyledInput placeholder="Phone,email or username" onChange />
+            <StyledInput placeholder="Phone,email or username" />
             <StyledInput placeholder="password" />
           </MainContainer>
           <ButtonContainer>
