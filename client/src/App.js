@@ -8,6 +8,8 @@ import {
   BrowserRouter as Router,
   Switch,
 } from "react-router-dom";
+import { AuthProvider } from "./context/auth";
+import Profile from "./screens/Profile";
 
 const Routing = () => {
   let location = useLocation();
@@ -27,6 +29,9 @@ const Routing = () => {
         <Route exact path="/confirmotp">
           <Confirmotp />
         </Route>
+        <Route exact path="/profile">
+          <Profile />
+        </Route>
       </Switch>
       {background && <Route path="/signup" children={<Signup />} />}
       {background && <Route path="/confirmotp" children={<Confirmotp />} />}
@@ -37,9 +42,11 @@ const Routing = () => {
 export default function App() {
   return (
     <>
-      <Router>
-        <Routing />
-      </Router>
+      <AuthProvider>
+        <Router>
+          <Routing />
+        </Router>
+      </AuthProvider>
     </>
   );
 }

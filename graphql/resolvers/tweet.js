@@ -122,9 +122,8 @@ module.exports = {
     //*-----------------------------------//
     async reTweets(_, { tweetId, body }, context) {
       const user = checkAuth(context);
-      if (body.trim() === "") {
-        throw new Error("Post body cannot be empty");
-      }
+      //there's no need to check if body is empty or not.
+      //since one can just retweet it without any body
       const newReTweet = new reTweet({
         body,
         user: user.id,

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { MainContainer } from "../container/MainContainer";
 import { ButtonContainer } from "../container/ButtonContainer";
 import { StyledButton } from "../components/AuthButton";
@@ -11,47 +11,49 @@ import { LogoContainer } from "../container/LogoContainer";
 import { Logo } from "../components/Logo";
 import { gql, useMutation } from "@apollo/client";
 import { useForm } from "../hooks/useForm";
+import { AuthContext } from "../context/auth";
 
 const LOGIN_USER = gql`
-  mutation login(
-    $username: String
-    $password: password!
-    $phone: phone
-    $email: email
-  ) {
-    login(
-      username: $username
-      password: $password
-      email: $email
-      phone: $phone
-    ) {
+  mutation login($input: String!, $password: String!) {
+    login(input: $input, password: $password) {
       id
       username
       phone
       email
+      token
     }
   }
 `;
 
 export default function Login() {
-  const [show, setShow] = useState(false);
-  const location = useLocation();
+  const context = useContext(AuthContext);
   const history = useHistory();
-
+  const location = useLocation();
+  const [errors, setErrors] = useState({});
+  const [show, setShow] = useState(false);
   const initialState = {
-    username: "",
+    input: "",
     password: "",
-    email: "",
-    phone: "",
   };
-  // const { onChange, onSubmit, values } = useForm(
-  //   LoginUserCallback,
-  //   initialState
-  // );
-  // function LoginUserCallback() {
-  //   LoginUser();
-  // }
-  // const [LoginUser, { loading }] = useMutation(LOGIN_USER, {});
+  const { onChange, onSubmit, values } = useForm(
+    LoginUserCallback,
+    initialState
+  );
+  const [LoginUser] = useMutation(LOGIN_USER, {
+    update(_, { data: { login: userData } }) {
+      console.log(userData);
+      context.login(userData);
+      history.push("/profile");
+    },
+    onError(err) {
+      setErrors(err.graphQLErrors[0].extensions.exception.errors);
+    },
+    variables: values,
+  });
+
+  function LoginUserCallback() {
+    LoginUser();
+  }
 
   return (
     <>
@@ -61,20 +63,33 @@ export default function Login() {
             <Logo src={`${process.env.PUBLIC_URL}/icons8-twitter.svg`} />
           </LogoContainer>
           <SmallHeader>Log in to Twitter</SmallHeader>
-          <MainContainer col>
-            <StyledInput placeholder="Phone,email or username" />
-            <StyledInput placeholder="password" />
-          </MainContainer>
-          <ButtonContainer>
-            <StyledButton
-              input
-              txtColor="#fff"
-              bgColor="#1da1f2"
-              borderColor="transparent"
-            >
-              login
-            </StyledButton>
-          </ButtonContainer>
+          <form onSubmit={onSubmit}>
+            <MainContainer col>
+              <StyledInput
+                placeholder="password"
+                name="password"
+                value={values.password}
+                onChange={onChange}
+              />
+              <StyledInput
+                placeholder="Phone,email or username"
+                name="input"
+                value={values.input}
+                onChange={onChange}
+              />
+            </MainContainer>
+            <ButtonContainer>
+              <StyledButton
+                type="submit"
+                input
+                txtColor="#fff"
+                bgColor="#1da1f2"
+                borderColor="transparent"
+              >
+                login
+              </StyledButton>
+            </ButtonContainer>
+          </form>
           <MainContainer>
             <SmallParagraph>
               <Link to="/forgotpassword">Forgot Password?</Link>
