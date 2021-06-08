@@ -43,7 +43,7 @@ export default function Login() {
     update(_, { data: { login: userData } }) {
       console.log(userData);
       context.login(userData);
-      history.push("/profile");
+      history.push("/home");
     },
     onError(err) {
       setErrors(err.graphQLErrors[0].extensions.exception.errors);

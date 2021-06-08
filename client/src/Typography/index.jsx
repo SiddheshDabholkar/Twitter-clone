@@ -17,7 +17,6 @@ export const SmallParagraph = styled.p`
   font-size: 20px;
   margin: 10px;
   a {
-    text-decoration: none;
     color: #000;
   }
 `;

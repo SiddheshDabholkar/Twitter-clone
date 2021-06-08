@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledButton = styled.button`
+export const CStyledButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,20 +16,17 @@ export const StyledButton = styled.button`
   padding: 25px;
   width: ${({ input }) => (input ? "100%" : "45%")};
   margin: 15px;
+  &:hover {
+    background-color: ${({ hbgColor }) => hbgColor};
+  }
   a {
     color: ${({ txtColor }) => txtColor};
     text-decoration: none;
   }
-  @media (min-width: 1200px) {
-    width: ${({ input }) => (input ? "100%" : "70%")};
-    padding: ${({ input }) => (input ? "1px" : "30px")};
-  }
-  @media (max-width: 500px) {
-    width: 85%;
-    padding: 23px;
-  }
-
-  &:hover {
-    background-color: ${({ hbgColor }) => hbgColor};
+  @media (max-width: 1280px) {
+    height: 40px;
+    padding: 0px !important;
+    margin: 0px !important;
+    border-radius: 50%;
   }
 `;

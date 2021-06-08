@@ -2,6 +2,8 @@ import WelcomePage from "./screens/Welcome";
 import Login from "./screens/Login";
 import Signup from "./screens/Signup";
 import Confirmotp from "./screens/Confirmotp";
+import Profile from "./screens/Profile";
+import Home from "./screens/Home";
 import {
   Route,
   useLocation,
@@ -9,7 +11,6 @@ import {
   Switch,
 } from "react-router-dom";
 import { AuthProvider } from "./context/auth";
-import Profile from "./screens/Profile";
 
 const Routing = () => {
   let location = useLocation();
@@ -31,6 +32,9 @@ const Routing = () => {
         </Route>
         <Route exact path="/profile">
           <Profile />
+        </Route>
+        <Route exact path="/home">
+          <Home />
         </Route>
       </Switch>
       {background && <Route path="/signup" children={<Signup />} />}
