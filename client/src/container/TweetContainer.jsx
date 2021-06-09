@@ -2,9 +2,10 @@ import styled from "styled-components";
 
 export const TweetContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
-  border: 1px solid #80808038;
+  border-bottom: 1px solid #80808038;
+  height: auto;
 `;

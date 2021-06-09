@@ -24,15 +24,25 @@ export const StyledInput = styled.input`
   }
 `;
 
-export const TweetInput = styled.input`
+/* export const TweetInput = styled.input` */
+export const TweetInput = styled.textarea`
   display: flex;
   flex-direction: row;
   height: 80px;
   border: 0px;
-  border-bottom: 1px solid grey;
   width: 97%;
-  font-size: 30px;
+  word-break: break-word;
+  font-size: 26px;
+
   :focus {
     outline: none;
+  }
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  ::-webkit-scrollbar {
+    /* WebKit */
+    width: 0;
+    height: 0;
   }
 `;

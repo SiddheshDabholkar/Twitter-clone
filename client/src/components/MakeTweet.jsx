@@ -13,7 +13,7 @@ const PostSection = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 95%;
 `;
 const UtilContainer = styled.div`
   display: flex;
@@ -42,21 +42,32 @@ const IconContainer = styled.div`
   justify-content: center;
   margin: 6px;
 `;
+const InputnIconCon = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+`;
 
 export default function MakeTweet() {
   return (
     <>
-      <TweetContainer style={{ flexWrap: "nowrap" }}>
-        <AvatarContainer
-          style={{
-            flexDirection: "column",
-            width: "10%",
-          }}
-        >
-          <Avatar style={{ marginTop: "20%" }} />
-        </AvatarContainer>
+      <TweetContainer>
+        <InputnIconCon>
+          <AvatarContainer
+            style={{
+              flexDirection: "column",
+              width: "10%",
+            }}
+          >
+            <Avatar style={{ marginTop: "20%" }} />
+          </AvatarContainer>
+          <TweetInput placeholder="Whats Happening ?" cols="40" rows="5" />
+        </InputnIconCon>
+
         <PostSection>
-          <TweetInput placeholder="Whats Happening" />
           <UtilContainer>
             <UploadcontentContainer>
               <IconContainer>

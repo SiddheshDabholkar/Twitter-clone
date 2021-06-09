@@ -4,21 +4,17 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import MakeTweet from "../../components/MakeTweet";
 import Tweet from "../../components/Tweet";
+import { RestContainer } from "../../container/RestContainer";
 
 const MiddleContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  height: 500px;
-  top: 0;
-  /* position: fixed; */
-  justify-content: center;
-  /* width: 50%; */
+  /* Dont change this height bitch */
+  height: 100vh;
   width: 50%;
-  height: auto;
-  overflow: hidden;
-  background-color: blue;
   border: 1px solid #80808038;
+  top: 0;
+
   @media (max-width: 1280px) {
     width: 90%;
   }
@@ -28,19 +24,6 @@ const MiddleContainer = styled.div`
   @media (max-width: 500px) {
     width: 100%;
   }
-
-  /* .parent {
-    width: 400px;
-    height: 200px;
-    border: 1px solid #aaa;
-    overflow: hidden;
-  } */
-  .child {
-    /* height: 100%; */
-    /* margin-right: -50px; */
-    /* padding-right: 50px; */
-    overflow-y: scroll;
-  }
 `;
 
 export default function Middle() {
@@ -48,8 +31,12 @@ export default function Middle() {
     <>
       <MiddleContainer>
         <Navbar />
-        <MakeTweet />
-        <Tweet />
+        <RestContainer>
+          <MakeTweet />
+          <Tweet />
+          <Tweet />
+        </RestContainer>
+        <Footer />
       </MiddleContainer>
     </>
   );

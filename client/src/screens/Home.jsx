@@ -9,7 +9,7 @@ export default function Home() {
     <>
       <HomeContainer>
         <SideBar />
-        {/* <Middle /> */}
+        <Middle />
         <WhatsHappening />
       </HomeContainer>
     </>

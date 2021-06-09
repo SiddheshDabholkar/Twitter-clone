@@ -16,7 +16,38 @@ import { AvatarContainer } from "../../container/AvatarContainer";
 import { CStyledButton } from "../../components/CircleButton";
 import useWindow from "../../hooks/useWindow";
 import { FaFeatherAlt } from "react-icons/fa";
-import { SmallParagraph } from "../../Typography";
+
+const SideBarContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  justify-content: center;
+  width: 20%;
+  background-color: white;
+  height: 100%;
+  border: 1px solid #80808038;
+  border-bottom: 0px;
+  top: 0;
+  left: 0;
+  position: fixed;
+
+  a {
+    color: #000;
+    &:hover {
+      color: #1da1f2;
+    }
+  }
+  @media (max-width: 1280px) {
+    width: 10%;
+  }
+  @media (max-width: 1000px) {
+    width: 15%;
+  }
+  @media (max-width: 500px) {
+    display: none;
+  }
+`;
 
 const SidebarLinks = styled.p`
   display: flex;
@@ -33,38 +64,6 @@ const SidebarLinks = styled.p`
     }
   }
   @media (max-width: 1280px) {
-    display: none;
-  }
-`;
-
-const SideBarContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0;
-  justify-content: center;
-  width: 20%;
-  top: 0;
-  left: 0;
-  position: fixed;
-  background-color: white;
-  /* height: auto; */
-  height: 100%;
-  border: 1px solid #80808038;
-  border-bottom: 0px;
-  a {
-    color: #000;
-    &:hover {
-      color: #1da1f2;
-    }
-  }
-  @media (max-width: 1280px) {
-    width: 10%;
-  }
-  @media (max-width: 1000px) {
-    width: 15%;
-  }
-  @media (max-width: 500px) {
     display: none;
   }
 `;

@@ -9,8 +9,4 @@ export const AvatarContainer = styled.div`
   margin: 10px;
   align-items: center;
   width: 100%;
-  /* &:hover {
-    background-color: #1da1f224;
-    border-radius: 50px;
-  } */
 `;

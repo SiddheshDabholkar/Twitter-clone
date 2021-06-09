@@ -5,6 +5,7 @@ import { AvatarContainer } from "../../container/AvatarContainer";
 import { Avatar } from "../../components/Avatar";
 import { ButtonContainer } from "../../container/ButtonContainer";
 import { StyledButton } from "../../components/AuthButton";
+import { RestContainer } from "../../container/RestContainer";
 
 const WhatsHappeningContainer = styled.div`
   display: flex;
@@ -12,13 +13,17 @@ const WhatsHappeningContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 30%;
-  top: 0;
-  right: 0;
-  position: fixed;
-  height: 100%;
+  /*
+  Note:- if u change height to auto or 100% 
+  both the home section and whats happening section
+  will scroll,which is unwanted thats y provided 100
+  vertical height
+  */
+  height: 100vh;
   border: 1px solid #80808038;
   border-bottom: 0px;
-
+  padding: 0px;
+  margin: 0px;
   @media (max-width: 1280px) {
     width: 40%;
   }
@@ -47,9 +52,6 @@ const SubContainer = styled.div`
   margin: 20px;
   background-color: #f0f8ff78;
   border-radius: 20px;
-  :hover {
-    background-color: #80808017;
-  }
 `;
 const ContentContainer = styled.div`
   display: flex;
@@ -61,6 +63,9 @@ const ContentContainer = styled.div`
   padding: 0px 10px 0px 20px !important;
   flex-wrap: nowrap;
   border-bottom: 1px solid #80808038;
+  :hover {
+    background-color: #80808017;
+  }
 `;
 const StyledTitle = styled.h1`
   display: flex;
@@ -93,21 +98,6 @@ const SmallParagrah = styled.p`
   padding: 0px 2px 0px 2px !important;
   margin: 0px !important;
 `;
-const RestContainer = styled.div`
-  margin-top: 50px;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-
-  overflow-y: scroll;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
-  ::-webkit-scrollbar {
-    /* WebKit */
-    width: 0;
-    height: 0;
-  }
-`;
 const WhotofollowUser = styled.div`
   display: flex;
   flex-direction: row;
@@ -124,6 +114,9 @@ const ShowMoreContainer = styled.div`
   align-items: center;
   height: 50px;
   width: 100%;
+  :hover {
+    background-color: #80808017;
+  }
 `;
 const ShowMoreButton = styled.button`
   display: flex;
@@ -140,7 +133,6 @@ const ShowMoreButton = styled.button`
     background-color: #80808017;
   }
 `;
-
 export default function WhatsHappening() {
   return (
     <>
