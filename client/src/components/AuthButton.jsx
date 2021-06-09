@@ -6,14 +6,14 @@ export const StyledButton = styled.button`
   align-items: center;
   border-radius: 60px;
   width: auto;
-  height: 50px;
+  /* height: ${({ htsmall }) => (htsmall ? "10px" : "50px")}; */
   cursor: pointer;
-  font-size: 20px;
+  font-size: ${({ small }) => (small ? "15px" : "20px")};
   font-weight: bold;
   color: ${({ txtColor }) => txtColor};
   background-color: ${({ bgColor }) => bgColor};
   border-color: ${({ borderColor }) => borderColor};
-  padding: 25px;
+  padding: ${({ small }) => (small ? "10px" : "25px")};
   width: ${({ input }) => (input ? "100%" : "45%")};
   margin: 15px;
   a {
@@ -23,6 +23,11 @@ export const StyledButton = styled.button`
   @media (min-width: 1200px) {
     width: ${({ input }) => (input ? "100%" : "70%")};
     padding: ${({ input }) => (input ? "1px" : "30px")};
+    padding: ${({ small }) => (small ? "5px" : "30px")};
+  }
+  @media (max-width: 1000px) {
+    padding: ${({ small }) => (small ? "20px" : "30px")};
+    font-size: ${({ small }) => (small ? "15px" : "20px")};
   }
   @media (max-width: 500px) {
     width: 85%;

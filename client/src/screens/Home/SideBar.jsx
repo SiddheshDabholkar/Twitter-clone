@@ -44,9 +44,14 @@ const SideBarContainer = styled.div`
   margin: 0;
   justify-content: center;
   width: 20%;
+  top: 0;
+  left: 0;
+  position: fixed;
   background-color: white;
-  height: auto;
+  /* height: auto; */
+  height: 100%;
   border: 1px solid #80808038;
+  border-bottom: 0px;
   a {
     color: #000;
     &:hover {
@@ -97,6 +102,16 @@ const SidebarFooter = styled.footer`
   align-items: center;
   justify-content: space-between;
 `;
+
+const LogoLinkContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  right: 0;
+`;
+
 export default function SideBar() {
   const links = [
     {
@@ -146,33 +161,37 @@ export default function SideBar() {
   return (
     <>
       <SideBarContainer>
-        <LogoContainer>
-          <Logo src={`${process.env.PUBLIC_URL}/icons8-twitter.svg`} small />
-        </LogoContainer>
-        {links.map((link) => (
-          <ItemContainer>
-            <IconContainer>
-              <Link to={link.to}>{link.icon}</Link>
-            </IconContainer>
-            <SidebarLinks>
-              <Link to={link.to}>{link.label}</Link>
-            </SidebarLinks>
-          </ItemContainer>
-        ))}
-        <ButtonContainer>
-          <CStyledButton
-            txtColor="#fff"
-            bgColor="#1da1f224"
-            borderColor="transparent"
-            hbgColor=" #1da1f2"
-          >
-            {width < 1280 ? (
-              <FaFeatherAlt style={{ color: "#fff", fontSize: "20px" }} />
-            ) : (
-              "tweet"
-            )}
-          </CStyledButton>
-        </ButtonContainer>
+        <LogoLinkContainer>
+          <LogoContainer>
+            <Logo src={`${process.env.PUBLIC_URL}/icons8-twitter.svg`} small />
+          </LogoContainer>
+          {links.map((link) => (
+            <ItemContainer>
+              <IconContainer>
+                <Link to={link.to}>{link.icon}</Link>
+              </IconContainer>
+              <SidebarLinks>
+                <Link to={link.to}>{link.label}</Link>
+              </SidebarLinks>
+            </ItemContainer>
+          ))}
+
+          <ButtonContainer>
+            <CStyledButton
+              txtColor="#fff"
+              bgColor="#1da1f224"
+              borderColor="transparent"
+              hbgColor=" #1da1f2"
+            >
+              {width < 1280 ? (
+                <FaFeatherAlt style={{ color: "#fff", fontSize: "20px" }} />
+              ) : (
+                "tweet"
+              )}
+            </CStyledButton>
+          </ButtonContainer>
+        </LogoLinkContainer>
+
         <SidebarFooter>
           <AvatarContainer>
             <Avatar />

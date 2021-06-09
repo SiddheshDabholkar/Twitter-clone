@@ -23,3 +23,16 @@ export const StyledInput = styled.input`
     height: 40px;
   }
 `;
+
+export const TweetInput = styled.input`
+  display: flex;
+  flex-direction: row;
+  height: 80px;
+  border: 0px;
+  border-bottom: 1px solid grey;
+  width: 97%;
+  font-size: 30px;
+  :focus {
+    outline: none;
+  }
+`;
