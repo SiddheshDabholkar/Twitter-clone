@@ -11,6 +11,9 @@ import {
   Switch,
 } from "react-router-dom";
 import { AuthProvider } from "./context/auth";
+import { HomeContainer } from "./container/HomeContainer";
+import SideBar from "./screens/Home/SideBar";
+import WhatsHappening from "./screens/Home/WhatsHappening";
 
 const Routing = () => {
   let location = useLocation();
@@ -30,12 +33,16 @@ const Routing = () => {
         <Route exact path="/confirmotp">
           <Confirmotp />
         </Route>
-        <Route exact path="/profile">
-          <Profile />
-        </Route>
-        <Route exact path="/home">
-          <Home />
-        </Route>
+        <HomeContainer>
+          <SideBar />
+          <Route exact path="/profile">
+            <Profile />
+          </Route>
+          <Route exact path="/home">
+            <Home />
+          </Route>
+          <WhatsHappening />
+        </HomeContainer>
       </Switch>
       {background && <Route path="/signup" children={<Signup />} />}
       {background && <Route path="/confirmotp" children={<Confirmotp />} />}

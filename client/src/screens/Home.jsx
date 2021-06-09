@@ -1,17 +1,43 @@
 import React from "react";
-import { HomeContainer } from "../container/HomeContainer";
-import SideBar from "./Home/SideBar";
-import Middle from "./Home/Middle";
-import WhatsHappening from "./Home/WhatsHappening";
+import styled from "styled-components";
+import Navbar from "./Home/Navbar";
+import Footer from "./Home/Footer";
+import MakeTweet from "../components/MakeTweet";
+import Tweet from "../components/Tweet";
+import { RestContainer } from "../container/RestContainer";
 
-export default function Home() {
+const MiddleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* Dont change this height bitch */
+  height: 100vh;
+  width: 50%;
+  border: 1px solid #80808038;
+  top: 0;
+
+  @media (max-width: 1280px) {
+    width: 90%;
+  }
+  @media (max-width: 1000px) {
+    width: 85%;
+  }
+  @media (max-width: 500px) {
+    width: 100%;
+  }
+`;
+
+export default function Middle() {
   return (
     <>
-      <HomeContainer>
-        <SideBar />
-        <Middle />
-        <WhatsHappening />
-      </HomeContainer>
+      <MiddleContainer>
+        <Navbar />
+        <RestContainer>
+          <MakeTweet />
+          <Tweet />
+          <Tweet />
+        </RestContainer>
+        <Footer />
+      </MiddleContainer>
     </>
   );
 }
