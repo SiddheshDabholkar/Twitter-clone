@@ -193,7 +193,7 @@ export default function SideBar() {
                 "tweet"
               )}
             </CStyledButton>
-            <Popover
+            {/* <Popover
               show={show}
               onClose={() => {
                 setShow(false);
@@ -204,7 +204,7 @@ export default function SideBar() {
               <h1>lomao</h1>
               <h1>lomao</h1>
               <h1>lomao</h1>
-            </Popover>
+            </Popover> */}
           </ButtonContainer>
         </LogoLinkContainer>
         <SidebarFooter>

@@ -18,6 +18,7 @@ import { MiddleContainer } from "./container/MiddleContainer";
 import { RestContainer } from "./container/RestContainer";
 import Navbar from "./screens/common/Navbar";
 import Footer from "./screens/common/Footer";
+import FeaturesNotReady from "./screens/FeatureNotReady";
 
 const Routing = () => {
   let location = useLocation();
@@ -25,29 +26,23 @@ const Routing = () => {
   return (
     <>
       <Switch location={background || location}>
-        <Route exact path="/">
-          <WelcomePage />
-        </Route>
-        <Route exact path="/login">
-          <Login />
-        </Route>
-        <Route exact path="/signup">
-          <Signup />
-        </Route>
-        <Route exact path="/confirmotp">
-          <Confirmotp />
-        </Route>
+        <Route exact path="/" component={WelcomePage} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={Signup} />
+        <Route exact path="/confirmotp" component={Confirmotp} />
         <HomeContainer>
           <SideBar />
           <MiddleContainer>
             <Navbar />
             <RestContainer>
-              <Route exact path="/profile">
-                <Profile />
-              </Route>
-              <Route exact path="/home">
-                <Home />
-              </Route>
+              <Route exact path="/profile" component={Profile} />
+              <Route exact path="/home" component={Home} />
+              <Route exact path="/explore" component={FeaturesNotReady} />
+              <Route exact path="/notification" component={FeaturesNotReady} />
+              <Route exact path="/messages" component={FeaturesNotReady} />
+              <Route exact path="/bookmarks" component={FeaturesNotReady} />
+              <Route exact path="/lists" component={FeaturesNotReady} />
+              <Route exact path="/more" component={FeaturesNotReady} />
             </RestContainer>
             <Footer />
           </MiddleContainer>

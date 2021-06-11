@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const StyledSearchInput = styled.input`
+export const StyledSearchInput = styled.input`
   display: flex;
   flex-direction: row;
   align-items: center;
