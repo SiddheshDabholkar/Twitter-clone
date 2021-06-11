@@ -6,7 +6,7 @@ export const ButtonContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 90%;
-  padding: 20px;
+  padding: ${({ small }) => (small ? small : "20px")};
   @media (min-width: 1201px) {
     flex-wrap: wrap;
     width: 100%;

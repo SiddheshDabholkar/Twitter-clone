@@ -12,8 +12,12 @@ import {
 } from "react-router-dom";
 import { AuthProvider } from "./context/auth";
 import { HomeContainer } from "./container/HomeContainer";
-import SideBar from "./screens/Home/SideBar";
-import WhatsHappening from "./screens/Home/WhatsHappening";
+import SideBar from "./screens/common/SideBar";
+import WhatsHappening from "./screens/common/WhatsHappening";
+import { MiddleContainer } from "./container/MiddleContainer";
+import { RestContainer } from "./container/RestContainer";
+import Navbar from "./screens/common/Navbar";
+import Footer from "./screens/common/Footer";
 
 const Routing = () => {
   let location = useLocation();
@@ -35,12 +39,18 @@ const Routing = () => {
         </Route>
         <HomeContainer>
           <SideBar />
-          <Route exact path="/profile">
-            <Profile />
-          </Route>
-          <Route exact path="/home">
-            <Home />
-          </Route>
+          <MiddleContainer>
+            <Navbar />
+            <RestContainer>
+              <Route exact path="/profile">
+                <Profile />
+              </Route>
+              <Route exact path="/home">
+                <Home />
+              </Route>
+            </RestContainer>
+            <Footer />
+          </MiddleContainer>
           <WhatsHappening />
         </HomeContainer>
       </Switch>

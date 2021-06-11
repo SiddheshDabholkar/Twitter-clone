@@ -10,7 +10,7 @@ import { LogoContainer } from "../container/LogoContainer";
 import { Logo } from "../components/Logo";
 
 const LeftImage = styled.img`
-  height: auto;
+  height: 100%;
   width: 100%;
   background-repeat: no-repeat;
   background-size: auto;
@@ -21,7 +21,7 @@ const RightContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: auto;
-  padding: 50px 25px;
+  /* padding: 50px 25px; */
   width: 90%;
   @media (max-width: 760px) {
     padding: 30px 15px;
@@ -35,6 +35,9 @@ const StyledHeader = styled.h1`
   width: 100%;
   font-weight: bolder;
   font-size: ${({ small }) => (small ? "50px" : "100px")};
+  @media (min-width: 972px) {
+    font-size: ${({ small }) => (small ? "30px" : "70px")};
+  }
   @media (max-width: 790px) {
     font-size: ${({ small }) => (small ? "35px" : "85px")};
   }

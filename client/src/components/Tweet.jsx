@@ -6,24 +6,20 @@ import { Avatar } from "../components/Avatar";
 import { FaRegComment, FaRetweet, FaRegHeart } from "react-icons/fa";
 import { FiUpload } from "react-icons/fi";
 
+export const SAvatar = styled(Avatar)`
+  width: 70px;
+  height: 70px;
+  @media (max-width: 500px) {
+    width: 40px;
+    height: 40px;
+  }
+`;
 const Restcontainer = styled.div`
   display: flex;
   flex-direction: ${({ col }) => (col ? "column" : "row")};
   align-items: center;
   justify-content: center;
 `;
-
-const TweeterUsername = styled.p`
-  color: #000;
-  font-weight: bold;
-  font-size: 24px;
-  flex-direction: row;
-  justify-content: flex-start;
-  line-height: 30px;
-  padding: 0;
-  margin: 2px;
-`;
-
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -31,8 +27,11 @@ const Row = styled.div`
   justify-content: left;
   width: 90%;
   margin-top: 10px;
+  /* margin: 10px 15px; */
+  @media (max-width: 500px) {
+    width: 85%;
+  }
 `;
-
 const ImageContainer = styled.img`
   display: flex;
   flex-direction: column;
@@ -42,9 +41,35 @@ const ImageContainer = styled.img`
   border: 1px solid grey;
   width: 90%;
   margin: 15px 0px 15px 0px;
+  @media (max-width: 500px) {
+    width: 85%;
+  }
 `;
-
-const IconContainer = styled.div`
+const STweetContainer = styled(TweetContainer)`
+  width: 100%;
+  flex-direction: row;
+  padding: 20px;
+`;
+export const SAvatarContainer = styled(AvatarContainer)`
+  flex-direction: column;
+  width: 5%;
+  height: 90%;
+  justify-content: flex-start;
+  padding: 4px;
+  margin: 4px;
+`;
+export const TweetContent = styled.p`
+  color: #000;
+  font-size: 20px;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 0;
+  margin: 2px;
+  @media (max-width: 500px) {
+    font-size: 16px;
+  }
+`;
+export const IconContainer = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 20px;
@@ -74,12 +99,14 @@ const IconContainer = styled.div`
     }
   }
 `;
-
-const TweetContent = styled.p`
-  color: #000;
-  font-size: 20px;
+export const TweeterUsername = styled.p`
+  color: ${({ small }) => (small ? "grey" : "black")};
+  font-weight: bolder;
+  font-size: ${({ small }) => (small ? "10px" : "18px")};
   flex-direction: row;
   justify-content: flex-start;
+  align-items: center;
+  line-height: 30px;
   padding: 0;
   margin: 2px;
 `;
@@ -87,21 +114,10 @@ const TweetContent = styled.p`
 export default function Tweet() {
   return (
     <>
-      <TweetContainer
-        style={{ width: "100%", flexDirection: "row", padding: "20px" }}
-      >
-        <AvatarContainer
-          style={{
-            flexDirection: "column",
-            width: "5%",
-            height: "90%",
-            justifyContent: "flex-start",
-            padding: "4px",
-            margin: "4px",
-          }}
-        >
-          <Avatar style={{ width: "70px", height: "70px" }} />
-        </AvatarContainer>
+      <STweetContainer>
+        <SAvatarContainer>
+          <SAvatar />
+        </SAvatarContainer>
         <Restcontainer
           col
           style={{
@@ -110,7 +126,7 @@ export default function Tweet() {
         >
           <Row>
             <TweeterUsername>venom</TweeterUsername>
-            <p>{" . "}time</p>
+            <TweeterUsername small>{" . "}time</TweeterUsername>
           </Row>
           <Row>
             <TweetContent>
@@ -140,7 +156,7 @@ export default function Tweet() {
             </IconContainer>
           </Row>
         </Restcontainer>
-      </TweetContainer>
+      </STweetContainer>
     </>
   );
 }

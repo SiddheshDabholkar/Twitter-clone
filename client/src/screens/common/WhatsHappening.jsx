@@ -24,8 +24,11 @@ const WhatsHappeningContainer = styled.div`
   border-bottom: 0px;
   padding: 0px;
   margin: 0px;
-  @media (max-width: 1280px) {
-    width: 40%;
+  @media (min-width: 1024px) {
+    width: 30%;
+  }
+  @media (max-width: 1023px) {
+    width: 25%;
   }
   @media (max-width: 1000px) {
     width: 0%;
@@ -72,7 +75,7 @@ const StyledTitle = styled.h1`
   flex-direction: row;
   width: 100%;
   justify-content: flex-start;
-  font-size: 30px;
+  font-size: 24px;
   padding: 0px !important;
   margin: 0px !important;
 `;
@@ -84,14 +87,14 @@ const StyledTitleContainer = styled.h1`
   border-bottom: 1px solid #80808038;
 `;
 const SmallTitle = styled.p`
-  font-size: 20px;
+  font-size: 14px;
   color: grey;
   width: 100%;
   padding: 4px !important;
   margin: 0px !important;
 `;
 const SmallParagrah = styled.p`
-  font-size: 22px;
+  font-size: 16px;
   color: black;
   font-weight: bolder;
   width: 100%;
@@ -128,10 +131,51 @@ const ShowMoreButton = styled.button`
   border-color: transparent;
   background-color: #f0f8ff78;
 
-  font-size: 18px;
+  font-size: 14px;
   :hover {
     background-color: #80808017;
   }
+`;
+const TopictoFollow = () => {
+  return (
+    <>
+      <ContentContainer>
+        <SmallTitle>Business & finance</SmallTitle>
+        <SmallParagrah>Why am i building this app</SmallParagrah>
+        <SmallTitle>Trending in blackhole</SmallTitle>
+      </ContentContainer>
+    </>
+  );
+};
+const Title = ({ title }) => {
+  return (
+    <StyledTitleContainer>
+      <StyledTitle>{title}</StyledTitle>
+    </StyledTitleContainer>
+  );
+};
+const ShowMore = () => {
+  return (
+    <ShowMoreContainer>
+      <ShowMoreButton>Show More</ShowMoreButton>
+    </ShowMoreContainer>
+  );
+};
+const WhatsHappenings = () => {
+  return (
+    <ContentContainer>
+      <SmallTitle>Business & finance</SmallTitle>
+      <SmallParagrah>Why am i building this app</SmallParagrah>
+      <SmallTitle>Trending in blackhole</SmallTitle>
+    </ContentContainer>
+  );
+};
+const SStyledButton = styled(StyledButton)`
+  width: 80%;
+  height: 35px;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
 `;
 export default function WhatsHappening() {
   return (
@@ -143,111 +187,38 @@ export default function WhatsHappening() {
         <RestContainer>
           {/* Whats happening */}
           <SubContainer>
-            <StyledTitleContainer>
-              <StyledTitle>Whats Happening</StyledTitle>
-            </StyledTitleContainer>
-            <ContentContainer>
-              <SmallTitle>Business & finance</SmallTitle>
-              <SmallParagrah>Why am i building this app</SmallParagrah>
-              <SmallTitle>Trending in blackhole</SmallTitle>
-            </ContentContainer>
-            <ContentContainer>
-              <SmallTitle>Business & finance</SmallTitle>
-              <SmallParagrah>Why am i building this app</SmallParagrah>
-              <SmallTitle>Trending in blackhole</SmallTitle>
-            </ContentContainer>
-            <ContentContainer>
-              <SmallTitle>Business & finance</SmallTitle>
-              <SmallParagrah>Why am i building this app</SmallParagrah>
-              <SmallTitle>Trending in blackhole</SmallTitle>
-            </ContentContainer>
-            <ShowMoreContainer>
-              <ShowMoreButton>Show More</ShowMoreButton>
-            </ShowMoreContainer>
+            <Title title="Whats Happening" />
+            <WhatsHappenings />
+            <WhatsHappenings />
+            <WhatsHappenings />
+            <ShowMore />
           </SubContainer>
           {/* Who to follow section */}
           <SubContainer>
-            <StyledTitleContainer>
-              <StyledTitle>Who to Follow</StyledTitle>
-            </StyledTitleContainer>
+            <Title title="Who to Follow" />
             <WhotofollowUser>
               <AvatarContainer style={{ width: "20%" }}>
                 <Avatar />
               </AvatarContainer>
               <SmallParagrah>venom</SmallParagrah>
               <ButtonContainer>
-                <StyledButton
-                  borderColor="#1da1f2"
-                  bgColor="transparent"
-                  txtColor="#1da1f2"
-                  small
-                  style={{ margin: "0px" }}
-                >
+                <SStyledButton borderColor="#1da1f2" txtColor="#1da1f2" small>
                   Follow
-                </StyledButton>
+                </SStyledButton>
               </ButtonContainer>
             </WhotofollowUser>
-            <WhotofollowUser>
-              <AvatarContainer style={{ width: "20%" }}>
-                <Avatar />
-              </AvatarContainer>
-              <SmallParagrah>venom</SmallParagrah>
-              <ButtonContainer>
-                <StyledButton
-                  borderColor="#1da1f2"
-                  bgColor="transparent"
-                  txtColor="#1da1f2"
-                  small
-                  style={{ margin: "0px" }}
-                >
-                  Follow
-                </StyledButton>
-              </ButtonContainer>
-            </WhotofollowUser>
-            <WhotofollowUser>
-              <AvatarContainer style={{ width: "20%" }}>
-                <Avatar />
-              </AvatarContainer>
-              <SmallParagrah>venom</SmallParagrah>
-              <ButtonContainer>
-                <StyledButton
-                  borderColor="#1da1f2"
-                  bgColor="transparent"
-                  txtColor="#1da1f2"
-                  small
-                  style={{ margin: "0px" }}
-                >
-                  Follow
-                </StyledButton>
-              </ButtonContainer>
-            </WhotofollowUser>
+
             <ShowMoreContainer>
               <ShowMoreButton>Show More</ShowMoreButton>
             </ShowMoreContainer>
           </SubContainer>
           {/* Topics to follow */}
           <SubContainer>
-            <StyledTitleContainer>
-              <StyledTitle>Topics to follow</StyledTitle>
-            </StyledTitleContainer>
-            <ContentContainer>
-              <SmallTitle>Business & finance</SmallTitle>
-              <SmallParagrah>Why am i building this app</SmallParagrah>
-              <SmallTitle>Trending in blackhole</SmallTitle>
-            </ContentContainer>
-            <ContentContainer>
-              <SmallTitle>Business & finance</SmallTitle>
-              <SmallParagrah>Why am i building this app</SmallParagrah>
-              <SmallTitle>Trending in blackhole</SmallTitle>
-            </ContentContainer>
-            <ContentContainer>
-              <SmallTitle>Business & finance</SmallTitle>
-              <SmallParagrah>Why am i building this app</SmallParagrah>
-              <SmallTitle>Trending in blackhole</SmallTitle>
-            </ContentContainer>
-            <ShowMoreContainer>
-              <ShowMoreButton>Show More</ShowMoreButton>
-            </ShowMoreContainer>
+            <Title title="Topics to follow" />
+            <TopictoFollow />
+            <TopictoFollow />
+            <TopictoFollow />
+            <ShowMore />
           </SubContainer>
         </RestContainer>
       </WhatsHappeningContainer>

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { SAvatar, SAvatarContainer } from "../../components/Tweet";
 
 const NavbarContainer = styled.div`
   display: flex;
@@ -12,7 +13,17 @@ const NavbarContainer = styled.div`
   background-color: #fff;
   top: 0;
   position: fixed;
-  border: 1px solid #80808038;
+`;
+const Tohide = styled.div`
+  display: flex;
+  flex-direction: row;
+  background-color: aqua;
+  align-items: center;
+  justify-content: center;
+  width: 10%;
+  @media (min-width: 500px) {
+    display: none;
+  }
 `;
 
 export default function HomeNavbar() {
@@ -22,6 +33,11 @@ export default function HomeNavbar() {
   return (
     <>
       <NavbarContainer>
+        <Tohide>
+          <SAvatarContainer>
+            <SAvatar />
+          </SAvatarContainer>
+        </Tohide>
         <h1>{newPathname}</h1>
       </NavbarContainer>
     </>

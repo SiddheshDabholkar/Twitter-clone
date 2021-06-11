@@ -6,7 +6,7 @@ export const StyledButton = styled.button`
   align-items: center;
   border-radius: 60px;
   width: auto;
-  /* height: ${({ htsmall }) => (htsmall ? "10px" : "50px")}; */
+  height: ${({ htsmall }) => (htsmall ? "10px" : "50px")};
   cursor: pointer;
   font-size: ${({ small }) => (small ? "15px" : "20px")};
   font-weight: bold;
