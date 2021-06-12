@@ -125,7 +125,7 @@ module.exports = {
           SECRET_KEY,
           { expiresIn: "1h" }
         );
-        console.log(token);
+        // console.log(token);
 
         return {
           ...user.toJSON(),

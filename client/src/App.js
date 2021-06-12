@@ -19,6 +19,7 @@ import { RestContainer } from "./container/RestContainer";
 import Navbar from "./screens/common/Navbar";
 import Footer from "./screens/common/Footer";
 import FeaturesNotReady from "./screens/FeatureNotReady";
+import FloatingButton from "./components/FloatingButton";
 
 const Routing = () => {
   let location = useLocation();
@@ -43,6 +44,7 @@ const Routing = () => {
               <Route exact path="/bookmarks" component={FeaturesNotReady} />
               <Route exact path="/lists" component={FeaturesNotReady} />
               <Route exact path="/more" component={FeaturesNotReady} />
+              <FloatingButton />
             </RestContainer>
             <Footer />
           </MiddleContainer>

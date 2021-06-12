@@ -10,20 +10,20 @@ const tweetSchema = new Schema(
         body: String,
         username: String,
       },
-      { timeStamp: true },
+      { timestamps: true },
     ],
     likes: [
       {
         username: String,
       },
-      { timeStamp: true },
+      { timestamps: true },
     ],
     user: {
       type: ObjectId,
       ref: "User",
     },
   },
-  { timeStamp: true }
+  { timestamps: true }
 );
 
 module.exports = model("Tweet", tweetSchema);

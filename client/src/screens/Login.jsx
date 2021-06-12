@@ -1,3 +1,4 @@
+import Signup from "./Signup";
 import { useState, useContext } from "react";
 import { MainContainer } from "../container/MainContainer";
 import { ButtonContainer } from "../container/ButtonContainer";
@@ -6,7 +7,6 @@ import { SmallHeader, SmallParagraph } from "../Typography";
 import { CardContainer } from "../container/CardContainer";
 import { StyledInput } from "../components/Input";
 import { Link, useLocation, useHistory } from "react-router-dom";
-import Signup from "./Signup";
 import { LogoContainer } from "../container/LogoContainer";
 import { Logo } from "../components/Logo";
 import { gql, useMutation } from "@apollo/client";
@@ -16,24 +16,24 @@ import { AuthContext } from "../context/auth";
 const LOGIN_USER = gql`
   mutation login($input: String!, $password: String!) {
     login(input: $input, password: $password) {
-      id
+      token
       username
       phone
       email
-      token
+      id
     }
   }
 `;
 
 export default function Login() {
   const context = useContext(AuthContext);
+  const [errors, setErrors] = useState({});
   const history = useHistory();
   const location = useLocation();
-  const [errors, setErrors] = useState({});
   const [show, setShow] = useState(false);
   const initialState = {
     input: "",
-    password: "",
+    email: "",
   };
   const { onChange, onSubmit, values } = useForm(
     LoginUserCallback,
@@ -41,7 +41,6 @@ export default function Login() {
   );
   const [LoginUser] = useMutation(LOGIN_USER, {
     update(_, { data: { login: userData } }) {
-      console.log(userData);
       context.login(userData);
       history.push("/home");
     },
@@ -72,9 +71,9 @@ export default function Login() {
                 onChange={onChange}
               />
               <StyledInput
+                value={values.input}
                 placeholder="Phone,email or username"
                 name="input"
-                value={values.input}
                 onChange={onChange}
               />
             </MainContainer>
@@ -90,6 +89,7 @@ export default function Login() {
               </StyledButton>
             </ButtonContainer>
           </form>
+
           <MainContainer>
             <SmallParagraph>
               <Link to="/forgotpassword">Forgot Password?</Link>

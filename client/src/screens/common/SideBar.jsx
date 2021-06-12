@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Logo } from "../../components/Logo";
@@ -8,7 +7,7 @@ import { Avatar } from "../../components/Avatar";
 import { AvatarContainer } from "../../container/AvatarContainer";
 import { CStyledButton } from "../../components/CircleButton";
 import useWindow from "../../hooks/useWindow";
-import Popover from "../../components/Popover";
+import { SmallParagrah } from "./WhatsHappening";
 // icons
 import { FaFeatherAlt } from "react-icons/fa";
 import { FaHashtag } from "react-icons/fa";
@@ -18,6 +17,7 @@ import { BiMessage, BiBookmark } from "react-icons/bi";
 import { RiFileListLine } from "react-icons/ri";
 import { HiOutlineUser } from "react-icons/hi";
 import { CgMoreO } from "react-icons/cg";
+import { FiMoreHorizontal } from "react-icons/fi";
 //styles
 const SideBarContainer = styled.div`
   display: flex;
@@ -80,7 +80,7 @@ const ItemContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-  height: 50px;
+  height: 35px;
   margin: 7px;
   &:hover {
     background-color: #1da1f224;
@@ -97,12 +97,16 @@ export const IconContainer = styled.div`
 `;
 const SidebarFooter = styled.footer`
   display: flex;
-  width: 100%;
+  width: 95%;
   bottom: 0;
-  height: 60px;
-  flex-direction: column;
+  height: 80px;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
+  :hover {
+    background-color: #1da1f224;
+  }
 `;
 const LogoLinkContainer = styled.div`
   display: flex;
@@ -157,7 +161,6 @@ export default function SideBar() {
   ];
   const size = useWindow();
   const width = size.width;
-  const [show, setShow] = useState(false);
 
   return (
     <>
@@ -179,9 +182,6 @@ export default function SideBar() {
 
           <ButtonContainer>
             <CStyledButton
-              onClick={() => {
-                setShow(true);
-              }}
               txtColor="#fff"
               bgColor="#1da1f224"
               borderColor="transparent"
@@ -193,24 +193,14 @@ export default function SideBar() {
                 "tweet"
               )}
             </CStyledButton>
-            {/* <Popover
-              show={show}
-              onClose={() => {
-                setShow(false);
-              }}
-            >
-              <h1>lomao</h1>
-              <h1>lomao</h1>
-              <h1>lomao</h1>
-              <h1>lomao</h1>
-              <h1>lomao</h1>
-            </Popover> */}
           </ButtonContainer>
         </LogoLinkContainer>
         <SidebarFooter>
-          <AvatarContainer>
+          <AvatarContainer style={{ width: "20%" }}>
             <Avatar />
           </AvatarContainer>
+          <SmallParagrah style={{ width: "60%" }}>venom</SmallParagrah>
+          <FiMoreHorizontal style={{ width: "20%", fontSize: "25px" }} />
         </SidebarFooter>
       </SideBarContainer>
     </>

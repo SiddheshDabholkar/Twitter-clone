@@ -1,5 +1,5 @@
 import React from "react";
-import Tweet, {
+import {
   TweeterUsername,
   IconContainer,
   TweetContent,

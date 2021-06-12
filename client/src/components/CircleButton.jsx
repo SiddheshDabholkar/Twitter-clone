@@ -29,4 +29,7 @@ export const CStyledButton = styled.button`
     margin: 0px !important;
     border-radius: 50%;
   }
+  :focus {
+    outline: none;
+  }
 `;

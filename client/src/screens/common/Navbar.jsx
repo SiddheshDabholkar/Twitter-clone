@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import styled from "styled-components";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { SAvatar, SAvatarContainer } from "../../components/Tweet";
 import { StyledSearchInput } from "../../components/Search";
@@ -45,7 +45,6 @@ const SearchContainer = styled.div`
   padding: 2px;
   align-items: center;
 `;
-
 export default function HomeNavbar() {
   const { pathname } = useLocation();
   const newPathname = pathname.substring(1);

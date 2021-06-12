@@ -10,13 +10,13 @@ const reTweetSchema = new Schema(
         body: String,
         username: String,
       },
-      { timeStamp: true },
+      { timestamps: true },
     ],
     likes: [
       {
         username: String,
       },
-      { timeStamp: true },
+      { timestamps: true },
     ],
     user: {
       type: ObjectId,
@@ -27,7 +27,7 @@ const reTweetSchema = new Schema(
       ref: "Tweet",
     },
   },
-  { timeStamp: true }
+  { timestamps: true }
 );
 
 module.exports = model("reTweet", reTweetSchema);

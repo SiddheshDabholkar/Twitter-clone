@@ -1,15 +1,20 @@
 const { gql } = require("apollo-server");
 
 module.exports = gql`
+  scalar Date
   type Tweet {
     id: ID!
     body: String!
     username: String
+    createdAt: Date
+    updatedAt: Date
   }
   type reTweet {
     id: ID!
     body: String!
     username: String
+    createdAt: Date
+    updatedAt: Date
   }
   type User {
     id: ID!
@@ -18,6 +23,8 @@ module.exports = gql`
     phone: String
     email: String
     token: String
+    createdAt: Date
+    updatedAt: Date
   }
   input RegisterInput {
     username: String

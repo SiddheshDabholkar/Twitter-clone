@@ -93,7 +93,7 @@ const SmallTitle = styled.p`
   padding: 4px !important;
   margin: 0px !important;
 `;
-const SmallParagrah = styled.p`
+export const SmallParagrah = styled.p`
   font-size: 16px;
   color: black;
   font-weight: bolder;
