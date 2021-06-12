@@ -71,7 +71,7 @@ export default function Tab(props) {
     setTabHeader(headers);
     setActive(headers[0]);
     setChildConent({ ...childCnt });
-    console.log(childCnt);
+    // console.log(childCnt);
   }, [props, children]);
   const changeTab = (name) => {
     setActive(name);

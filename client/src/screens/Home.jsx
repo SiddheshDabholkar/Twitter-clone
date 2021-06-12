@@ -11,14 +11,20 @@ const FETCH_TWEET = gql`
       username
       createdAt
       updatedAt
+      likes {
+        id
+        username
+      }
     }
   }
 `;
 
 export default function Home() {
-  const { loading, data } = useQuery(FETCH_TWEET);
+  const { loading, data, error } = useQuery(FETCH_TWEET);
   if (loading) {
-    return <h1>loading...</h1>;
+    return <h1>Loading....</h1>;
+  } else if (error) {
+    return `Error! ${error.message}`;
   } else {
     const tweets = data.getTweets;
     console.log(tweets);

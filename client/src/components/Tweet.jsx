@@ -1,11 +1,13 @@
-import React from "react";
+import { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import { TweetContainer } from "../container/TweetContainer";
 import { AvatarContainer } from "../container/AvatarContainer";
 import { Avatar } from "../components/Avatar";
 import { FaRegComment, FaRetweet, FaRegHeart } from "react-icons/fa";
+import { MdFavorite } from "react-icons/md";
 import { FiUpload } from "react-icons/fi";
-
+import { AuthContext } from "../context/auth.jsx";
+import { useMutation, gql } from "@apollo/client";
 //day.js
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -116,10 +118,40 @@ export const TweeterUsername = styled.p`
   padding: 0;
   margin: 2px;
 `;
-
+const LIKE_POST_MUTATION = gql`
+  mutation likeTweet($tweetId: ID!) {
+    likeTweet(tweetId: $tweetId) {
+      id
+      likes {
+        username
+        id
+      }
+    }
+  }
+`;
 export default function Tweet({
-  tweet: { id, body, username, createdAt, updatedAt },
+  tweet: { id, body, username, createdAt, likes },
 }) {
+  const { user } = useContext(AuthContext);
+  const [liked, setLiked] = useState(false);
+  useEffect(() => {
+    if (user && likes.find((like) => like.username === user.username)) {
+      setLiked(true);
+    } else setLiked(false);
+  }, [user, likes]);
+
+  const [likeTweet] = useMutation(LIKE_POST_MUTATION, {
+    variables: { tweetId: id },
+  });
+
+  const likeIcon = () => {
+    if (liked) {
+      return <MdFavorite id="red" style={{ color: "red" }} />;
+    } else {
+      return <FaRegHeart id="red" />;
+    }
+  };
+
   return (
     <>
       <STweetContainer>
@@ -150,9 +182,7 @@ export default function Tweet({
             <IconContainer>
               <FaRetweet id="green" />
             </IconContainer>
-            <IconContainer>
-              <FaRegHeart id="red" />
-            </IconContainer>
+            <IconContainer onClick={likeTweet}>{likeIcon()}</IconContainer>
             <IconContainer>
               <FiUpload id="blue" />
             </IconContainer>

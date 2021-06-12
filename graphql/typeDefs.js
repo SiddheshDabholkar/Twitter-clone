@@ -8,6 +8,7 @@ module.exports = gql`
     username: String
     createdAt: Date
     updatedAt: Date
+    likes: [Like]
   }
   type reTweet {
     id: ID!
@@ -15,6 +16,7 @@ module.exports = gql`
     username: String
     createdAt: Date
     updatedAt: Date
+    likes: [Like]
   }
   type User {
     id: ID!
@@ -33,6 +35,13 @@ module.exports = gql`
     phone: String
     email: String
   }
+
+  type Like {
+    id: ID
+    createdAt: String
+    username: String
+  }
+
   type Query {
     getTweets: [Tweet]
     getUsers: [User]
