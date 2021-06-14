@@ -1,4 +1,4 @@
-import React from "react";
+import { useContext } from "react";
 import {
   TweeterUsername,
   IconContainer,
@@ -11,6 +11,8 @@ import { StyledButton } from "../components/AuthButton";
 import { BsCalendar } from "react-icons/bs";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import ProfileTab from "../screens/Profile/ProfileTabs";
+import { useParams } from "react-router-dom";
+import { AuthContext } from "../context/auth";
 
 const Parent = styled.div`
   display: flex;
@@ -68,6 +70,37 @@ const STweetContent = styled(TweetContent)`
 `;
 
 export default function Profile() {
+  let { profileId } = useParams();
+  const { user } = useContext(AuthContext);
+
+  const DecideButton = () => {
+    if (user.id === profileId) {
+      return (
+        <StyledButton
+          txtColor="#1da1f2"
+          bgColor="#fff"
+          borderColor="#1da1f2"
+          small
+          style={{ width: "20%" }}
+        >
+          Set up profile
+        </StyledButton>
+      );
+    } else {
+      return (
+        <StyledButton
+          txtColor="#1da1f2"
+          bgColor="#fff"
+          borderColor="#1da1f2"
+          small
+          style={{ width: "20%" }}
+        >
+          follow
+        </StyledButton>
+      );
+    }
+  };
+
   return (
     <>
       <Parent>
@@ -80,15 +113,7 @@ export default function Profile() {
         small="5px"
         style={{ justifyContent: "flex-end", width: "98%" }}
       >
-        <StyledButton
-          txtColor="#1da1f2"
-          bgColor="#fff"
-          borderColor="#1da1f2"
-          small
-          style={{ width: "20%" }}
-        >
-          Set up profile
-        </StyledButton>
+        <DecideButton />
       </ButtonContainer>
       <BioContainer>
         <STweeterUsername>venom</STweeterUsername>

@@ -1,4 +1,5 @@
 const { model, Schema } = require("mongoose");
+
 const { ObjectId } = Schema.Types;
 
 const reTweetSchema = new Schema(
@@ -30,4 +31,4 @@ const reTweetSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("reTweet", reTweetSchema);
+module.exports = model("ReTweet", reTweetSchema);

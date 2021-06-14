@@ -1,13 +1,16 @@
 const { AuthenticationError, UserInputError } = require("apollo-server-errors");
 const Tweet = require("../../model/Tweet");
 const checkAuth = require("../../utils/checkAuth");
-const reTweet = require("../../model/reTweet");
+const ReTweet = require("../../model/reTweet");
 
 module.exports = {
   Query: {
     async getTweets() {
       try {
-        const tweets = await Tweet.find().sort({ createdAt: -1 });
+        const tweets = await Tweet.find()
+          .sort({ createdAt: -1 })
+          .populate("user");
+
         return tweets;
       } catch (e) {
         throw new Error(e);
@@ -16,7 +19,7 @@ module.exports = {
 
     async getTweet(_, { tweetId }) {
       try {
-        const tweet = await Tweet.findById(tweetId);
+        const tweet = await Tweet.findById(tweetId).populate("user");
         if (tweet) {
           return tweet;
         } else {
@@ -26,6 +29,31 @@ module.exports = {
         throw new Error(error);
       }
     },
+
+    async getReTweets() {
+      try {
+        const retweets = await ReTweet.find()
+          .populate("user")
+          .sort({ createdAt: -1 });
+        return retweets;
+      } catch (e) {
+        throw new Error(e);
+      }
+    },
+
+    // async getMyTweets() {
+    //   try {
+    //     const twt = await Tweet.findById().populate("user");
+    //     const mytweets=await twt.
+    //     if (mytweets) {
+    //       return mytweets;
+    //     } else {
+    //       throw new Error("Tweet not found");
+    //     }
+    //   } catch (error) {
+    //     throw new Error(error);
+    //   }
+    // },
   },
   Mutation: {
     //*-----------------------------------//
@@ -122,16 +150,16 @@ module.exports = {
     //*-----------------------------------//
     async reTweets(_, { tweetId, body }, context) {
       const user = checkAuth(context);
-      //there's no need to check if body is empty or not.
-      //since one can just retweet it without any body
-      const newReTweet = new reTweet({
+      const tweet = await Tweet.findById(tweetId).populate("tweet").exec();
+      const newReTweet = new ReTweet({
         body,
         user: user.id,
-        tweet: tweetId,
+        tweet,
+        username: user.username,
       });
-
-      const ReTweet = await newReTweet.save();
-      return ReTweet;
+      const reTweet = await newReTweet.save();
+      console.log(reTweet);
+      return reTweet;
     },
   },
 };

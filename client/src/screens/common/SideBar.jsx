@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Logo } from "../../components/Logo";
 import { LogoContainer } from "../../container/LogoContainer";
@@ -18,6 +19,7 @@ import { RiFileListLine } from "react-icons/ri";
 import { HiOutlineUser } from "react-icons/hi";
 import { CgMoreO } from "react-icons/cg";
 import { FiMoreHorizontal } from "react-icons/fi";
+import { AuthContext } from "../../context/auth";
 //styles
 const SideBarContainer = styled.div`
   display: flex;
@@ -117,6 +119,8 @@ const LogoLinkContainer = styled.div`
   right: 0;
 `;
 export default function SideBar() {
+  const { user } = useContext(AuthContext);
+  console.log(user.id);
   const links = [
     {
       to: "/home",
@@ -149,11 +153,6 @@ export default function SideBar() {
       icon: <RiFileListLine style={{ fontSize: "22px" }} />,
     },
     {
-      to: "/profile",
-      label: "Profile",
-      icon: <HiOutlineUser style={{ fontSize: "22px" }} />,
-    },
-    {
       to: "/more",
       label: "More",
       icon: <CgMoreO style={{ fontSize: "22px" }} />,
@@ -179,6 +178,17 @@ export default function SideBar() {
               </SidebarLinks>
             </ItemContainer>
           ))}
+
+          <ItemContainer>
+            <IconContainer>
+              <Link to={`/profile/${user.id}`}>
+                <HiOutlineUser style={{ fontSize: "22px" }} />
+              </Link>
+            </IconContainer>
+            <SidebarLinks>
+              <Link to={`/profile/${user.id}`}>Profile</Link>
+            </SidebarLinks>
+          </ItemContainer>
 
           <ButtonContainer>
             <CStyledButton

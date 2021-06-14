@@ -36,7 +36,7 @@ const Routing = () => {
           <MiddleContainer>
             <Navbar />
             <RestContainer>
-              <Route exact path="/profile" component={Profile} />
+              <Route exact path="/profile/:profileId" component={Profile} />
               <Route exact path="/home" component={Home} />
               <Route exact path="/explore" component={FeaturesNotReady} />
               <Route exact path="/notification" component={FeaturesNotReady} />

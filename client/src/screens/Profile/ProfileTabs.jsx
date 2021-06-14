@@ -1,6 +1,8 @@
 import React from "react";
 import Tab, { TabPane } from "../../components/Tab";
 import styled from "styled-components";
+import FeatureNotReady from "../FeatureNotReady";
+import MyTweets from "../Profile/myTweets";
 
 const TabContainer = styled.div`
   display: flex;
@@ -16,16 +18,16 @@ export default function ProfileTabs() {
       <TabContainer>
         <Tab>
           <TabPane name="Tweets" key="1">
-            1
+            <MyTweets />
           </TabPane>
           <TabPane name="Tweets & replies" key="2">
-            2
+            <FeatureNotReady />
           </TabPane>
           <TabPane name="Media" key="3">
-            3
+            <FeatureNotReady />
           </TabPane>
           <TabPane name="likes" key="4">
-            4
+            <FeatureNotReady />
           </TabPane>
         </Tab>
       </TabContainer>

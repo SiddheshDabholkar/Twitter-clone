@@ -2,22 +2,6 @@ const { gql } = require("apollo-server");
 
 module.exports = gql`
   scalar Date
-  type Tweet {
-    id: ID!
-    body: String!
-    username: String
-    createdAt: Date
-    updatedAt: Date
-    likes: [Like]
-  }
-  type reTweet {
-    id: ID!
-    body: String!
-    username: String
-    createdAt: Date
-    updatedAt: Date
-    likes: [Like]
-  }
   type User {
     id: ID!
     username: String
@@ -27,6 +11,26 @@ module.exports = gql`
     token: String
     createdAt: Date
     updatedAt: Date
+    user: User!
+  }
+  type Tweet {
+    id: ID!
+    body: String!
+    username: String
+    createdAt: Date
+    updatedAt: Date
+    likes: [Like]
+    user: User!
+  }
+  type reTweet {
+    id: ID!
+    body: String
+    username: String
+    createdAt: Date
+    updatedAt: Date
+    likes: [Like]
+    tweet: Tweet
+    user: User!
   }
   input RegisterInput {
     username: String
@@ -46,6 +50,8 @@ module.exports = gql`
     getTweets: [Tweet]
     getUsers: [User]
     getTweet(tweetId: ID!): Tweet!
+    getReTweets: [reTweet]
+    # getMyTweets(userId: ID!): [Tweet]
   }
 
   type Mutation {
@@ -56,6 +62,6 @@ module.exports = gql`
     createComment(tweetId: String!, body: String!): Tweet!
     deleteComment(tweetId: ID!, commentId: ID!): Tweet!
     likeTweet(tweetId: ID!): Tweet!
-    reTweets(tweetId: ID!, body: String!): reTweet!
+    reTweets(tweetId: ID!, body: String): reTweet!
   }
 `;
