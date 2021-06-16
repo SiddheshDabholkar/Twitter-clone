@@ -1,4 +1,5 @@
 const { model, Schema } = require("mongoose");
+const { ObjectId } = Schema.Types;
 
 const userSchema = new Schema(
   {
@@ -7,6 +8,18 @@ const userSchema = new Schema(
     email: String,
     phone: String,
     token: String,
+    tweet: [
+      {
+        type: ObjectId,
+        ref: "Tweet",
+      },
+    ],
+    ReTweet: [
+      {
+        type: ObjectId,
+        ref: "ReTweet",
+      },
+    ],
   },
   { timestamps: true }
 );

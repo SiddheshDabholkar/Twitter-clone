@@ -120,7 +120,7 @@ const LogoLinkContainer = styled.div`
 `;
 export default function SideBar() {
   const { user } = useContext(AuthContext);
-  console.log(user.id);
+  // console.log(user.id);
   const links = [
     {
       to: "/home",

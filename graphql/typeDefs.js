@@ -51,7 +51,8 @@ module.exports = gql`
     getUsers: [User]
     getTweet(tweetId: ID!): Tweet!
     getReTweets: [reTweet]
-    # getMyTweets(userId: ID!): [Tweet]
+    getProfileTweets(profileId: ID!): [Tweet]
+    getProfileReTweets(profileId: ID!): [reTweet]
   }
 
   type Mutation {

@@ -8,7 +8,8 @@ const Tabs = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 98%;
+  width: 100%;
+  padding: 25px;
 `;
 const TabHeader = styled.ul`
   height: 50px;
@@ -18,6 +19,7 @@ const TabHeader = styled.ul`
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+  padding: 0;
 `;
 const TabHeaderList = styled.li`
   display: flex;
@@ -41,7 +43,7 @@ const TabHeaderList = styled.li`
 `;
 const TabContent = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;

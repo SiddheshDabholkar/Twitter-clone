@@ -1,7 +1,6 @@
 const { AuthenticationError, UserInputError } = require("apollo-server-errors");
 const Tweet = require("../../model/Tweet");
 const checkAuth = require("../../utils/checkAuth");
-const ReTweet = require("../../model/reTweet");
 
 module.exports = {
   Query: {
@@ -29,31 +28,6 @@ module.exports = {
         throw new Error(error);
       }
     },
-
-    async getReTweets() {
-      try {
-        const retweets = await ReTweet.find()
-          .populate("user")
-          .sort({ createdAt: -1 });
-        return retweets;
-      } catch (e) {
-        throw new Error(e);
-      }
-    },
-
-    // async getMyTweets() {
-    //   try {
-    //     const twt = await Tweet.findById().populate("user");
-    //     const mytweets=await twt.
-    //     if (mytweets) {
-    //       return mytweets;
-    //     } else {
-    //       throw new Error("Tweet not found");
-    //     }
-    //   } catch (error) {
-    //     throw new Error(error);
-    //   }
-    // },
   },
   Mutation: {
     //*-----------------------------------//
@@ -148,18 +122,5 @@ module.exports = {
       } else throw new UserInputError("Tweet not found");
     },
     //*-----------------------------------//
-    async reTweets(_, { tweetId, body }, context) {
-      const user = checkAuth(context);
-      const tweet = await Tweet.findById(tweetId).populate("tweet").exec();
-      const newReTweet = new ReTweet({
-        body,
-        user: user.id,
-        tweet,
-        username: user.username,
-      });
-      const reTweet = await newReTweet.save();
-      console.log(reTweet);
-      return reTweet;
-    },
   },
 };

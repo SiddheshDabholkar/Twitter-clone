@@ -83,7 +83,7 @@ module.exports = {
           SECRET_KEY,
           { expiresIn: "1h" }
         );
-        console.log("register token--->", token);
+        // console.log("register token--->", token);
         localStorage.setItem("jwtToken", token);
         return {
           ...res.toJSON(),

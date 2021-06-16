@@ -20,25 +20,83 @@ const FETCH_TWEET = gql`
   }
 `;
 
-// const FETCH_RETWEET = gql``;
+const FETCH_RETWEET = gql`
+  {
+    getReTweets {
+      id
+      body
+      username
+      updatedAt
+      createdAt
+      tweet {
+        id
+        body
+        username
+        createdAt
+      }
+      likes {
+        id
+        createdAt
+        username
+      }
+      user {
+        id
+        username
+        phone
+        email
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
 
 export default function Home() {
-  const { loading, data, error } = useQuery(FETCH_TWEET);
-  if (loading) {
-    return <h1>Loading....</h1>;
-  } else if (error) {
-    return `Error! ${error.message}`;
-  } else {
-    // const tweets = data.getTweets;
-    // console.log(tweets);
-    return (
-      <>
-        <MakeTweet />
-        {/* {tweets.map((tweet) => (
-          <Tweet tweet={tweet} />
-        ))} */}
-        {/* <ReTweet /> */}
-      </>
-    );
-  }
+  const {
+    loading: fetchTweetLoading,
+    data: fetchTweetData,
+    error: fetchTweetError,
+  } = useQuery(FETCH_TWEET);
+  const {
+    loading: fetchRetWeetLoading,
+    data: fetchReTweetData,
+    error: fetchReTweetError,
+  } = useQuery(FETCH_RETWEET);
+
+  const Tweets = () => {
+    if (fetchTweetLoading) {
+      return <h1>loading....</h1>;
+    } else {
+      const tweets = fetchTweetData.getTweets;
+      return (
+        <>
+          {tweets.map((tweet) => (
+            <Tweet tweet={tweet} />
+          ))}
+        </>
+      );
+    }
+  };
+  const ReTweets = () => {
+    if (fetchRetWeetLoading) {
+      return <h1>loading....</h1>;
+    } else {
+      const reTweet = fetchReTweetData.getReTweets;
+      return (
+        <>
+          {reTweet.map((retweet) => (
+            <ReTweet retweet={retweet} />
+          ))}
+        </>
+      );
+    }
+  };
+
+  return (
+    <>
+      <MakeTweet />
+      <Tweets />
+      <ReTweets />
+    </>
+  );
 }

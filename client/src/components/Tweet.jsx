@@ -56,7 +56,8 @@ export const ImageContainer = styled.img`
 export const STweetContainer = styled(TweetContainer)`
   width: 100%;
   flex-direction: row;
-  padding: 20px;
+  padding: 25px;
+  padding-top: 0px;
 `;
 export const SAvatarContainer = styled(AvatarContainer)`
   flex-direction: column;
