@@ -14,6 +14,7 @@ module.exports = {
         throw new Error(e);
       }
     },
+    //*-----------------------------------//
 
     async getProfileTweets(_, { profileId }) {
       try {
@@ -29,6 +30,7 @@ module.exports = {
         throw new Error(error);
       }
     },
+    //*-----------------------------------//
 
     async getProfileReTweets(_, { profileId }) {
       try {
@@ -43,7 +45,9 @@ module.exports = {
       } catch (error) {
         throw new Error(error);
       }
+      //*-----------------------------------//
     },
+    //*-----------------------------------//
   },
   Mutation: {
     async reTweets(_, { tweetId, body }, context) {

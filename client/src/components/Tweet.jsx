@@ -15,11 +15,11 @@ dayjs.extend(relativeTime);
 //
 
 export const SAvatar = styled(Avatar)`
-  width: 70px;
-  height: 70px;
+  width: ${({ small }) => (small ? "30px" : "45px")};
+  height: ${({ small }) => (small ? "30px" : "45px")};
   @media (max-width: 500px) {
-    width: 40px;
-    height: 40px;
+    width: ${({ small }) => (small ? "20px" : "30px")};
+    height: ${({ small }) => (small ? "20px" : "30px")};
   }
 `;
 export const Restcontainer = styled.div`
@@ -162,7 +162,7 @@ export default function Tweet({
         <Restcontainer
           col
           style={{
-            width: "95%",
+            width: "90%",
           }}
         >
           <Row>
