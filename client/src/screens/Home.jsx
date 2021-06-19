@@ -95,7 +95,7 @@ export default function Home() {
   return (
     <>
       <MakeTweet />
-      {/* <Tweets /> */}
+      <Tweets />
       <ReTweets />
     </>
   );

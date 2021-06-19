@@ -7,7 +7,8 @@ module.exports = {
     async getReTweets() {
       try {
         const retweets = await ReTweet.find()
-          .populate("user tweet")
+          .populate("user")
+          .populate("tweet")
           .sort({ createdAt: -1 });
         return retweets;
       } catch (e) {

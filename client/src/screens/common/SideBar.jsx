@@ -9,6 +9,7 @@ import { AvatarContainer } from "../../container/AvatarContainer";
 import { CStyledButton } from "../../components/CircleButton";
 import useWindow from "../../hooks/useWindow";
 import { SmallParagrah } from "./WhatsHappening";
+import { useState } from "react";
 // icons
 import { FaFeatherAlt } from "react-icons/fa";
 import { FaHashtag } from "react-icons/fa";
@@ -20,6 +21,7 @@ import { HiOutlineUser } from "react-icons/hi";
 import { CgMoreO } from "react-icons/cg";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { AuthContext } from "../../context/auth";
+import LogOutModal from "../../components/Modals/LogoutModal";
 //styles
 const SideBarContainer = styled.div`
   display: flex;
@@ -120,6 +122,7 @@ const LogoLinkContainer = styled.div`
 `;
 export default function SideBar() {
   const { user } = useContext(AuthContext);
+  const [showLogOutModal, setShowLogOutModal] = useState(false);
   // console.log(user.id);
   const links = [
     {
@@ -205,7 +208,12 @@ export default function SideBar() {
             </CStyledButton>
           </ButtonContainer>
         </LogoLinkContainer>
-        <SidebarFooter>
+        <LogOutModal showLogOutModal={showLogOutModal} />
+        <SidebarFooter
+          onClick={() => {
+            setShowLogOutModal(!showLogOutModal);
+          }}
+        >
           <AvatarContainer style={{ width: "20%" }}>
             <Avatar />
           </AvatarContainer>

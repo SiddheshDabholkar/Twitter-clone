@@ -7,7 +7,7 @@ import { useMutation, gql } from "@apollo/client";
 import styled from "styled-components";
 import { TweetContainer } from "../container/TweetContainer";
 import {
-  TweeterUsername,
+  // TweeterUsername,
   IconContainer,
   SAvatar,
   Restcontainer,
@@ -17,31 +17,44 @@ import {
   SAvatarContainer,
   TweetContent,
 } from "./Tweet";
+import Tweet from "./Tweet";
 
 //day.js
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 //
-const RetweetedHeading = styled(TweeterUsername)`
+
+const TweeterUsername = styled.p`
+  color: ${({ small }) => (small ? "grey" : "black")};
+  font-weight: bolder;
+  font-size: ${({ small }) => (small ? "10px" : "18px")};
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  line-height: 30px;
+  padding: 0;
+  margin: 2px;
+`;
+export const RetweetedHeading = styled(TweeterUsername)`
   color: grey;
   font-size: 17px;
 `;
-const Above = styled.div`
+export const Above = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
   width: 100%;
 `;
-const RetweetedHeadingContainer = styled.div`
+export const RetweetedHeadingContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   width: 95%;
   justify-content: flex-start;
 `;
-const RetweetIconContainer = styled.div`
+export const RetweetIconContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -64,7 +77,6 @@ const TwetCon = styled(TweetContainer)`
     background-color: #8080800f;
   }
 `;
-
 const LIKE_RETWEET_MUTATION = gql`
   mutation likeReTweet($reTweetId: ID!) {
     likeReTweet(reTweetId: $reTweetId) {

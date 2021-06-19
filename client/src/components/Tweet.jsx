@@ -8,6 +8,12 @@ import { MdFavorite } from "react-icons/md";
 import { FiUpload } from "react-icons/fi";
 import { AuthContext } from "../context/auth.jsx";
 import { useMutation, gql } from "@apollo/client";
+import {
+  RetweetedHeading,
+  Above,
+  RetweetedHeadingContainer,
+  RetweetIconContainer,
+} from "./ReTweet";
 //day.js
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
