@@ -63,6 +63,7 @@ module.exports = gql`
     createComment(tweetId: String!, body: String!): Tweet!
     deleteComment(tweetId: ID!, commentId: ID!): Tweet!
     likeTweet(tweetId: ID!): Tweet!
+    likeReTweet(reTweetId: ID!): reTweet!
     reTweets(tweetId: ID!, body: String): reTweet!
   }
 `;

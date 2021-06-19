@@ -119,7 +119,7 @@ export const TweeterUsername = styled.p`
   padding: 0;
   margin: 2px;
 `;
-export const LIKE_POST_MUTATION = gql`
+const LIKE_TWEET_MUTATION = gql`
   mutation likeTweet($tweetId: ID!) {
     likeTweet(tweetId: $tweetId) {
       id
@@ -141,7 +141,7 @@ export default function Tweet({
     } else setLiked(false);
   }, [user, likes]);
 
-  const [likeTweet] = useMutation(LIKE_POST_MUTATION, {
+  const [likeTweet] = useMutation(LIKE_TWEET_MUTATION, {
     variables: { tweetId: id },
   });
 

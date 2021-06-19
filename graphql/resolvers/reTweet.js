@@ -59,5 +59,24 @@ module.exports = {
       // console.log(reTweet);
       return reTweet;
     },
+    //*-----------------------------------//
+    async likeReTweet(_, { reTweetId }, context) {
+      const { username } = checkAuth(context);
+      const reTweet = await ReTweet.findById(reTweetId);
+      if (reTweet) {
+        if (reTweet.likes.find((like) => like.username === username)) {
+          reTweet.likes = reTweet.likes.filter(
+            (like) => like.username !== username
+          );
+          await reTweet.save();
+        } else {
+          reTweet.likes.push({
+            username,
+          });
+        }
+        await reTweet.save();
+        return reTweet;
+      } else throw new Error("ReTweet not found");
+    },
   },
 };

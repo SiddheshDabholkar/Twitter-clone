@@ -3,7 +3,7 @@ import { FaRegComment, FaRetweet, FaRegHeart } from "react-icons/fa";
 import { MdFavorite } from "react-icons/md";
 import { FiUpload } from "react-icons/fi";
 import { AuthContext } from "../context/auth.jsx";
-import { useMutation } from "@apollo/client";
+import { useMutation, gql } from "@apollo/client";
 import styled from "styled-components";
 import {
   LIKE_POST_MUTATION,
@@ -48,6 +48,19 @@ const RetweetIconContainer = styled.div`
   width: 5%;
 `;
 
+const LIKE_RETWEET_MUTATION = gql`
+  mutation likeReTweet($reTweetId: ID!) {
+    likeReTweet(reTweetId: $reTweetId) {
+      id
+      likes {
+        username
+        id
+        createdAt
+      }
+    }
+  }
+`;
+
 export default function ReTweet({
   retweet: {
     id,
@@ -75,14 +88,15 @@ export default function ReTweet({
 }) {
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
+
   useEffect(() => {
     if (user && likes.find((like) => like.username === user.username)) {
       setLiked(true);
     } else setLiked(false);
   }, [user, likes]);
 
-  const [likeTweet] = useMutation(LIKE_POST_MUTATION, {
-    variables: { tweetId: id },
+  const [likeTweet] = useMutation(LIKE_RETWEET_MUTATION, {
+    variables: { reTweetId: id },
   });
 
   const likeIcon = () => {
