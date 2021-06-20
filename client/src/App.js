@@ -21,6 +21,7 @@ import Footer from "./screens/common/Footer";
 import FeaturesNotReady from "./screens/FeatureNotReady";
 import FloatingButton from "./components/FloatingButton";
 import MakeTweet from "./components/MakeTweet";
+import SingleTweet from "./screens/SingleTweet";
 
 const Routing = () => {
   let location = useLocation();
@@ -38,6 +39,7 @@ const Routing = () => {
             <Navbar />
             <RestContainer>
               <Route exact path="/profile/:profileId" component={Profile} />
+              <Route exact path="/tweet/:tweet" component={SingleTweet} />
               <Route exact path="/home" component={Home} />
               <Route exact path="/explore" component={FeaturesNotReady} />
               <Route exact path="/notification" component={FeaturesNotReady} />
