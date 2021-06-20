@@ -7,6 +7,7 @@ import { StyledButton } from "./AuthButton";
 import { MdPermMedia } from "react-icons/md";
 import { AiOutlineFileGif } from "react-icons/ai";
 import { TweetContainer } from "../container/TweetContainer";
+import { useLocation } from "react-router-dom";
 
 const PostSection = styled.div`
   display: flex;
@@ -21,7 +22,7 @@ const UtilContainer = styled.div`
   width: 100%;
   justify-content: space-between;
 `;
-const ButtonContainer = styled.div`
+export const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 20%;
@@ -52,6 +53,30 @@ const InputnIconCon = styled.div`
 `;
 
 export default function MakeTweet() {
+  const { pathname } = useLocation();
+  const newPathname = pathname.substring(1);
+
+  const ButtonDecider = () => {
+    if (newPathname.startsWith("composetweet")) {
+      return null;
+    } else {
+      return (
+        <>
+          <ButtonContainer>
+            <StyledButton
+              small
+              txtColor="#fff"
+              bgColor="#1da1f2"
+              borderColor="transparent"
+            >
+              tweet
+            </StyledButton>
+          </ButtonContainer>
+        </>
+      );
+    }
+  };
+
   return (
     <>
       <TweetContainer>
@@ -79,16 +104,7 @@ export default function MakeTweet() {
                 />
               </IconContainer>
             </UploadcontentContainer>
-            <ButtonContainer>
-              <StyledButton
-                small
-                txtColor="#fff"
-                bgColor="#1da1f2"
-                borderColor="transparent"
-              >
-                tweet
-              </StyledButton>
-            </ButtonContainer>
+            <ButtonDecider />
           </UtilContainer>
         </PostSection>
       </TweetContainer>

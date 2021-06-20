@@ -1,8 +1,12 @@
 import styled from "styled-components";
-import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { SAvatar, SAvatarContainer } from "../../components/Tweet";
 import { StyledSearchInput } from "../../components/Search";
+import { ButtonContainer } from "../../components/MakeTweet";
+import { StyledButton } from "../../components/AuthButton";
+import useWindowSize from "../../hooks/useWindow";
+import { BiArrowBack } from "react-icons/bi";
+import { useHistory } from "react-router-dom";
 
 const NavbarContainer = styled.div`
   display: flex;
@@ -45,10 +49,37 @@ const SearchContainer = styled.div`
   padding: 2px;
   align-items: center;
 `;
+
+const ButtonContainerSS = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  background-color: #000777;
+  height: 100%;
+`;
+
+const Button = styled.button`
+  background-color: #fff;
+  border-color: transparent;
+  height: 100%;
+  width: 100%;
+`;
+
+const ButtonAndTweetContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  height: 100%;
+`;
+
 export default function HomeNavbar() {
   const { pathname } = useLocation();
+  const { width } = useWindowSize();
   const newPathname = pathname.substring(1);
-  useEffect(() => {}, []);
+  const history = useHistory();
+
   const Headerdecider = () => {
     if (newPathname.startsWith("explore")) {
       return (
@@ -66,15 +97,64 @@ export default function HomeNavbar() {
       );
     }
   };
+
+  const ButtonDecider = () => {
+    if (newPathname.startsWith("composetweet")) {
+      return (
+        <>
+          <ButtonContainer>
+            <StyledButton
+              small
+              txtColor="#fff"
+              bgColor="#1da1f2"
+              borderColor="transparent"
+            >
+              tweet
+            </StyledButton>
+          </ButtonContainer>
+        </>
+      );
+    } else return null;
+  };
+
+  const ShowButtonsIfwidthIsLessThanFiveHundered = () => {
+    if (width < 500) {
+      return <ButtonDecider />;
+    } else return null;
+  };
+
+  const ComposingTweet = () => {
+    if (newPathname.startsWith("composetweet")) {
+      return (
+        <>
+          <ButtonAndTweetContainer>
+            <ButtonContainerSS>
+              <Button onClick={() => history.goBack()}>
+                <BiArrowBack style={{ fontSize: "25px" }} />
+              </Button>
+            </ButtonContainerSS>
+            <ShowButtonsIfwidthIsLessThanFiveHundered />
+          </ButtonAndTweetContainer>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Tohide>
+            <SAvatarContainer>
+              <SSAvatar />
+            </SAvatarContainer>
+          </Tohide>
+          <Headerdecider />
+        </>
+      );
+    }
+  };
+
   return (
     <>
       <NavbarContainer>
-        <Tohide>
-          <SAvatarContainer>
-            <SSAvatar />
-          </SAvatarContainer>
-        </Tohide>
-        <Headerdecider />
+        <ComposingTweet />
       </NavbarContainer>
     </>
   );

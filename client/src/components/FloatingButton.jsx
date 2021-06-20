@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { FaFeatherAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export const Button = styled.button`
   display: flex;
@@ -22,8 +23,10 @@ export const Button = styled.button`
 
 export default function FloatingButton() {
   return (
-    <Button>
-      <FaFeatherAlt style={{ color: "#fff", fontSize: "22px" }} />
-    </Button>
+    <Link to="/composetweet">
+      <Button>
+        <FaFeatherAlt style={{ color: "#fff", fontSize: "22px" }} />
+      </Button>
+    </Link>
   );
 }

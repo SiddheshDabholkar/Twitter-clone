@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 export const StyledSearchInput = styled.input`
@@ -21,7 +21,10 @@ export const StyledSearchInput = styled.input`
 export default function Search() {
   return (
     <>
-      <StyledSearchInput placeholder="     Search twitter"></StyledSearchInput>
+      <StyledSearchInput
+        placeholder="Search twitter"
+        onChange={(e) => console.log(e.target.value)}
+      ></StyledSearchInput>
     </>
   );
 }

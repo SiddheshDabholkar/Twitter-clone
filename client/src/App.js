@@ -20,6 +20,7 @@ import Navbar from "./screens/common/Navbar";
 import Footer from "./screens/common/Footer";
 import FeaturesNotReady from "./screens/FeatureNotReady";
 import FloatingButton from "./components/FloatingButton";
+import MakeTweet from "./components/MakeTweet";
 
 const Routing = () => {
   let location = useLocation();
@@ -44,6 +45,7 @@ const Routing = () => {
               <Route exact path="/bookmarks" component={FeaturesNotReady} />
               <Route exact path="/lists" component={FeaturesNotReady} />
               <Route exact path="/more" component={FeaturesNotReady} />
+              <Route exact path="/composetweet" component={MakeTweet} />
               <FloatingButton />
             </RestContainer>
             <Footer />

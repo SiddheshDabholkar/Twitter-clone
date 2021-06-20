@@ -3,6 +3,7 @@ import MakeTweet from "../components/MakeTweet";
 import Tweet from "../components/Tweet";
 import ReTweet from "../components/ReTweet";
 import { useQuery, gql } from "@apollo/client";
+import useWindowSize from "../hooks/useWindow";
 
 const FETCH_TWEET = gql`
   {
@@ -52,6 +53,7 @@ const FETCH_RETWEET = gql`
 `;
 
 export default function Home() {
+  const { width } = useWindowSize();
   const {
     loading: fetchTweetLoading,
     data: fetchTweetData,
@@ -91,10 +93,14 @@ export default function Home() {
       );
     }
   };
-
+  const DecideMakeTweet = () => {
+    if (width > 500) {
+      return <MakeTweet />;
+    } else return null;
+  };
   return (
     <>
-      <MakeTweet />
+      <DecideMakeTweet />
       <Tweets />
       <ReTweets />
     </>

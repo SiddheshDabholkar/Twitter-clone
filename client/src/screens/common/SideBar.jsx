@@ -10,6 +10,8 @@ import { CStyledButton } from "../../components/CircleButton";
 import useWindow from "../../hooks/useWindow";
 import { SmallParagrah } from "./WhatsHappening";
 import { useState } from "react";
+import { AuthContext } from "../../context/auth";
+import LogOutModal from "../../components/Modals/LogoutModal";
 // icons
 import { FaFeatherAlt } from "react-icons/fa";
 import { FaHashtag } from "react-icons/fa";
@@ -20,8 +22,6 @@ import { RiFileListLine } from "react-icons/ri";
 import { HiOutlineUser } from "react-icons/hi";
 import { CgMoreO } from "react-icons/cg";
 import { FiMoreHorizontal } from "react-icons/fi";
-import { AuthContext } from "../../context/auth";
-import LogOutModal from "../../components/Modals/LogoutModal";
 //styles
 const SideBarContainer = styled.div`
   display: flex;

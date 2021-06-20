@@ -1,11 +1,14 @@
-import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import Search from "../../components/Search";
 import { AvatarContainer } from "../../container/AvatarContainer";
 import { Avatar } from "../../components/Avatar";
 import { ButtonContainer } from "../../container/ButtonContainer";
 import { StyledButton } from "../../components/AuthButton";
 import { RestContainer } from "../../container/RestContainer";
+import SearchModal from "../../components/Modals/SearchModal";
+import { StyledSearchInput } from "../../components/Search";
+import Search from "../../components/Search";
+import { useLocation } from "react-router-dom";
 
 const WhatsHappeningContainer = styled.div`
   display: flex;
@@ -170,6 +173,7 @@ const WhatsHappenings = () => {
     </ContentContainer>
   );
 };
+
 const SStyledButton = styled(StyledButton)`
   width: 80%;
   height: 35px;
@@ -178,13 +182,38 @@ const SStyledButton = styled(StyledButton)`
   background-color: transparent;
 `;
 export default function WhatsHappening() {
+  const [showSearchModal, setshowSearchModal] = useState(false);
+  const { pathname } = useLocation();
+  const newPathname = pathname.substring(1);
+
+  const SearchShower = () => {
+    if (newPathname.startsWith("explore")) {
+      return null;
+    } else {
+      return (
+        <>
+          <SearchContainer>
+            {/* <Search /> */}
+            <StyledSearchInput
+              placeholder="Search twitter"
+              onChange={(e) => {
+                console.log(e.target.value);
+                // setshowSearchModal(!showSearchModal);
+              }}
+              onCLick={() => setshowSearchModal(!showSearchModal)}
+            ></StyledSearchInput>
+          </SearchContainer>
+        </>
+      );
+    }
+  };
+
   return (
     <>
       <WhatsHappeningContainer>
-        <SearchContainer>
-          <Search />
-        </SearchContainer>
+        <SearchShower />
         <RestContainer>
+          <SearchModal showSearchModal={showSearchModal} />
           {/* Whats happening */}
           <SubContainer>
             <Title title="Whats Happening" />
