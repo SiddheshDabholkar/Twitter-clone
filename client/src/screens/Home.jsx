@@ -15,7 +15,17 @@ const FETCH_TWEET = gql`
       updatedAt
       likes {
         id
+        createdAt
         username
+      }
+      user {
+        id
+        username
+        phone
+        email
+        token
+        createdAt
+        updatedAt
       }
     }
   }

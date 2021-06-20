@@ -13,6 +13,9 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import ProfileTab from "../screens/Profile/ProfileTabs";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../context/auth";
+import { NavbarContainer } from "./common/Navbar";
+import GoBack from "../components/GoBackButton";
+import { useQuery, gql } from "@apollo/client";
 
 const Parent = styled.div`
   display: flex;
@@ -25,12 +28,17 @@ const Parent = styled.div`
 `;
 const TwitterBanner = styled.img`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
   background-color: grey;
   height: 275px;
   width: 100%;
+`;
+const TwitterBannerCotainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 99%;
 `;
 const AvatarContainer = styled.div`
   display: flex;
@@ -68,6 +76,9 @@ const STweetContent = styled(TweetContent)`
   color: grey;
   margin-right: 10px;
 `;
+const SNavbarContainer = styled(NavbarContainer)`
+  height: 55px;
+`;
 
 export default function Profile() {
   let { profileId } = useParams();
@@ -103,8 +114,13 @@ export default function Profile() {
 
   return (
     <>
+      <SNavbarContainer>
+        <GoBack />
+      </SNavbarContainer>
       <Parent>
-        <TwitterBanner src="https://images.pexels.com/photos/4835962/pexels-photo-4835962.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" />
+        <TwitterBannerCotainer>
+          <TwitterBanner src="https://images.pexels.com/photos/4835962/pexels-photo-4835962.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" />
+        </TwitterBannerCotainer>
         <AvatarContainer>
           <Avatar style={{ height: "150px", width: "150px" }} />
         </AvatarContainer>

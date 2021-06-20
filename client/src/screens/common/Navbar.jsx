@@ -5,10 +5,9 @@ import { StyledSearchInput } from "../../components/Search";
 import { ButtonContainer } from "../../components/MakeTweet";
 import { StyledButton } from "../../components/AuthButton";
 import useWindowSize from "../../hooks/useWindow";
-import { BiArrowBack } from "react-icons/bi";
-import { useHistory } from "react-router-dom";
+import GoBackButton from "../../components/GoBackButton";
 
-const NavbarContainer = styled.div`
+export const NavbarContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -49,22 +48,6 @@ const SearchContainer = styled.div`
   padding: 2px;
   align-items: center;
 `;
-
-const ButtonContainerSS = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 15%;
-  background-color: #000777;
-  height: 100%;
-`;
-
-const Button = styled.button`
-  background-color: #fff;
-  border-color: transparent;
-  height: 100%;
-  width: 100%;
-`;
-
 const ButtonAndTweetContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -78,25 +61,7 @@ export default function HomeNavbar() {
   const { pathname } = useLocation();
   const { width } = useWindowSize();
   const newPathname = pathname.substring(1);
-  const history = useHistory();
-
-  const Headerdecider = () => {
-    if (newPathname.startsWith("explore")) {
-      return (
-        <>
-          <SearchContainer>
-            <StyledSearchInput placeholder="   search" />
-          </SearchContainer>
-        </>
-      );
-    } else {
-      return (
-        <HeaderName>
-          <h2>{newPathname}</h2>
-        </HeaderName>
-      );
-    }
-  };
+  console.log(newPathname);
 
   const ButtonDecider = () => {
     if (newPathname.startsWith("composetweet")) {
@@ -116,25 +81,34 @@ export default function HomeNavbar() {
       );
     } else return null;
   };
-
   const ShowButtonsIfwidthIsLessThanFiveHundered = () => {
     if (width < 500) {
       return <ButtonDecider />;
     } else return null;
   };
-
-  const ComposingTweet = () => {
+  const TweetHeaders = () => {
     if (newPathname.startsWith("composetweet")) {
       return (
         <>
           <ButtonAndTweetContainer>
-            <ButtonContainerSS>
-              <Button onClick={() => history.goBack()}>
-                <BiArrowBack style={{ fontSize: "25px" }} />
-              </Button>
-            </ButtonContainerSS>
+            <GoBackButton />
             <ShowButtonsIfwidthIsLessThanFiveHundered />
           </ButtonAndTweetContainer>
+        </>
+      );
+    } else if (newPathname.startsWith("explore")) {
+      return (
+        <>
+          <SearchContainer>
+            <StyledSearchInput placeholder="search" />
+          </SearchContainer>
+        </>
+      );
+    } else if (newPathname.startsWith("tweet")) {
+      return (
+        <>
+          <GoBackButton />
+          <h2>Tweet</h2>
         </>
       );
     } else {
@@ -145,17 +119,31 @@ export default function HomeNavbar() {
               <SSAvatar />
             </SAvatarContainer>
           </Tohide>
-          <Headerdecider />
+          <HeaderName>
+            <h2>{newPathname}</h2>
+          </HeaderName>
         </>
       );
     }
   };
-
-  return (
-    <>
-      <NavbarContainer>
-        <ComposingTweet />
-      </NavbarContainer>
-    </>
-  );
+  {
+    /*
+    NOTE:
+    Twitter profile page shows name and number of 
+    tweets.If i try to show that over here.I ll need to use 
+    context.So to prevent it a separate navbar will be shown
+    in profile section
+  */
+  }
+  if (newPathname.startsWith("profile")) {
+    return null;
+  } else {
+    return (
+      <>
+        <NavbarContainer>
+          <TweetHeaders />
+        </NavbarContainer>
+      </>
+    );
+  }
 }

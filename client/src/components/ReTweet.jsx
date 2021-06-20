@@ -6,6 +6,7 @@ import { AuthContext } from "../context/auth.jsx";
 import { useMutation, gql } from "@apollo/client";
 import styled from "styled-components";
 import { TweetContainer } from "../container/TweetContainer";
+import { Link } from "react-router-dom";
 import {
   // TweeterUsername,
   IconContainer,
@@ -184,7 +185,9 @@ export default function ReTweet({
           </Above>
           <STweetContainer>
             <SAvatarContainer>
-              <SAvatar />
+              <Link to={`profile/${userid}`}>
+                <SAvatar />
+              </Link>
             </SAvatarContainer>
             <Restcontainer
               col
@@ -226,7 +229,9 @@ export default function ReTweet({
         <>
           <STweetContainer>
             <SAvatarContainer>
-              <SAvatar />
+              <Link to={`profile/${userid}`}>
+                <SAvatar />
+              </Link>
             </SAvatarContainer>
             <Restcontainer
               col

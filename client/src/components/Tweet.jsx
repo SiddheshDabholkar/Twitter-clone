@@ -148,7 +148,21 @@ const LIKE_TWEET_MUTATION = gql`
 `;
 
 export default function Tweet({
-  tweet: { id, body, username, createdAt, likes },
+  tweet: {
+    id,
+    body,
+    username,
+    createdAt,
+    likes,
+    user: {
+      id: userid,
+      username: userUsername,
+      phone,
+      email,
+      createdAt: userCreatedAt,
+      updatedAt: userUpdatedAt,
+    },
+  },
 }) {
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
@@ -179,7 +193,9 @@ export default function Tweet({
          <SLink to={`/tweet/${id}`}> 
          */}
         <SAvatarContainer>
-          <SAvatar />
+          <Link to={`/profile/${userid}`}>
+            <SAvatar />
+          </Link>
         </SAvatarContainer>
         <Restcontainer
           col
