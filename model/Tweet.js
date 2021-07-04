@@ -5,12 +5,16 @@ const tweetSchema = new Schema(
   {
     body: String,
     username: String,
-    comments: [
+    replies: [
       {
-        body: String,
-        username: String,
+        type: new Schema(
+          {
+            body: String,
+            username: String,
+          },
+          { timestamps: true }
+        ),
       },
-      { timestamps: true },
     ],
     likes: [
       {

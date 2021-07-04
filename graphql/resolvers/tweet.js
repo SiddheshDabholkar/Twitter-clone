@@ -47,6 +47,7 @@ module.exports = {
       // console.log("tweet ---->", tweet);
       return tweet;
     },
+
     //*-----------------------------------//
     async deleteTweet(_, { tweetId }, context) {
       const user = checkAuth(context);
@@ -62,45 +63,7 @@ module.exports = {
         throw new Error(error);
       }
     },
-    //*-----------------------------------//
-    async createComment(_, { tweetId, body }, context) {
-      const { username } = checkAuth(context);
-      if (body.trim() === "") {
-        throw new UserInputError("Empty comment", {
-          errors: {
-            body: "Comment body must nt be empty",
-          },
-        });
-      }
-      const tweet = await Tweet.findById(tweetId);
-      if (tweet) {
-        tweet.comments.unshift({
-          body,
-          username,
-        });
-        await tweet.save();
-        return tweet;
-      } else throw new UserInputError("Tweet not found");
-    },
-    //*-----------------------------------//
-    async deleteComment(_, { tweetId, commentId }, context) {
-      const { username } = checkAuth(context);
-      const tweet = await Tweet.findById(tweetId);
-      if (tweet) {
-        const commentIndex = tweet.comments.findIndex(
-          (c) => c.id === commentId
-        );
-        if (tweet.comments[commentIndex].username === username) {
-          tweet.comments.splice(commentIndex, 1);
-          await tweet.save();
-          return tweet;
-        } else {
-          throw new AuthenticationError("Action not allowed");
-        }
-      } else {
-        throw new UserInputError("Tweet not found");
-      }
-    },
+
     //*-----------------------------------//
     async likeTweet(_, { tweetId }, context) {
       const { username } = checkAuth(context);

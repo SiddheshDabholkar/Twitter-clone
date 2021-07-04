@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { AvatarContainer } from "../container/AvatarContainer";
 import { Avatar } from "./Avatar";
@@ -55,6 +55,7 @@ const InputnIconCon = styled.div`
 export default function MakeTweet() {
   const { pathname } = useLocation();
   const newPathname = pathname.substring(1);
+  const [tweetBody, setTweetBody] = useState("");
 
   const ButtonDecider = () => {
     if (newPathname.startsWith("composetweet")) {

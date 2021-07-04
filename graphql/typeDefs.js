@@ -11,7 +11,8 @@ module.exports = gql`
     token: String
     createdAt: Date
     updatedAt: Date
-    user: User!
+    tweet: Tweet
+    ReTweet: reTweet
   }
   type Tweet {
     id: ID!
@@ -21,6 +22,7 @@ module.exports = gql`
     updatedAt: Date
     likes: [Like]
     user: User!
+    replies: [replies]
   }
   type reTweet {
     id: ID!
@@ -31,6 +33,13 @@ module.exports = gql`
     likes: [Like]
     tweet: Tweet
     user: User!
+  }
+  type replies {
+    id: ID!
+    body: String
+    username: String
+    createdAt: Date
+    updatedAt: Date
   }
   input RegisterInput {
     username: String
@@ -49,10 +58,12 @@ module.exports = gql`
   type Query {
     getTweets: [Tweet]
     getUsers: [User]
+    getUser(userId: ID!): User!
     getTweet(tweetId: ID!): Tweet!
     getReTweets: [reTweet]
     getProfileTweets(profileId: ID!): [Tweet]
     getProfileReTweets(profileId: ID!): [reTweet]
+    getReplies(tweetId: ID!): [replies!]!
   }
 
   type Mutation {
@@ -60,8 +71,8 @@ module.exports = gql`
     login(input: String!, password: String!): User!
     createTweet(body: String!): Tweet!
     deleteTweet(tweetId: ID!): String
-    createComment(tweetId: String!, body: String!): Tweet!
-    deleteComment(tweetId: ID!, commentId: ID!): Tweet!
+    createReply(tweetId: String!, body: String!): Tweet!
+    deleteReply(tweetId: ID!, replyId: ID!): Tweet!
     likeTweet(tweetId: ID!): Tweet!
     likeReTweet(reTweetId: ID!): reTweet!
     reTweets(tweetId: ID!, body: String): reTweet!

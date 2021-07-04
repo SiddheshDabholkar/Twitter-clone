@@ -19,6 +19,18 @@ module.exports = {
         throw new Error(e);
       }
     },
+    async getUser(_, { userId }) {
+      try {
+        const user = await User.findById(userId).populate("tweet ReTweet");
+        if (user) {
+          return user;
+        } else {
+          throw new Error("User not found");
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
   },
 
   Mutation: {
