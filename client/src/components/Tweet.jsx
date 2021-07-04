@@ -13,12 +13,6 @@ import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
-//
-
-//Wrapping just a Link from
-//react router dom breaks UI
-//innorder to overcome with it
-//i just changed the styled of Link
 
 export const SLink = styled(Link)`
   width: inherit;
@@ -42,7 +36,8 @@ export const Restcontainer = styled.div`
 `;
 export const Row = styled.div`
   display: flex;
-  flex-direction: row;
+  /* flex-direction: row; */
+  flex-direction: ${({ col }) => (col ? "column" : "row")};
   align-items: center;
   justify-content: left;
   width: 90%;
@@ -127,7 +122,7 @@ export const IconContainer = styled.div`
 export const TweeterUsername = styled.p`
   color: ${({ small }) => (small ? "grey" : "black")};
   font-weight: bolder;
-  font-size: ${({ small }) => (small ? "10px" : "18px")};
+  font-size: ${({ small }) => (small ? "12px" : "18px")};
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
@@ -146,7 +141,6 @@ const LIKE_TWEET_MUTATION = gql`
     }
   }
 `;
-
 export default function Tweet({
   tweet: {
     id,
@@ -166,6 +160,7 @@ export default function Tweet({
 }) {
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
+
   useEffect(() => {
     if (user && likes.find((like) => like.username === user.username)) {
       setLiked(true);

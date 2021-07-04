@@ -39,7 +39,7 @@ const Routing = () => {
             <Navbar />
             <RestContainer>
               <Route exact path="/profile/:profileId" component={Profile} />
-              <Route exact path="/tweet/:tweet" component={SingleTweet} />
+              <Route exact path="/tweet/:tweetId" component={SingleTweet} />
               <Route exact path="/home" component={Home} />
               <Route exact path="/explore" component={FeaturesNotReady} />
               <Route exact path="/notification" component={FeaturesNotReady} />
