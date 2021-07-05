@@ -15,7 +15,7 @@ import {
 } from "../components/Tweet";
 import ReplyTweet from "../components/ReplyTweet";
 
-const SRow = styled(Row)`
+export const SRow = styled(Row)`
   justify-content: space-around;
   margin: 15px;
 `;
