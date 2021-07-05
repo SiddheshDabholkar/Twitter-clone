@@ -195,10 +195,10 @@ export default function SideBar() {
 
           <ButtonContainer>
             <CStyledButton
+              input
               txtColor="#fff"
-              bgColor="#1da1f224"
+              bgColor="#1da1f2"
               borderColor="transparent"
-              hbgColor=" #1da1f2"
             >
               {width < 1280 ? (
                 <FaFeatherAlt style={{ color: "#fff", fontSize: "20px" }} />
