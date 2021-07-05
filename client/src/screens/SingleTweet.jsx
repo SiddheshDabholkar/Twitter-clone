@@ -13,6 +13,7 @@ import {
   IconContainer,
   Row,
 } from "../components/Tweet";
+import ReplyTweet from "../components/ReplyTweet";
 
 const SRow = styled(Row)`
   justify-content: space-around;
@@ -88,6 +89,7 @@ export default function SingleTweet() {
           </IconContainer>
         </SRow>
       </TweetContainer>
+      <ReplyTweet />
     </>
   );
 }

@@ -9,14 +9,14 @@ import { AiOutlineFileGif } from "react-icons/ai";
 import { TweetContainer } from "../container/TweetContainer";
 import { useLocation } from "react-router-dom";
 
-const PostSection = styled.div`
+export const PostSection = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 95%;
 `;
-const UtilContainer = styled.div`
+export const UtilContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -29,21 +29,21 @@ export const ButtonContainer = styled.div`
   align-items: center;
   justify-content: center;
 `;
-const UploadcontentContainer = styled.div`
+export const UploadcontentContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 80%;
   align-items: center;
   justify-content: flex-start;
 `;
-const IconContainer = styled.div`
+export const IconContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin: 6px;
 `;
-const InputnIconCon = styled.div`
+export const InputnIconCon = styled.div`
   margin-top: 20px;
   display: flex;
   flex-direction: row;
