@@ -1,14 +1,17 @@
-import React from "react";
-import { StyledInput } from "../components/Input";
-import { SmallHeader } from "../Typography";
-import { LogoContainer } from "../container/LogoContainer";
-import { Logo } from "../components/Logo";
-import { MainContainer } from "../container/MainContainer";
-import { StyledButton } from "../components/AuthButton";
-import { ButtonContainer } from "../container/ButtonContainer";
-import { Bg, ModalContainer, ModalContent } from "../container/ModalUtils";
-import { CardContainer } from "../container/CardContainer";
 import { Link, useLocation } from "react-router-dom";
+
+import { StyledInput } from "../../components/Input";
+import { SmallHeader } from "../../Typography";
+import { LogoContainer, Logo } from "../../components/Logo";
+import { MainContainer } from "../../container/MainContainer";
+import { CardContainer } from "../../container/CardContainer";
+import { StyledButton } from "../../components/Buttons/AuthButton";
+import { ButtonContainer } from "../../components/Buttons/ButtonContainer";
+import {
+  Bg,
+  ModalContainer,
+  ModalContent,
+} from "../../components/Modals/ModalUtils";
 
 export default function Confirmotp({ showModal, onCloseModal }) {
   const location = useLocation();

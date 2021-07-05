@@ -1,21 +1,23 @@
 import React from "react";
-import { TweetContainer } from "../container/TweetContainer";
+import styled from "styled-components";
+//
 import { MdPermMedia } from "react-icons/md";
 import { AiOutlineFileGif } from "react-icons/ai";
-import { StyledButton } from "./AuthButton";
+//
+import { StyledButton } from "../Buttons/AuthButton";
+import { Avatar, AvatarContainer } from "../Avatar";
+import { ButtonContainer } from "../Buttons/ButtonContainer";
+import { TweetInput } from "../Input";
+import { TweeterUsername } from "../../Typography";
 import {
+  TweetContainer,
+  Row,
   IconContainer,
-  UploadcontentContainer,
   PostSection,
   UtilContainer,
-  ButtonContainer,
-} from "../components/MakeTweet";
-import { TweetInput } from "./Input";
-import { AvatarContainer } from "../container/AvatarContainer";
-import { Avatar } from "./Avatar";
-import styled from "styled-components";
-import { TweeterUsername, Row } from "./Tweet";
-
+  UploadcontentContainer,
+} from "./";
+//
 const RestCon = styled.div`
   display: flex;
   flex-direction: column;

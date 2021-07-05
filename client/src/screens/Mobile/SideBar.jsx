@@ -1,17 +1,16 @@
+import { useContext, useState } from "react";
 import styled from "styled-components";
-import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Logo } from "../../components/Logo";
-import { LogoContainer } from "../../container/LogoContainer";
-import { ButtonContainer } from "../../container/ButtonContainer";
-import { Avatar } from "../../components/Avatar";
-import { AvatarContainer } from "../../container/AvatarContainer";
-import { CStyledButton } from "../../components/CircleButton";
-import useWindow from "../../hooks/useWindow";
-import { SmallParagrah } from "./WhatsHappening";
-import { useState } from "react";
+//
 import { AuthContext } from "../../context/auth";
+import useWindow from "../../hooks/useWindow";
+//
+import { AvatarContainer, Avatar } from "../../components/Avatar";
+import { Logo, LogoContainer } from "../../components/Logo";
+import { ButtonContainer } from "../../components/Buttons/ButtonContainer";
+import { CStyledButton } from "../../components/Buttons/CircleButton";
 import LogOutModal from "../../components/Modals/LogoutModal";
+import { SmallParagrah } from "../AfterAuthPassing/WhatsHappening";
 // icons
 import { FaFeatherAlt } from "react-icons/fa";
 import { FaHashtag } from "react-icons/fa";
@@ -22,6 +21,7 @@ import { RiFileListLine } from "react-icons/ri";
 import { HiOutlineUser } from "react-icons/hi";
 import { CgMoreO } from "react-icons/cg";
 import { FiMoreHorizontal } from "react-icons/fi";
+
 //styles
 const SideBarContainer = styled.div`
   display: flex;

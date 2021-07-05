@@ -1,5 +1,4 @@
-import React from "react";
-import Tab, { TabPane } from "../../components/Tab";
+import Tab, { TabPane } from "../../../components/Tab";
 import FeatureNotReady from "../FeatureNotReady";
 import MyTweets from "../Profile/myTweets";
 

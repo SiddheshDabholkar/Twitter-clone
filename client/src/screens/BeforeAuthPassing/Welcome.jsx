@@ -1,13 +1,13 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { MainContainer } from "../container/MainContainer";
-import { StyledButton } from "../components/AuthButton";
-import { ButtonContainer } from "../container/ButtonContainer";
-import Footer from "../components/Footer";
-import Signup from "./Signup";
 import { Link, useLocation, useHistory } from "react-router-dom";
-import { LogoContainer } from "../container/LogoContainer";
-import { Logo } from "../components/Logo";
+//
+import { MainContainer } from "../../container/MainContainer";
+import { StyledButton } from "../../components/Buttons/AuthButton";
+import { ButtonContainer } from "../../components/Buttons/ButtonContainer";
+import { Logo, LogoContainer } from "../../components/Logo";
+import Signup from "./Signup";
+import Footer from "../../components/Footer";
 
 const LeftImage = styled.img`
   height: 100%;

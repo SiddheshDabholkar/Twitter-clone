@@ -1,5 +1,12 @@
 import styled from "styled-components";
 
+export const LogoContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  float: left;
+  width: 100%;
+`;
+
 export const Logo = styled.img`
   height: ${({ small }) => (small ? "45px" : "70px")};
   padding: ${({ small }) => (small ? "10px" : "")};

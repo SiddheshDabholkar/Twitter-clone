@@ -1,9 +1,9 @@
-import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+//
 import { GoHome } from "react-icons/go";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { BiMessage, BiSearch } from "react-icons/bi";
-import { Link } from "react-router-dom";
 
 const FooterContainer = styled.footer`
   display: flex;

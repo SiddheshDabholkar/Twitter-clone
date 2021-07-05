@@ -1,135 +1,28 @@
 import { useContext, useState, useEffect } from "react";
-import styled from "styled-components";
-import { TweetContainer } from "../container/TweetContainer";
-import { AvatarContainer } from "../container/AvatarContainer";
-import { Avatar } from "../components/Avatar";
-import { FaRegComment, FaRetweet, FaRegHeart } from "react-icons/fa";
-import { MdFavorite } from "react-icons/md";
-import { FiUpload } from "react-icons/fi";
-import { AuthContext } from "../context/auth.jsx";
 import { useMutation, gql } from "@apollo/client";
 import { Link } from "react-router-dom";
+//
+import { FaRegComment, FaRetweet, FaRegHeart } from "react-icons/fa";
+import { FiUpload } from "react-icons/fi";
+import { MdFavorite } from "react-icons/md";
+//
+import { SAvatar, SAvatarContainer } from "../Avatar";
+import { AuthContext } from "../../context/auth.jsx";
+import { TweeterUsername } from "../../Typography/index";
+import {
+  SLink,
+  Restcontainer,
+  Row,
+  ImageContainer,
+  STweetContainer,
+  TweetContent,
+  IconContainer,
+} from "./";
 //day.js
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
-
-export const SLink = styled(Link)`
-  width: inherit;
-  height: inherit;
-  display: flex;
-  flex-direction: ${({ col }) => (col ? "column" : "row")};
-`;
-export const SAvatar = styled(Avatar)`
-  width: ${({ small }) => (small ? "30px" : "45px")};
-  height: ${({ small }) => (small ? "30px" : "45px")};
-  @media (max-width: 500px) {
-    width: ${({ small }) => (small ? "20px" : "30px")};
-    height: ${({ small }) => (small ? "20px" : "30px")};
-  }
-`;
-export const Restcontainer = styled.div`
-  display: flex;
-  flex-direction: ${({ col }) => (col ? "column" : "row")};
-  align-items: center;
-  justify-content: center;
-`;
-export const Row = styled.div`
-  display: flex;
-  /* flex-direction: row; */
-  flex-direction: ${({ col }) => (col ? "column" : "row")};
-  align-items: center;
-  justify-content: left;
-  width: 90%;
-  margin-top: 10px;
-  /* margin: 10px 15px; */
-  @media (max-width: 500px) {
-    width: 85%;
-  }
-`;
-export const ImageContainer = styled.img`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 20px;
-  border: 1px solid grey;
-  width: 90%;
-  margin: 15px 0px 15px 0px;
-  @media (max-width: 500px) {
-    width: 85%;
-  }
-`;
-export const STweetContainer = styled(TweetContainer)`
-  width: 100%;
-  flex-direction: row;
-  padding: 25px;
-  padding-top: 0px;
-  cursor: pointer;
-  :hover {
-    background-color: #f5f5f5;
-  }
-`;
-export const SAvatarContainer = styled(AvatarContainer)`
-  flex-direction: column;
-  width: 5%;
-  height: 90%;
-  justify-content: flex-start;
-  padding: 4px;
-  margin: 4px;
-`;
-export const TweetContent = styled.p`
-  color: #000;
-  font-size: 20px;
-  flex-direction: row;
-  justify-content: flex-start;
-  padding: 0;
-  margin: 2px;
-  @media (max-width: 500px) {
-    font-size: 16px;
-  }
-`;
-export const IconContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-size: 20px;
-  border-radius: 50%;
-  align-items: center;
-  justify-content: center;
-  color: grey;
-  #blue {
-    :hover {
-      color: #1da1f2;
-      background-color: #1da1f273;
-      border-radius: 50%;
-    }
-  }
-  #green {
-    :hover {
-      color: green;
-      border-radius: 50%;
-      background-color: #43f16866;
-    }
-  }
-  #red {
-    :hover {
-      color: red;
-      border-radius: 50%;
-      background-color: #de1d1d73;
-    }
-  }
-`;
-export const TweeterUsername = styled.p`
-  color: ${({ small }) => (small ? "grey" : "black")};
-  font-weight: bolder;
-  font-size: ${({ small }) => (small ? "12px" : "18px")};
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  line-height: 30px;
-  padding: 0;
-  margin: 2px;
-`;
+//
 const LIKE_TWEET_MUTATION = gql`
   mutation likeTweet($tweetId: ID!) {
     likeTweet(tweetId: $tweetId) {

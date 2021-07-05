@@ -1,24 +1,17 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-
+//
 import { FaRegComment, FaRetweet, FaRegHeart } from "react-icons/fa";
 import { MdFavorite } from "react-icons/md";
 import { FiUpload } from "react-icons/fi";
-import { Avatar } from "../components/Avatar";
-import { TweetContainer } from "../container/TweetContainer";
-import {
-  TweetContent,
-  TweeterUsername,
-  IconContainer,
-  Row,
-} from "../components/Tweet";
-import ReplyTweet from "../components/ReplyTweet";
+//
+import { Avatar } from "../Avatar";
+import ReplyTweet from "./ReplyTweet";
+import { TweeterUsername } from "../../Typography";
+import { TweetContainer, Row, TweetContent, IconContainer, SRow } from "./";
+//
 
-export const SRow = styled(Row)`
-  justify-content: space-around;
-  margin: 15px;
-`;
 const StatContainer = styled.div`
   display: flex;
   flex-direction: column;

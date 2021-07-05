@@ -1,66 +1,35 @@
 import { useContext, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { useMutation, gql } from "@apollo/client";
+//
 import { FaRegComment, FaRetweet, FaRegHeart } from "react-icons/fa";
 import { MdFavorite } from "react-icons/md";
 import { FiUpload } from "react-icons/fi";
-import { AuthContext } from "../context/auth.jsx";
-import { useMutation, gql } from "@apollo/client";
-import styled from "styled-components";
-import { TweetContainer } from "../container/TweetContainer";
-import { Link } from "react-router-dom";
+//
+import { AuthContext } from "../../context/auth.jsx";
+//
+import { TweeterUsername } from "../../Typography/index.jsx";
 import {
-  // TweeterUsername,
-  IconContainer,
-  SAvatar,
+  TweetContainer,
+  SLink,
   Restcontainer,
   Row,
   ImageContainer,
   STweetContainer,
-  SAvatarContainer,
   TweetContent,
-} from "./Tweet";
-import { SLink } from "./Tweet";
+  IconContainer,
+  RetweetedHeading,
+  Above,
+  RetweetedHeadingContainer,
+  RetweetIconContainer,
+} from "./";
 //day.js
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { SAvatar, SAvatarContainer } from "../Avatar.jsx";
 dayjs.extend(relativeTime);
 //
-
-const TweeterUsername = styled.p`
-  color: ${({ small }) => (small ? "grey" : "black")};
-  font-weight: bolder;
-  font-size: ${({ small }) => (small ? "10px" : "18px")};
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  line-height: 30px;
-  padding: 0;
-  margin: 2px;
-`;
-export const RetweetedHeading = styled(TweeterUsername)`
-  color: grey;
-  font-size: 17px;
-`;
-export const Above = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-`;
-export const RetweetedHeadingContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 95%;
-  justify-content: flex-start;
-`;
-export const RetweetIconContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  width: 5%;
-`;
 const Container = styled.div`
   display: flex;
   flex-direction: row;

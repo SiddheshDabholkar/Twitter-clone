@@ -1,18 +1,19 @@
-import Signup from "./Signup";
 import { useState, useContext } from "react";
-import { MainContainer } from "../container/MainContainer";
-import { ButtonContainer } from "../container/ButtonContainer";
-import { StyledButton } from "../components/AuthButton";
-import { SmallHeader, SmallParagraph } from "../Typography";
-import { CardContainer } from "../container/CardContainer";
-import { StyledInput } from "../components/Input";
-import { Link, useLocation, useHistory } from "react-router-dom";
-import { LogoContainer } from "../container/LogoContainer";
-import { Logo } from "../components/Logo";
 import { gql, useMutation } from "@apollo/client";
-import { useForm } from "../hooks/useForm";
-import { AuthContext } from "../context/auth";
-
+import { Link, useLocation, useHistory } from "react-router-dom";
+//
+import { useForm } from "../../hooks/useForm";
+//
+import { MainContainer } from "../../container/MainContainer";
+import { CardContainer } from "../../container/CardContainer";
+import { ButtonContainer } from "../../components/Buttons/ButtonContainer";
+import { StyledButton } from "../../components/Buttons/AuthButton";
+import { SmallHeader, SmallParagraph } from "../../Typography";
+import { StyledInput } from "../../components/Input";
+import { Logo, LogoContainer } from "../../components/Logo";
+import { AuthContext } from "../../context/auth";
+import Signup from "./Signup";
+//
 const LOGIN_USER = gql`
   mutation login($input: String!, $password: String!) {
     login(input: $input, password: $password) {

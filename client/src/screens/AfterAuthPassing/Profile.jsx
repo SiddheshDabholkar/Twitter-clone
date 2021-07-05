@@ -1,21 +1,19 @@
 import { useContext } from "react";
-import {
-  TweeterUsername,
-  IconContainer,
-  TweetContent,
-} from "../components/Tweet";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { Avatar } from "../components/Avatar";
-import { ButtonContainer } from "../container/ButtonContainer";
-import { StyledButton } from "../components/AuthButton";
+import { AuthContext } from "../../context/auth";
+//
 import { BsCalendar } from "react-icons/bs";
 import { HiOutlineLocationMarker } from "react-icons/hi";
-import ProfileTab from "../screens/Profile/ProfileTabs";
-import { useParams } from "react-router-dom";
-import { AuthContext } from "../context/auth";
-import { NavbarContainer } from "./common/Navbar";
-import GoBack from "../components/GoBackButton";
-import { useQuery, gql } from "@apollo/client";
+//
+import { IconContainer, TweetContent } from "../../components/Tweet/index";
+import { Avatar } from "../../components/Avatar";
+import { ButtonContainer } from "../../components/Buttons/ButtonContainer";
+import { StyledButton } from "../../components/Buttons/AuthButton";
+import { NavbarContainer } from "../Mobile/Navbar";
+import { TweeterUsername } from "../../Typography";
+import ProfileTab from "../../screens/AfterAuthPassing/Profile/ProfileTabs";
+import GoBack from "../../components/Buttons/GoBackButton";
 
 const Parent = styled.div`
   display: flex;

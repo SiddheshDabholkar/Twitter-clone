@@ -2,7 +2,7 @@ import { useContext } from "react";
 import styled from "styled-components";
 import { AuthContext } from "../../context/auth";
 import { useHistory } from "react-router-dom";
-import { SAvatarContainer, SAvatar } from "../Tweet";
+import { SAvatarContainer, SAvatar } from "../Avatar";
 
 const LogOutModalContainer = styled.div`
   display: flex;

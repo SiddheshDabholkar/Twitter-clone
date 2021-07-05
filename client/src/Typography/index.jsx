@@ -20,3 +20,14 @@ export const SmallParagraph = styled.p`
     color: #000;
   }
 `;
+export const TweeterUsername = styled.p`
+  color: ${({ small }) => (small ? "grey" : "black")};
+  font-weight: bolder;
+  font-size: ${({ small }) => (small ? "12px" : "18px")};
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  line-height: 30px;
+  padding: 0;
+  margin: 2px;
+`;

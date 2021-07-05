@@ -1,15 +1,20 @@
 import React, { useState } from "react";
-import { StyledInput } from "../components/Input";
-import { SmallHeader, SmallParagraph } from "../Typography";
-import { LogoContainer } from "../container/LogoContainer";
-import { Logo } from "../components/Logo";
-import { MainContainer } from "../container/MainContainer";
-import { StyledButton } from "../components/AuthButton";
-import { ButtonContainer } from "../container/ButtonContainer";
-import { Bg, ModalContainer, ModalContent } from "../container/ModalUtils";
-import { CardContainer } from "../container/CardContainer";
-import Confirmotp from "./Confirmotp";
 import { Link, useLocation, useHistory } from "react-router-dom";
+//
+import { StyledInput } from "../../components/Input";
+import { SmallHeader, SmallParagraph } from "../../Typography";
+import { Logo, LogoContainer } from "../../components/Logo";
+import { StyledButton } from "../../components/Buttons/AuthButton";
+import { ButtonContainer } from "../../components/Buttons/ButtonContainer";
+import {
+  Bg,
+  ModalContainer,
+  ModalContent,
+} from "../../components/Modals/ModalUtils";
+//
+import { MainContainer } from "../../container/MainContainer";
+import { CardContainer } from "../../container/CardContainer";
+import Confirmotp from "./Confirmotp";
 
 export default function Signin({ onClose, show }) {
   const [useFirst, setUseFirst] = useState(true);

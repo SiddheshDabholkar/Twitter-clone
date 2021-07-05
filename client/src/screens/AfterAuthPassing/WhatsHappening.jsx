@@ -1,14 +1,14 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { AvatarContainer } from "../../container/AvatarContainer";
-import { Avatar } from "../../components/Avatar";
-import { ButtonContainer } from "../../container/ButtonContainer";
-import { StyledButton } from "../../components/AuthButton";
+import { useLocation } from "react-router-dom";
+//
+import { Avatar, AvatarContainer } from "../../components/Avatar";
+import { ButtonContainer } from "../../components/Buttons/ButtonContainer";
+import { StyledButton } from "../../components/Buttons/AuthButton";
 import { RestContainer } from "../../container/RestContainer";
 import SearchModal from "../../components/Modals/SearchModal";
 import { StyledSearchInput } from "../../components/Search";
-import Search from "../../components/Search";
-import { useLocation } from "react-router-dom";
+// import Search from "../../components/Search";
 
 const WhatsHappeningContainer = styled.div`
   display: flex;

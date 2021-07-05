@@ -1,28 +1,34 @@
-import WelcomePage from "./screens/Welcome";
-import Login from "./screens/Login";
-import Signup from "./screens/Signup";
-import Confirmotp from "./screens/Confirmotp";
-import Profile from "./screens/Profile";
-import Home from "./screens/Home";
 import {
   Route,
   useLocation,
   BrowserRouter as Router,
   Switch,
 } from "react-router-dom";
-import { AuthProvider } from "./context/auth";
+//
+import WelcomePage from "./screens/BeforeAuthPassing/Welcome";
+import Login from "./screens/BeforeAuthPassing/Login";
+import Signup from "./screens/BeforeAuthPassing/Signup";
+import Confirmotp from "./screens/BeforeAuthPassing/Confirmotp";
+import Profile from "./screens/AfterAuthPassing/Profile";
+import Home from "./screens/AfterAuthPassing/Home";
+//
+import SideBar from "./screens/Mobile/SideBar";
+import Navbar from "./screens/Mobile/Navbar";
+import Footer from "./screens/Mobile/Footer";
+//
 import { HomeContainer } from "./container/HomeContainer";
-import SideBar from "./screens/common/SideBar";
-import WhatsHappening from "./screens/common/WhatsHappening";
 import { MiddleContainer } from "./container/MiddleContainer";
 import { RestContainer } from "./container/RestContainer";
-import Navbar from "./screens/common/Navbar";
-import Footer from "./screens/common/Footer";
-import FeaturesNotReady from "./screens/FeatureNotReady";
-import FloatingButton from "./components/FloatingButton";
-import MakeTweet from "./components/MakeTweet";
-import SingleTweet from "./screens/SingleTweet";
-
+//
+import WhatsHappening from "./screens/AfterAuthPassing/WhatsHappening";
+import FeaturesNotReady from "./screens/AfterAuthPassing/FeatureNotReady";
+import MakeTweet from "./components/Tweet/MakeTweet";
+import SingleTweet from "./components/Tweet/SingleTweet";
+//
+import { AuthProvider } from "./context/auth";
+//
+import FloatingButton from "./components/Buttons/FloatingButton";
+//
 const Routing = () => {
   let location = useLocation();
   const background = location.state && location.state.background;

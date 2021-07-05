@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import { useLocation } from "react-router-dom";
-import { SAvatar, SAvatarContainer } from "../../components/Tweet";
-import { StyledSearchInput } from "../../components/Search";
-import { ButtonContainer } from "../../components/MakeTweet";
-import { StyledButton } from "../../components/AuthButton";
 import useWindowSize from "../../hooks/useWindow";
-import GoBackButton from "../../components/GoBackButton";
+import { useLocation } from "react-router-dom";
+//
+import { StyledSearchInput } from "../../components/Search";
+import { StyledButton } from "../../components/Buttons/AuthButton";
+import { SAvatar, SAvatarContainer } from "../../components/Avatar";
+import { ButtonContainer } from "../../components/Buttons/ButtonContainer";
+import GoBackButton from "../../components/Buttons/GoBackButton";
 
 export const NavbarContainer = styled.div`
   display: flex;

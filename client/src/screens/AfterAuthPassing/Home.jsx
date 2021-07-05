@@ -1,9 +1,11 @@
 import React from "react";
-import MakeTweet from "../components/MakeTweet";
-import Tweet from "../components/Tweet";
-import ReTweet from "../components/ReTweet";
 import { useQuery, gql } from "@apollo/client";
-import useWindowSize from "../hooks/useWindow";
+//
+import useWindowSize from "../../hooks/useWindow";
+//
+import MakeTweet from "../../components/Tweet/MakeTweet";
+import Tweet from "../../components/Tweet/Tweet";
+import ReTweet from "../../components/Tweet/ReTweet";
 
 const FETCH_TWEET = gql`
   {
