@@ -8,17 +8,14 @@ export const CStyledButton = styled.button`
   width: auto;
   height: 40px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: ${({ small }) => (small ? "14px" : "20px")};
   font-weight: bold;
   color: ${({ txtColor }) => txtColor};
   background-color: ${({ bgColor }) => bgColor};
   border-color: ${({ borderColor }) => borderColor};
-  padding: 22px;
+  padding: ${({ small }) => (small ? "10px" : "22px")};
   width: ${({ input }) => (input ? "100%" : "45%")};
   margin: 15px;
-  /* &:hover {
-    background-color: ${({ hbgColor }) => hbgColor};
-  } */
   a {
     color: ${({ txtColor }) => txtColor};
     text-decoration: none;

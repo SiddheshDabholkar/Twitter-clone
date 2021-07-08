@@ -4,7 +4,8 @@ import { TweeterUsername } from "../../Typography/index";
 
 export const TweetContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  margin: ${({ margin }) => margin};
+  flex-direction: ${({ row }) => (row ? "row" : "column")};
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -73,13 +74,6 @@ export const TweetContent = styled.p`
     font-size: 16px;
   }
 `;
-// export const IconContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   margin: 6px;
-// `;
 
 export const IconContainer = styled.div`
   display: flex;

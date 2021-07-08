@@ -3,7 +3,7 @@ import useWindowSize from "../../hooks/useWindow";
 import { useLocation } from "react-router-dom";
 //
 import { StyledSearchInput } from "../../components/Search";
-import { StyledButton } from "../../components/Buttons/AuthButton";
+import { CStyledButton } from "../../components/Buttons/CircleButton";
 import { SAvatar, SAvatarContainer } from "../../components/Avatar";
 import { ButtonContainer } from "../../components/Buttons/ButtonContainer";
 import GoBackButton from "../../components/Buttons/GoBackButton";
@@ -69,14 +69,14 @@ export default function HomeNavbar() {
       return (
         <>
           <ButtonContainer>
-            <StyledButton
+            <CStyledButton
               small
               txtColor="#fff"
               bgColor="#1da1f2"
               borderColor="transparent"
             >
               tweet
-            </StyledButton>
+            </CStyledButton>
           </ButtonContainer>
         </>
       );
