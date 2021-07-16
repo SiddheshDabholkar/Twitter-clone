@@ -33,8 +33,6 @@ module.exports = {
     //*-----------------------------------//
     async createTweet(_, { body }, context) {
       const user = checkAuth(context);
-      // console.log("craete tweet user-->", user);
-
       if (body.trim() === "") {
         throw new Error("Post body cannot be empty");
       }
@@ -44,7 +42,6 @@ module.exports = {
         username: user.username,
       });
       const tweet = await newTweet.save();
-      // console.log("tweet ---->", tweet);
       return tweet;
     },
 

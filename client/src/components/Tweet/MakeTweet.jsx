@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { gql, useMutation } from "@apollo/client";
 //
 import { MdPermMedia } from "react-icons/md";
 import { AiOutlineFileGif } from "react-icons/ai";
@@ -32,10 +33,21 @@ const SIconContainer = styled(IconContainer)`
   margin: 10px;
 `;
 
+const MAKE_TWEET = gql`
+  mutation createTweet($body: String!) {
+    createTweet(body: $body) {
+      id
+      body
+    }
+  }
+`;
+
 export default function MakeTweet() {
   const { pathname } = useLocation();
   const newPathname = pathname.substring(1);
   const [tweetBody, setTweetBody] = useState("");
+
+  const [makeTweet] = useMutation(MAKE_TWEET);
 
   const ButtonDecider = () => {
     if (newPathname.startsWith("composetweet")) {
@@ -49,6 +61,7 @@ export default function MakeTweet() {
               txtColor="#fff"
               bgColor="#1da1f2"
               borderColor="transparent"
+              onClick={() => makeTweet({ variables: { body: tweetBody } })}
             >
               tweet
             </CStyledButton>
@@ -71,7 +84,12 @@ export default function MakeTweet() {
             padding: "10px",
           }}
         >
-          <TweetInput placeholder="Whats Happening ?" cols="40" rows="5" />
+          <TweetInput
+            placeholder="Whats Happening ?"
+            cols="40"
+            rows="5"
+            onChange={(e) => setTweetBody(e.target.value)}
+          />
           <UtilContainer>
             <Div width="70%">
               <UploadcontentContainer>
