@@ -16,7 +16,7 @@ import {
   PostSection,
   UtilContainer,
   UploadcontentContainer,
-} from "./";
+} from ".";
 //
 const RestCon = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ const RestCon = styled.div`
   width: 90%;
 `;
 
-export default function ReplyTweet() {
+export default function ReplyTweetButtons() {
   return (
     <>
       <TweetContainer style={{ flexDirection: "row" }}>

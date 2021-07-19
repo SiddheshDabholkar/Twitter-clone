@@ -7,7 +7,8 @@ import { MdFavorite } from "react-icons/md";
 import { FiUpload } from "react-icons/fi";
 //
 import { Avatar } from "../Avatar";
-import ReplyTweet from "./ReplyTweet";
+import ReplyTweetButtons from "./ReplyTweetButtons";
+import Reply from "./Reply";
 import { TweeterUsername } from "../../Typography";
 import { TweetContainer, Row, TweetContent, IconContainer, SRow } from "./";
 //
@@ -82,7 +83,8 @@ export default function SingleTweet() {
           </IconContainer>
         </SRow>
       </TweetContainer>
-      <ReplyTweet />
+      <ReplyTweetButtons />
+      <Reply />
     </>
   );
 }

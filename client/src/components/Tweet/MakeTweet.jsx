@@ -33,6 +33,12 @@ const SIconContainer = styled(IconContainer)`
   margin: 10px;
 `;
 
+// TODO:
+// After mutation , We have to refresh
+// the page to see the new Tweet
+// checkout the ben  awads youtube video
+// how to update cache after mutation
+
 const MAKE_TWEET = gql`
   mutation createTweet($body: String!) {
     createTweet(body: $body) {
