@@ -1,12 +1,15 @@
 const { AuthenticationError, UserInputError } = require("apollo-server-errors");
 const Tweet = require("../../model/Tweet");
+const ReTweet = require("../../model/reTweet");
 const checkAuth = require("../../utils/checkAuth");
 
 module.exports = {
   Query: {
     async getReplies(_, { tweetId }) {
       try {
-        const replies = await Tweet.findById(tweetId).populate("replies");
+        const replies =
+          (await Tweet.findById(tweetId).populate("replies")) ||
+          (await ReTweet.findById(tweetId).populate("replies"));
         if (replies) {
           return replies;
         } else {
