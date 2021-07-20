@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-
+//
+import { useAgo } from "../../hooks/useAgo";
 import {
   TweetContainer,
   Restcontainer,
@@ -56,7 +57,7 @@ export default function Reply({
           <Row col>
             <StyledAbove>
               <TweeterUsername>{username}</TweeterUsername>
-              <TweeterUsername small> . {createdAt}</TweeterUsername>
+              <TweeterUsername small> . {useAgo(createdAt)}</TweeterUsername>
             </StyledAbove>
             <StyledAbove>
               <TweeterUsername small>
