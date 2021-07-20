@@ -21,7 +21,9 @@ const StyledAbove = styled(Above)`
   margin: 0;
 `;
 
-export default function Reply() {
+export default function Reply({
+  reply: { id, body, username, createdAt, updatedAt },
+}) {
   const [liked, setLiked] = useState(false);
 
   //   useEffect(() => {
@@ -44,7 +46,7 @@ export default function Reply() {
 
   return (
     <>
-      <TweetContainer>
+      <TweetContainer key={id}>
         <Above>
           <Restcontainer col style={{ width: "10%" }}>
             <SAvatarContainer>
@@ -53,8 +55,8 @@ export default function Reply() {
           </Restcontainer>
           <Row col>
             <StyledAbove>
-              <TweeterUsername> just </TweeterUsername>
-              <TweeterUsername small> . time</TweeterUsername>
+              <TweeterUsername>{username}</TweeterUsername>
+              <TweeterUsername small> . {createdAt}</TweeterUsername>
             </StyledAbove>
             <StyledAbove>
               <TweeterUsername small>
@@ -62,7 +64,7 @@ export default function Reply() {
               </TweeterUsername>
             </StyledAbove>
             <StyledAbove>
-              <TweetContent>lmaoooooo</TweetContent>
+              <TweetContent>{body}</TweetContent>
             </StyledAbove>
           </Row>
         </Above>

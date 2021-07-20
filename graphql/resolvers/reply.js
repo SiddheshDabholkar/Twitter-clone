@@ -11,6 +11,7 @@ module.exports = {
           (await Tweet.findById(tweetId).populate("replies")) ||
           (await ReTweet.findById(tweetId).populate("replies"));
         if (replies) {
+          // console.log(replies);
           return replies;
         } else {
           throw new Error("Replies not found");

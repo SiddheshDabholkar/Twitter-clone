@@ -63,7 +63,7 @@ module.exports = gql`
     getReTweets: [reTweet]
     getProfileTweets(profileId: ID!): [Tweet]
     getProfileReTweets(profileId: ID!): [reTweet]
-    getReplies(tweetId: ID!): [replies!]!
+    getReplies(tweetId: ID!): Tweet
   }
 
   type Mutation {

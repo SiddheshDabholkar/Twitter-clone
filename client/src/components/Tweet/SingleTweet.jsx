@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { useQuery, gql } from "@apollo/client";
 //
 import { FaRegComment, FaRetweet, FaRegHeart } from "react-icons/fa";
 import { MdFavorite } from "react-icons/md";
@@ -12,7 +13,23 @@ import Reply from "./Reply";
 import { TweeterUsername } from "../../Typography";
 import { TweetContainer, Row, TweetContent, IconContainer, SRow } from "./";
 //
-
+const FETCH_REPLIES = gql`
+  query ($tweetId: ID!) {
+    getReplies(tweetId: $tweetId) {
+      id
+      body
+      username
+      replies {
+        id
+        body
+        username
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+//
 const StatContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -27,11 +44,36 @@ const Scount = styled.span`
 export default function SingleTweet() {
   let { tweetId } = useParams();
   const [liked, setLiked] = useState(false);
+
+  const { data: tweetReplies, loading: myTweetRepliesLoading } = useQuery(
+    FETCH_REPLIES,
+    {
+      variables: {
+        tweetId,
+      },
+    }
+  );
+
   const likeIcon = () => {
     if (liked) {
       return <MdFavorite id="red" style={{ color: "red" }} />;
     } else {
       return <FaRegHeart id="red" />;
+    }
+  };
+
+  const Replies = () => {
+    if (myTweetRepliesLoading) {
+      return <h1>loading.....</h1>;
+    } else {
+      const replies = tweetReplies && tweetReplies.getReplies.replies;
+      return (
+        <>
+          {replies.map((reply) => (
+            <Reply reply={reply} />
+          ))}
+        </>
+      );
     }
   };
 
@@ -84,7 +126,7 @@ export default function SingleTweet() {
         </SRow>
       </TweetContainer>
       <ReplyTweetButtons />
-      <Reply />
+      <Replies />
     </>
   );
 }
