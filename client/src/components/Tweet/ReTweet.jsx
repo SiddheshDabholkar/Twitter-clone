@@ -55,7 +55,6 @@ const LIKE_RETWEET_MUTATION = gql`
     }
   }
 `;
-
 export default function ReTweet({
   retweet: {
     id,
