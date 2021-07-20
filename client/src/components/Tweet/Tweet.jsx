@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { useMutation, gql } from "@apollo/client";
 import { Link } from "react-router-dom";
+import { useAgo } from "../../hooks/useAgo";
 //
 import { FaRegComment, FaRetweet, FaRegHeart } from "react-icons/fa";
 import { FiUpload } from "react-icons/fi";
@@ -18,10 +19,6 @@ import {
   TweetContent,
   IconContainer,
 } from "./";
-//day.js
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-dayjs.extend(relativeTime);
 //
 const LIKE_TWEET_MUTATION = gql`
   mutation likeTweet($tweetId: ID!) {
@@ -96,7 +93,7 @@ export default function Tweet({
               <TweeterUsername>{username}</TweeterUsername>
               <TweeterUsername small>
                 {" . "}
-                {dayjs(createdAt).fromNow(true)}
+                {useAgo(createdAt)}
               </TweeterUsername>
             </Row>
             <Row>
