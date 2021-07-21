@@ -6,6 +6,7 @@ import { useAgo } from "../../hooks/useAgo";
 import { FaRegComment, FaRetweet, FaRegHeart } from "react-icons/fa";
 import { FiUpload } from "react-icons/fi";
 import { MdFavorite } from "react-icons/md";
+import { BsThreeDots } from "react-icons/bs";
 //
 import { SAvatar, SAvatarContainer } from "../Avatar";
 import { AuthContext } from "../../context/auth.jsx";
@@ -90,11 +91,16 @@ export default function Tweet({
         >
           <SLink to={`/tweet/${id}`} col>
             <Row>
-              <TweeterUsername>{username}</TweeterUsername>
-              <TweeterUsername small>
-                {" . "}
-                {useAgo(createdAt)}
-              </TweeterUsername>
+              <Row>
+                <TweeterUsername>{username}</TweeterUsername>
+                <TweeterUsername small>
+                  {" . "}
+                  {useAgo(createdAt)}
+                </TweeterUsername>
+              </Row>
+              <IconContainer onClick={(e) => e.preventDefault()}>
+                <BsThreeDots />
+              </IconContainer>
             </Row>
             <Row>
               <TweetContent>{body}</TweetContent>
