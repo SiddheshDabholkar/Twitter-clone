@@ -125,7 +125,7 @@ export default function SingleTweet() {
           </IconContainer>
         </SRow>
       </TweetContainer>
-      <ReplyTweetButtons />
+      <ReplyTweetButtons tweetId={tweetId} />
       <Replies />
     </>
   );

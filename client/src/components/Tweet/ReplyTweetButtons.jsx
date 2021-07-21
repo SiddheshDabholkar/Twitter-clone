@@ -1,5 +1,6 @@
-import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
+import { gql, useMutation } from "@apollo/client";
 //
 import { MdPermMedia } from "react-icons/md";
 import { AiOutlineFileGif } from "react-icons/ai";
@@ -25,7 +26,24 @@ const RestCon = styled.div`
   width: 90%;
 `;
 
-export default function ReplyTweetButtons() {
+const MAKE_REPLY = gql`
+  mutation createReply($body: String!, $tweetId: String!) {
+    createReply(body: $body, tweetId: $tweetId) {
+      id
+      username
+      replies {
+        id
+        body
+        username
+      }
+    }
+  }
+`;
+
+export default function ReplyTweetButtons({ tweetId }) {
+  const [reply, setReply] = useState("");
+  const [makeReply] = useMutation(MAKE_REPLY);
+
   return (
     <>
       <TweetContainer style={{ flexDirection: "row" }}>
@@ -45,7 +63,12 @@ export default function ReplyTweetButtons() {
           </Row>
 
           <PostSection>
-            <TweetInput placeholder="Tweet Reply ?" cols="40" rows="5" />
+            <TweetInput
+              placeholder="Tweet Reply ?"
+              cols="40"
+              rows="5"
+              onChange={(e) => setReply(e.target.value)}
+            />
             <UtilContainer>
               <UploadcontentContainer>
                 <IconContainer>
@@ -63,6 +86,9 @@ export default function ReplyTweetButtons() {
                   txtColor="#fff"
                   bgColor="#1da1f2"
                   borderColor="transparent"
+                  onClick={() =>
+                    makeReply({ variables: { body: reply, tweetId: tweetId } })
+                  }
                 >
                   Reply
                 </StyledButton>
