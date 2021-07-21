@@ -134,8 +134,8 @@ module.exports = {
             username: user.username,
             phone: user.phone,
           },
-          SECRET_KEY,
-          { expiresIn: "1h" }
+          SECRET_KEY
+          // { expiresIn: "1h" }
         );
         // console.log(token);
 
