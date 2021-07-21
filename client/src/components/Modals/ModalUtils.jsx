@@ -6,7 +6,9 @@ export const Bg = styled.div`
   justify-content: center;
   align-items: center;
   position: fixed;
-  background-color: #b5b5b591;
+  /* background-color: #b5b5b591; */
+  background-color: ${({ transparent }) =>
+    transparent ? transparent : "#b5b5b591"};
   left: 0;
   top: 0;
   bottom: 0;
@@ -25,6 +27,7 @@ export const ModalContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: fixed;
+  width: ${({ width }) => width};
   left: 0;
   top: 0;
   bottom: 0;

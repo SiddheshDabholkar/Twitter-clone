@@ -6,6 +6,8 @@ import useWindowSize from "../../hooks/useWindow";
 import MakeTweet from "../../components/Tweet/MakeTweet";
 import Tweet from "../../components/Tweet/Tweet";
 import ReTweet from "../../components/Tweet/ReTweet";
+import useModal from "../../hooks/useModal";
+import TweetUtils from "../../components/Modals/TweetUtils";
 
 const FETCH_TWEET = gql`
   {
@@ -66,6 +68,7 @@ const FETCH_RETWEET = gql`
 
 export default function Home() {
   const { width } = useWindowSize();
+  const [Modal, show, toggle] = useModal(TweetUtils);
   const {
     loading: fetchTweetLoading,
     data: fetchTweetData,
@@ -85,7 +88,7 @@ export default function Home() {
       return (
         <>
           {tweets.map((tweet) => (
-            <Tweet tweet={tweet} />
+            <Tweet tweet={tweet} toggle={toggle} />
           ))}
         </>
       );
