@@ -17,7 +17,11 @@ export const SLink = styled(Link)`
   width: inherit;
   height: inherit;
   display: flex;
+  cursor: pointer;
   flex-direction: ${({ col }) => (col ? "column" : "row")};
+  :hover {
+    background-color: #f5f5f5;
+  }
 `;
 
 export const Restcontainer = styled.div`
@@ -117,6 +121,9 @@ export const Above = styled.div`
   align-items: center;
   justify-content: flex-start;
   width: 100%;
+  :hover {
+    background-color: #f5f5f5;
+  }
 `;
 export const RetweetedHeadingContainer = styled.div`
   display: flex;
