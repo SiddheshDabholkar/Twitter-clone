@@ -20,6 +20,8 @@ import {
   TweetContent,
   IconContainer,
 } from "./";
+import MoreList from "../Modals/MoreList";
+import useModal from "../../hooks/useModal";
 //
 const LIKE_TWEET_MUTATION = gql`
   mutation likeTweet($tweetId: ID!) {
@@ -51,6 +53,7 @@ export default function Tweet({
 }) {
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
+  const [Modal, show, toggle] = useModal(MoreList);
 
   useEffect(() => {
     if (user && likes.find((like) => like.username === user.username)) {
@@ -69,7 +72,6 @@ export default function Tweet({
       return <FaRegHeart id="red" />;
     }
   };
-
   return (
     <>
       <SLink to={`/tweet/${id}`} col>
@@ -94,9 +96,11 @@ export default function Tweet({
                 </TweeterUsername>
               </Row>
               <IconContainer onClick={(e) => e.preventDefault()}>
-                <BsThreeDots />
+                <BsThreeDots onClick={toggle} />
               </IconContainer>
             </Row>
+            {show && <MoreList onClick={(e) => e.preventDefault()} />}
+
             <Row>
               <TweetContent>{body}</TweetContent>
             </Row>
