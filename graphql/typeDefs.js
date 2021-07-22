@@ -12,7 +12,6 @@ module.exports = gql`
     createdAt: Date
     updatedAt: Date
     tweet: Tweet
-    ReTweet: reTweet
   }
   type Tweet {
     id: ID!
@@ -23,21 +22,13 @@ module.exports = gql`
     likes: [Like]
     user: User!
     replies: [replies]
-  }
-  type reTweet {
-    id: ID!
-    body: String
-    username: String
-    createdAt: Date
-    updatedAt: Date
-    likes: [Like]
     tweet: Tweet
-    user: User!
   }
   type replies {
     id: ID!
     body: String
     username: String
+    user: User!
     createdAt: Date
     updatedAt: Date
   }
@@ -53,6 +44,7 @@ module.exports = gql`
     id: ID
     createdAt: String
     username: String
+    user: User!
   }
 
   type Query {
@@ -60,9 +52,7 @@ module.exports = gql`
     getUsers: [User]
     getUser(userId: ID!): User!
     getTweet(tweetId: ID!): Tweet!
-    getReTweets: [reTweet]
-    getProfileTweets(profileId: ID!): [Tweet]
-    getProfileReTweets(profileId: ID!): [reTweet]
+    getUserTweets(profileId: ID!): [Tweet]
     getReplies(tweetId: ID!): Tweet
   }
 
@@ -74,7 +64,6 @@ module.exports = gql`
     createReply(tweetId: String!, body: String!): Tweet!
     deleteReply(tweetId: ID!, replyId: ID!): Tweet!
     likeTweet(tweetId: ID!): Tweet!
-    likeReTweet(reTweetId: ID!): reTweet!
-    reTweets(tweetId: ID!, body: String): reTweet!
+    reTweet(tweetId: ID!, body: String): Tweet!
   }
 `;

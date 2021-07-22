@@ -8,8 +8,8 @@ module.exports = {
       try {
         const tweets = await Tweet.find()
           .sort({ createdAt: -1 })
-          .populate("user");
-
+          .populate("user")
+          .populate("tweet");
         return tweets;
       } catch (e) {
         throw new Error(e);
@@ -24,6 +24,21 @@ module.exports = {
         } else {
           throw new Error("Tweet not found");
         }
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+
+    async getUserTweets(_, { userId }) {
+      try {
+        const tweeets = await Tweet.find().populate("user");
+        const mtweets = tweeets.map((tweet) => {
+          if (tweet.user.id === userId) {
+            return tweet;
+          }
+        });
+        const myprofileTweets = mtweets.filter((notnull) => notnull != null);
+        return myprofileTweets;
       } catch (error) {
         throw new Error(error);
       }
@@ -44,7 +59,21 @@ module.exports = {
       const tweet = await newTweet.save();
       return tweet;
     },
+    //*-----------------------------------//
 
+    async reTweet(_, { tweetId, body }, context) {
+      const user = checkAuth(context);
+      const tweet = await Tweet.findById(tweetId).populate("tweet").exec();
+      const newReTweet = new ReTweet({
+        body,
+        user: user.id,
+        tweet,
+        username: user.username,
+      });
+      const reTweet = await newReTweet.save();
+      // console.log(reTweet);
+      return reTweet;
+    },
     //*-----------------------------------//
     async deleteTweet(_, { tweetId }, context) {
       const user = checkAuth(context);

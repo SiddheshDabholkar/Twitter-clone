@@ -11,6 +11,8 @@ const tweetSchema = new Schema(
           {
             body: String,
             username: String,
+            // type: ObjectId,
+            // ref: "User",
           },
           { timestamps: true }
         ),
@@ -19,12 +21,18 @@ const tweetSchema = new Schema(
     likes: [
       {
         username: String,
+        type: ObjectId,
+        ref: "User",
       },
       { timestamps: true },
     ],
     user: {
       type: ObjectId,
       ref: "User",
+    },
+    tweet: {
+      type: ObjectId,
+      ref: "Tweet",
     },
   },
   { timestamps: true }
