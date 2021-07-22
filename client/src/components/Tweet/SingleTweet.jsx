@@ -6,12 +6,15 @@ import { useQuery, gql } from "@apollo/client";
 import { FaRegComment, FaRetweet, FaRegHeart } from "react-icons/fa";
 import { MdFavorite } from "react-icons/md";
 import { FiUpload } from "react-icons/fi";
+import { BsThreeDots } from "react-icons/bs";
 //
 import { Avatar } from "../Avatar";
 import ReplyTweetButtons from "./ReplyTweetButtons";
 import Reply from "./Reply";
 import { TweeterUsername } from "../../Typography";
 import { TweetContainer, Row, TweetContent, IconContainer, SRow } from "./";
+import useModal from "../../hooks/useModal";
+import MoreList from "../Modals/MoreList";
 //
 const FETCH_REPLIES = gql`
   query ($tweetId: ID!) {
@@ -40,10 +43,10 @@ const StatContainer = styled.div`
 const Scount = styled.span`
   color: black;
 `;
-
 export default function SingleTweet() {
   let { tweetId } = useParams();
   const [liked, setLiked] = useState(false);
+  const [Modal, show, toggle] = useModal(MoreList);
 
   const { data: tweetReplies, loading: myTweetRepliesLoading } = useQuery(
     FETCH_REPLIES,
@@ -81,13 +84,21 @@ export default function SingleTweet() {
     <>
       <TweetContainer style={{ marginTop: "10px" }}>
         <Row>
-          <Avatar />
-          <Row col>
-            <TweeterUsername style={{ width: "95%" }}>lmao</TweeterUsername>
-            <TweeterUsername small style={{ width: "95%" }}>
-              lmao
-            </TweeterUsername>
+          <Row>
+            <Avatar />
+            <Row col>
+              <TweeterUsername style={{ width: "95%" }}>lmao</TweeterUsername>
+              <TweeterUsername small style={{ width: "95%" }}>
+                lmao
+              </TweeterUsername>
+            </Row>
           </Row>
+          <IconContainer onClick={(e) => e.preventDefault()}>
+            <BsThreeDots onClick={toggle} />
+          </IconContainer>
+        </Row>
+        <Row onClick={(e) => e.preventDefault()}>
+          {show && <Modal onClick={(e) => e.preventDefault()} />}
         </Row>
         <Row>
           <TweetContent>laksjhwdg asichb aishcn p9aiscn oaihscn </TweetContent>

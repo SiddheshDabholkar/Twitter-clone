@@ -99,7 +99,9 @@ export default function Tweet({
                 <BsThreeDots onClick={toggle} />
               </IconContainer>
             </Row>
-            {show && <MoreList onClick={(e) => e.preventDefault()} />}
+            <Row onClick={(e) => e.preventDefault()}>
+              {show && <Modal onClick={(e) => e.preventDefault()} />}
+            </Row>
 
             <Row>
               <TweetContent>{body}</TweetContent>
