@@ -95,9 +95,11 @@ export default function Tweet({
                   {useAgo(createdAt)}
                 </TweeterUsername>
               </Row>
-              <IconContainer onClick={(e) => e.preventDefault()}>
-                <BsThreeDots onClick={toggle} />
-              </IconContainer>
+              {user.id === userid && (
+                <IconContainer onClick={(e) => e.preventDefault()}>
+                  <BsThreeDots onClick={toggle} />
+                </IconContainer>
+              )}
             </Row>
             <Row onClick={(e) => e.preventDefault()}>
               {show && <Modal onClick={(e) => e.preventDefault()} />}
