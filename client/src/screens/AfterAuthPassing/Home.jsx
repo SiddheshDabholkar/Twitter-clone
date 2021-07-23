@@ -4,8 +4,8 @@ import { useQuery, gql } from "@apollo/client";
 import useWindowSize from "../../hooks/useWindow";
 //
 import MakeTweet from "../../components/Tweet/MakeTweet";
-import Tweet from "../../components/Tweet/newTweet";
-// import ReTweet from "../../components/Tweet/ReTweet";
+import Tweet from "../../components/Tweet/Tweet";
+import ReTweet from "../../components/Tweet/ReTweet";
 import useModal from "../../hooks/useModal";
 import TweetUtils from "../../components/Modals/TweetUtils";
 
@@ -41,91 +41,30 @@ const FETCH_TWEET = gql`
   }
 `;
 
-// const FETCH_RETWEET = gql`
-//   {
-//     getReTweets {
-//       id
-//       body
-//       username
-//       updatedAt
-//       createdAt
-//       tweet {
-//         id
-//         body
-//         username
-//         createdAt
-//       }
-//       likes {
-//         id
-//         createdAt
-//         username
-//       }
-//       user {
-//         id
-//         username
-//         phone
-//         email
-//         createdAt
-//         updatedAt
-//       }
-//     }
-//   }
-// `;
-
 export default function Home() {
   const { width } = useWindowSize();
   const [Modal, show, toggle] = useModal(TweetUtils);
-  const {
-    loading: fetchTweetLoading,
-    data: fetchTweetData,
-    error: fetchTweetError,
-  } = useQuery(FETCH_TWEET);
-
-  // const {
-  //   loading: fetchRetWeetLoading,
-  //   data: fetchReTweetData,
-  //   error: fetchReTweetError,
-  // } = useQuery(FETCH_RETWEET);
+  const { loading, data, error } = useQuery(FETCH_TWEET);
 
   const Tweets = () => {
-    if (fetchTweetLoading) {
+    if (loading) {
       return <h1>loading....</h1>;
     } else {
-      const tweets = fetchTweetData.getTweets;
+      const tweets = data.getTweets;
       return (
         <>
-          {tweets.map((data) => (
-            <Tweet
-              data={data.tweet === undefined ? undefined : data}
-              toggle={toggle}
-            />
-          ))}
-
-          {/* {tweets.map((data) => {
-            {
-              console.log(data.tweet === null ? undefined : data);
+          {tweets.map((data) => {
+            const { tweet } = data;
+            if (tweet === null) {
+              return <Tweet tweet={data} />;
+            } else {
+              return <ReTweet retweet={data} />;
             }
-            return <Tweet data={data} toggle={toggle} />;
-          })} */}
+          })}
         </>
       );
     }
   };
-
-  // const ReTweets = () => {
-  //   if (fetchRetWeetLoading) {
-  //     return <h1>loading....</h1>;
-  //   } else {
-  //     const reTweet = fetchReTweetData.getReTweets;
-  //     return (
-  //       <>
-  //         {reTweet.map((retweet) => (
-  //           <ReTweet retweet={retweet} />
-  //         ))}
-  //       </>
-  //     );
-  //   }
-  // };
 
   const DecideMakeTweet = () => {
     if (width > 500) {
@@ -136,7 +75,6 @@ export default function Home() {
     <>
       <DecideMakeTweet />
       <Tweets />
-      {/* <ReTweets /> */}
     </>
   );
 }
