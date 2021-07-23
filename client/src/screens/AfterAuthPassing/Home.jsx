@@ -117,7 +117,7 @@ export default function Home() {
     <>
       <DecideMakeTweet />
       <Tweets />
-      <ReTweets />
+      {/* <ReTweets /> */}
     </>
   );
 }

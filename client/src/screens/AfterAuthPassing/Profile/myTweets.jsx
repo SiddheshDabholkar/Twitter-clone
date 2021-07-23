@@ -116,7 +116,7 @@ export default function MyTweets() {
   return (
     <>
       <Tweets />
-      <ReTweets />
+      {/* <ReTweets /> */}
     </>
   );
 }

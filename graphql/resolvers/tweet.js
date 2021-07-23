@@ -64,7 +64,7 @@ module.exports = {
     async reTweet(_, { tweetId, body }, context) {
       const user = checkAuth(context);
       const tweet = await Tweet.findById(tweetId).populate("tweet").exec();
-      const newReTweet = new ReTweet({
+      const newReTweet = new Tweet({
         body,
         user: user.id,
         tweet,

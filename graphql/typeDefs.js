@@ -11,7 +11,6 @@ module.exports = gql`
     token: String
     createdAt: Date
     updatedAt: Date
-    tweet: Tweet
   }
   type Tweet {
     id: ID!
