@@ -1,6 +1,7 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
+import styled from "styled-components";
 //
 import { MdPermMedia } from "react-icons/md";
 import { AiOutlineFileGif } from "react-icons/ai";
@@ -20,7 +21,7 @@ import {
   Restcontainer,
   ImageUploaderButton,
 } from "./";
-import styled from "styled-components";
+import { UPLOAD_PRESET, CLOUDINARY_NAME } from "../../Keys.js";
 
 const Div = styled.div`
   display: flex;
@@ -53,17 +54,31 @@ export default function MakeTweet() {
   const { pathname } = useLocation();
   const newPathname = pathname.substring(1);
   const [tweetBody, setTweetBody] = useState("");
+  const [photo, setPhoto] = useState("");
+  const [selectPhoto, setSelectPhoto] = useState("");
 
   const hiddenFileInput = useRef(null);
   const handleClick = (e) => {
     hiddenFileInput.current.click();
   };
-  const handleChange = (e) => {
-    const fileUploaded = e.target.files[0];
-    console.log(fileUploaded);
-  };
-
   const [makeTweet] = useMutation(MAKE_TWEET);
+
+  useEffect(() => {
+    const d = new FormData();
+    d.append("file", selectPhoto);
+    d.append("upload_preset", UPLOAD_PRESET);
+    d.append("cloud_name", CLOUDINARY_NAME);
+    fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/image/upload`, {
+      method: "post",
+      body: d,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setPhoto(data.url);
+        console.log("photo", photo);
+      })
+      .catch((err) => console.log(err));
+  }, [selectPhoto]);
 
   const ButtonDecider = () => {
     if (newPathname.startsWith("composetweet")) {
@@ -119,7 +134,7 @@ export default function MakeTweet() {
                   <input
                     type="file"
                     ref={hiddenFileInput}
-                    onChange={handleChange}
+                    onChange={(e) => setSelectPhoto(e.target.files[0])}
                     style={{ display: "none" }}
                   />
                 </SIconContainer>
