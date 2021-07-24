@@ -2,6 +2,13 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { TweeterUsername } from "../../Typography/index";
 
+export const ImageUploaderButton = styled.button`
+  height: 25px;
+  width: 25px;
+  background-color: transparent;
+  border-color: transparent;
+`;
+
 export const TweetContainer = styled.div`
   display: flex;
   margin: ${({ margin }) => margin};

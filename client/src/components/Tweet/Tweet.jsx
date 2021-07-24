@@ -34,6 +34,7 @@ const LIKE_TWEET_MUTATION = gql`
     }
   }
 `;
+
 export default function Tweet({
   tweet: {
     id,
@@ -72,6 +73,7 @@ export default function Tweet({
       return <FaRegHeart id="red" />;
     }
   };
+
   return (
     <>
       <SLink to={`/tweet/${id}`} col>

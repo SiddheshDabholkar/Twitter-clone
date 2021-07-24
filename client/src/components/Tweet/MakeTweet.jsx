@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
 //
@@ -18,6 +18,7 @@ import {
   UtilContainer,
   UploadcontentContainer,
   Restcontainer,
+  ImageUploaderButton,
 } from "./";
 import styled from "styled-components";
 
@@ -36,7 +37,7 @@ const SIconContainer = styled(IconContainer)`
 // TODO:
 // After mutation , We have to refresh
 // the page to see the new Tweet
-// checkout the ben  awads youtube video
+// checkout the ben awad youtube video
 // how to update cache after mutation
 
 const MAKE_TWEET = gql`
@@ -52,6 +53,15 @@ export default function MakeTweet() {
   const { pathname } = useLocation();
   const newPathname = pathname.substring(1);
   const [tweetBody, setTweetBody] = useState("");
+
+  const hiddenFileInput = useRef(null);
+  const handleClick = (e) => {
+    hiddenFileInput.current.click();
+  };
+  const handleChange = (e) => {
+    const fileUploaded = e.target.files[0];
+    console.log(fileUploaded);
+  };
 
   const [makeTweet] = useMutation(MAKE_TWEET);
 
@@ -100,7 +110,18 @@ export default function MakeTweet() {
             <Div width="70%">
               <UploadcontentContainer>
                 <SIconContainer>
-                  <MdPermMedia id="blue" />
+                  <ImageUploaderButton onClick={handleClick}>
+                    <MdPermMedia
+                      id="blue"
+                      style={{ color: "#1da1f2", fontSize: "20px" }}
+                    />
+                  </ImageUploaderButton>
+                  <input
+                    type="file"
+                    ref={hiddenFileInput}
+                    onChange={handleChange}
+                    style={{ display: "none" }}
+                  />
                 </SIconContainer>
                 <SIconContainer>
                   <AiOutlineFileGif id="blue" />
