@@ -22,6 +22,7 @@ import {
   ImageUploaderButton,
 } from "./";
 import { UPLOAD_PRESET, CLOUDINARY_NAME } from "../../Keys.js";
+import useUploadImage from "../../hooks/useUploadImage";
 
 const Div = styled.div`
   display: flex;
@@ -50,39 +51,18 @@ const MAKE_TWEET = gql`
     }
   }
 `;
-
 export default function MakeTweet() {
   const { pathname } = useLocation();
   const newPathname = pathname.substring(1);
   const [tweetBody, setTweetBody] = useState("");
-  const [photo, setPhoto] = useState("");
   const [selectPhoto, setSelectPhoto] = useState("");
+  const url = useUploadImage(selectPhoto);
 
   const hiddenFileInput = useRef(null);
   const handleClick = (e) => {
     hiddenFileInput.current.click();
   };
   const [makeTweet] = useMutation(MAKE_TWEET);
-
-  useEffect(() => {
-    if (selectPhoto) {
-      const d = new FormData();
-      d.append("file", selectPhoto);
-      d.append("upload_preset", UPLOAD_PRESET);
-      d.append("cloud_name", CLOUDINARY_NAME);
-      fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/image/upload`, {
-        method: "post",
-        body: d,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setPhoto(data.url);
-          console.log("photo data.url", data.url);
-          console.log("photo", photo);
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [selectPhoto]);
 
   const ButtonDecider = () => {
     if (newPathname.startsWith("composetweet")) {
@@ -97,7 +77,7 @@ export default function MakeTweet() {
               bgColor="#1da1f2"
               borderColor="transparent"
               onClick={() =>
-                makeTweet({ variables: { body: tweetBody, photo } })
+                makeTweet({ variables: { body: tweetBody, photo: url } })
               }
             >
               tweet
