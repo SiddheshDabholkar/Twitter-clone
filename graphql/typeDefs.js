@@ -19,6 +19,7 @@ module.exports = gql`
     createdAt: Date
     updatedAt: Date
     likes: [Like]
+    photo: String
     user: User!
     replies: [replies]
     tweet: Tweet
@@ -58,7 +59,7 @@ module.exports = gql`
   type Mutation {
     register(registerInput: RegisterInput): User!
     login(input: String!, password: String!): User!
-    createTweet(body: String!): Tweet!
+    createTweet(body: String!, photo: String): Tweet!
     deleteTweet(tweetId: ID!): String
     createReply(tweetId: String!, body: String!): Tweet!
     deleteReply(tweetId: ID!, replyId: ID!): Tweet!

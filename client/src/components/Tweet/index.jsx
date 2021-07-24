@@ -57,10 +57,11 @@ export const ImageContainer = styled.img`
   justify-content: center;
   border-radius: 20px;
   border: 1px solid grey;
-  width: 90%;
+  min-width: 90%;
   margin: 15px 0px 15px 0px;
   @media (max-width: 500px) {
-    width: 85%;
+    min-width: 85%;
+    min-height: 90%;
   }
 `;
 export const STweetContainer = styled(TweetContainer)`

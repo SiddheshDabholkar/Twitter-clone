@@ -16,6 +16,7 @@ const FETCH_TWEET = gql`
       body
       username
       createdAt
+      photo
       updatedAt
       likes {
         id

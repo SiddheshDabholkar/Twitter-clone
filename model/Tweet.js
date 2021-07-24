@@ -4,6 +4,7 @@ const { ObjectId } = Schema.Types;
 const tweetSchema = new Schema(
   {
     body: String,
+    photo: String,
     username: String,
     replies: [
       {

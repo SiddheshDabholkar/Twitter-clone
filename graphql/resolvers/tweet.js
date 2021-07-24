@@ -46,13 +46,15 @@ module.exports = {
   },
   Mutation: {
     //*-----------------------------------//
-    async createTweet(_, { body }, context) {
+    async createTweet(_, { body, photo }, context) {
       const user = checkAuth(context);
       if (body.trim() === "") {
         throw new Error("Post body cannot be empty");
       }
+      console.log(photo);
       const newTweet = new Tweet({
         body,
+        photo,
         user: user.id,
         username: user.username,
       });

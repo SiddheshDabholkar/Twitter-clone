@@ -42,10 +42,11 @@ const SIconContainer = styled(IconContainer)`
 // how to update cache after mutation
 
 const MAKE_TWEET = gql`
-  mutation createTweet($body: String!) {
-    createTweet(body: $body) {
+  mutation createTweet($body: String!, $photo: String) {
+    createTweet(body: $body, photo: $photo) {
       id
       body
+      photo
     }
   }
 `;
@@ -64,20 +65,23 @@ export default function MakeTweet() {
   const [makeTweet] = useMutation(MAKE_TWEET);
 
   useEffect(() => {
-    const d = new FormData();
-    d.append("file", selectPhoto);
-    d.append("upload_preset", UPLOAD_PRESET);
-    d.append("cloud_name", CLOUDINARY_NAME);
-    fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/image/upload`, {
-      method: "post",
-      body: d,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setPhoto(data.url);
-        console.log("photo", photo);
+    if (selectPhoto) {
+      const d = new FormData();
+      d.append("file", selectPhoto);
+      d.append("upload_preset", UPLOAD_PRESET);
+      d.append("cloud_name", CLOUDINARY_NAME);
+      fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/image/upload`, {
+        method: "post",
+        body: d,
       })
-      .catch((err) => console.log(err));
+        .then((res) => res.json())
+        .then((data) => {
+          setPhoto(data.url);
+          console.log("photo data.url", data.url);
+          console.log("photo", photo);
+        })
+        .catch((err) => console.log(err));
+    }
   }, [selectPhoto]);
 
   const ButtonDecider = () => {
@@ -92,7 +96,9 @@ export default function MakeTweet() {
               txtColor="#fff"
               bgColor="#1da1f2"
               borderColor="transparent"
-              onClick={() => makeTweet({ variables: { body: tweetBody } })}
+              onClick={() =>
+                makeTweet({ variables: { body: tweetBody, photo } })
+              }
             >
               tweet
             </CStyledButton>
@@ -134,7 +140,10 @@ export default function MakeTweet() {
                   <input
                     type="file"
                     ref={hiddenFileInput}
-                    onChange={(e) => setSelectPhoto(e.target.files[0])}
+                    onChange={(e) => {
+                      setSelectPhoto(e.target.files[0]);
+                      console.log("selected photo", selectPhoto);
+                    }}
                     style={{ display: "none" }}
                   />
                 </SIconContainer>
