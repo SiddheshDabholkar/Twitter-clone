@@ -8,6 +8,8 @@ const userSchema = new Schema(
     email: String,
     phone: String,
     token: String,
+    profilePic: String,
+    banner: String,
   },
   { timestamps: true }
 );

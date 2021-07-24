@@ -4,6 +4,7 @@ const checkAuth = require("../../utils/checkAuth");
 
 module.exports = {
   Query: {
+    //*-----------------------------------//
     async getTweets() {
       try {
         const tweets = await Tweet.find()
@@ -15,7 +16,7 @@ module.exports = {
         throw new Error(e);
       }
     },
-
+    //*-----------------------------------//
     async getTweet(_, { tweetId }) {
       try {
         const tweet = await Tweet.findById(tweetId).populate("user");
@@ -28,21 +29,23 @@ module.exports = {
         throw new Error(error);
       }
     },
-
-    async getUserTweets(_, { userId }) {
+    //*-----------------------------------//
+    async getUserTweets(_, { profileId }) {
       try {
         const tweeets = await Tweet.find().populate("user");
         const mtweets = tweeets.map((tweet) => {
-          if (tweet.user.id === userId) {
+          if (tweet.user.id === profileId) {
             return tweet;
           }
         });
         const myprofileTweets = mtweets.filter((notnull) => notnull != null);
+        console.log(myprofileTweets);
         return myprofileTweets;
       } catch (error) {
         throw new Error(error);
       }
     },
+    //*-----------------------------------//
   },
   Mutation: {
     //*-----------------------------------//
@@ -62,7 +65,6 @@ module.exports = {
       return tweet;
     },
     //*-----------------------------------//
-
     async reTweet(_, { tweetId, body }, context) {
       const user = checkAuth(context);
       const tweet = await Tweet.findById(tweetId).populate("tweet").exec();
@@ -91,7 +93,6 @@ module.exports = {
         throw new Error(error);
       }
     },
-
     //*-----------------------------------//
     async likeTweet(_, { tweetId }, context) {
       const { username } = checkAuth(context);
