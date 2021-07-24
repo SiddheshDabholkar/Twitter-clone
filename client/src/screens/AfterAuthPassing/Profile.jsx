@@ -155,7 +155,7 @@ export default function Profile() {
         </LocationnJoinContainer>
       </BioContainer>
       <ProfileTab />
-      {show && <Modal />}
+      {show && <Modal toggle={toggle} />}
     </>
   );
 }
