@@ -14,6 +14,8 @@ import { NavbarContainer } from "../Mobile/Navbar";
 import { TweeterUsername } from "../../Typography";
 import ProfileTab from "../../screens/AfterAuthPassing/Profile/ProfileTabs";
 import GoBack from "../../components/Buttons/GoBackButton";
+import EditProfile from "../../components/Modals/EditProfile";
+import useModal from "../../hooks/useModal";
 
 const Parent = styled.div`
   display: flex;
@@ -81,6 +83,7 @@ const SNavbarContainer = styled(NavbarContainer)`
 export default function Profile() {
   let { profileId } = useParams();
   const { user } = useContext(AuthContext);
+  const [Modal, show, toggle] = useModal(EditProfile);
 
   const DecideButton = () => {
     if (user.id === profileId) {
@@ -91,8 +94,9 @@ export default function Profile() {
           borderColor="#1da1f2"
           small
           style={{ width: "20%" }}
+          onClick={toggle}
         >
-          Set up profile
+          Edit profile
         </StyledButton>
       );
     } else {
@@ -151,6 +155,7 @@ export default function Profile() {
         </LocationnJoinContainer>
       </BioContainer>
       <ProfileTab />
+      {show && <Modal />}
     </>
   );
 }
