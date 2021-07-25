@@ -10,6 +10,10 @@ const userSchema = new Schema(
     token: String,
     profilePic: String,
     banner: String,
+    bio: String,
+    location: String,
+    website: String,
+    name: String,
   },
   { timestamps: true }
 );

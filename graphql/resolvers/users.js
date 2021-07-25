@@ -1,6 +1,7 @@
 const { UserInputError } = require("apollo-server");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const checkAuth = require("../../utils/checkAuth");
 
 const User = require("../../model/User");
 const { SECRET_KEY } = require("../../Keys");
@@ -104,7 +105,6 @@ module.exports = {
         };
       }
     },
-
     async login(_, { input, password }) {
       const { valid, errors } = validateLoginInput(input, password);
       const user =
@@ -144,6 +144,24 @@ module.exports = {
           id: user._id,
           token,
         };
+      }
+    },
+    async editProfile(_, { name, bio, location, website, userId }) {
+      try {
+        const user = await User.findOneAndUpdate(
+          userId,
+          {
+            name,
+            bio,
+            location,
+            website,
+          },
+          { new: true }
+        );
+        user.save();
+        return user;
+      } catch (error) {
+        throw new Error(error);
       }
     },
   },

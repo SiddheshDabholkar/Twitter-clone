@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { AuthContext } from "../../context/auth";
@@ -16,8 +16,9 @@ import ProfileTab from "../../screens/AfterAuthPassing/Profile/ProfileTabs";
 import GoBack from "../../components/Buttons/GoBackButton";
 import EditProfile from "../../components/Modals/EditProfile";
 import useModal from "../../hooks/useModal";
+import { useQuery, gql } from "@apollo/client";
 
-const Parent = styled.div`
+export const Parent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -26,29 +27,30 @@ const Parent = styled.div`
   z-index: 1;
   width: 100%;
 `;
-const TwitterBanner = styled.img`
+export const TwitterBanner = styled.img`
   display: flex;
   flex-direction: column;
   background-color: grey;
-  height: 275px;
+  /* height: 275px; */
+  height: ${({ height }) => (height ? "200px" : "275px")};
   width: 100%;
 `;
-const TwitterBannerCotainer = styled.div`
+export const TwitterBannerCotainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 99%;
 `;
-const AvatarContainer = styled.div`
+export const AvatarContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: #fff;
   border-radius: 50%;
-  height: 175px;
-  width: 175px;
+  height: ${({ height }) => (height ? "150px" : "175px")};
+  width: ${({ height }) => (height ? "150px" : "175px")};
   position: absolute;
   z-index: 3;
   top: 65%;
@@ -80,10 +82,29 @@ const SNavbarContainer = styled(NavbarContainer)`
   height: 55px;
 `;
 
+const FETCH_USER = gql`
+  query getUser($userId: ID!) {
+    getUser(userId: $userId) {
+      username
+      phone
+      email
+      profilePic
+      banner
+      bio
+      location
+      website
+      name
+    }
+  }
+`;
+
 export default function Profile() {
   let { profileId } = useParams();
   const { user } = useContext(AuthContext);
   const [Modal, show, toggle] = useModal(EditProfile);
+  const { loading, data, error } = useQuery(FETCH_USER, {
+    variables: { userId: profileId },
+  });
 
   const DecideButton = () => {
     if (user.id === profileId) {
@@ -114,48 +135,62 @@ export default function Profile() {
     }
   };
 
-  return (
-    <>
-      <SNavbarContainer>
-        <GoBack />
-      </SNavbarContainer>
-      <Parent>
-        <TwitterBannerCotainer>
-          <TwitterBanner src="https://images.pexels.com/photos/4835962/pexels-photo-4835962.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" />
-        </TwitterBannerCotainer>
-        <AvatarContainer>
-          <Avatar style={{ height: "150px", width: "150px" }} />
-        </AvatarContainer>
-      </Parent>
-      <ButtonContainer
-        small="5px"
-        style={{ justifyContent: "flex-end", width: "98%" }}
-      >
-        <DecideButton />
-      </ButtonContainer>
-      <BioContainer>
-        <STweeterUsername>venom</STweeterUsername>
-        <LocationnJoinContainer>
-          <IconContainer>
-            <BsCalendar />
-          </IconContainer>
-          <STweetContent>Goa,India</STweetContent>
-          <IconContainer>
-            <HiOutlineLocationMarker />
-          </IconContainer>
-          <STweetContent>69 july</STweetContent>
-        </LocationnJoinContainer>
-        <LocationnJoinContainer>
-          <STweetContent>
-            <b style={{ color: "black" }}>69</b> following
-          </STweetContent>
-          <STweetContent>
-            <b style={{ color: "black" }}>69</b> follower
-          </STweetContent>
-        </LocationnJoinContainer>
-      </BioContainer>
-      <ProfileTab />
-      {show && <Modal toggle={toggle} />}
-    </>
-  );
+  if (loading) {
+    return <h1>loading....</h1>;
+  } else {
+    return (
+      <>
+        <SNavbarContainer>
+          <GoBack />
+        </SNavbarContainer>
+        <Parent>
+          <TwitterBannerCotainer>
+            <TwitterBanner
+              src={
+                data
+                  ? data.banner
+                  : "https://res.cloudinary.com/drntday51/image/upload/v1627108184/twitter/ptupstjuaejspvhj9mfj.jpg"
+              }
+            />
+          </TwitterBannerCotainer>
+          <AvatarContainer>
+            <Avatar
+              style={{ height: "150px", width: "150px" }}
+              src={
+                data
+                  ? data.banner
+                  : "https://res.cloudinary.com/drntday51/image/upload/v1627108184/twitter/ptupstjuaejspvhj9mfj.jpg"
+              }
+            />
+          </AvatarContainer>
+        </Parent>
+        <ButtonContainer
+          small="5px"
+          style={{ justifyContent: "flex-end", width: "98%" }}
+        >
+          <DecideButton />
+        </ButtonContainer>
+        <BioContainer>
+          <STweeterUsername>{data && data.bio}</STweeterUsername>
+          <STweeterUsername>{data && data.name}</STweeterUsername>
+          <LocationnJoinContainer>
+            <IconContainer>
+              <HiOutlineLocationMarker />
+            </IconContainer>
+            <STweetContent>{data && data.location}</STweetContent>
+          </LocationnJoinContainer>
+          <LocationnJoinContainer>
+            <STweetContent>
+              <b style={{ color: "black" }}>69</b> following
+            </STweetContent>
+            <STweetContent>
+              <b style={{ color: "black" }}>69</b> follower
+            </STweetContent>
+          </LocationnJoinContainer>
+        </BioContainer>
+        <ProfileTab />
+        {show && <Modal toggle={toggle} />}
+      </>
+    );
+  }
 }

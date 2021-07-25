@@ -11,6 +11,12 @@ module.exports = gql`
     token: String
     createdAt: Date
     updatedAt: Date
+    profilePic: String
+    banner: String
+    bio: String
+    location: String
+    website: String
+    name: String
   }
   type Tweet {
     id: ID!
@@ -65,5 +71,12 @@ module.exports = gql`
     deleteReply(tweetId: ID!, replyId: ID!): Tweet!
     likeTweet(tweetId: ID!): Tweet!
     reTweet(tweetId: ID!, body: String): Tweet!
+    editProfile(
+      name: String
+      bio: String
+      location: String
+      website: String
+      userId: String
+    ): User
   }
 `;

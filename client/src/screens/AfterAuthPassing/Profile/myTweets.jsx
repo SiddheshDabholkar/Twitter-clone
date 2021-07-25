@@ -27,6 +27,12 @@ const FETCH_MY_TWEETS = gql`
         token
         createdAt
         updatedAt
+        profilePic
+        banner
+        bio
+        location
+        website
+        name
       }
       tweet {
         id

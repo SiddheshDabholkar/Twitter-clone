@@ -32,8 +32,42 @@ export const TweetInput = styled.textarea`
   border: 0px;
   width: 97%;
   word-break: break-word;
-  font-size: 26px;
+  font-size: 18px !important;
 
+  :focus {
+    outline: none;
+  }
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  ::-webkit-scrollbar {
+    /* WebKit */
+    width: 0;
+    height: 0;
+  }
+`;
+
+export const EditProfileInput = styled.input`
+  height: 50px;
+  width: 90%;
+  font-size: 18px;
+  border: 1px solid grey !important;
+  border-radius: 4px;
+  margin: 15px;
+  :focus {
+    outline: none;
+  }
+`;
+export const EditProfileTextArea = styled.textarea`
+  /* display: flex;
+  flex-direction: row; */
+  height: 90px;
+  border: 1px solid grey !important;
+  width: 90%;
+  word-break: break-word;
+  font-size: 18px !important;
+  border-radius: 4px;
+  margin: 15px;
   :focus {
     outline: none;
   }
