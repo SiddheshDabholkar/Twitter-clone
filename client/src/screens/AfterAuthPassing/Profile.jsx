@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { AuthContext } from "../../context/auth";
 //
-import { BsCalendar } from "react-icons/bs";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 //
 import { IconContainer, TweetContent } from "../../components/Tweet/index";
@@ -56,6 +55,7 @@ export const AvatarContainer = styled.div`
   top: 65%;
   left: 5%;
 `;
+
 const BioContainer = styled.div`
   display: flex;
   flex-direction: column;

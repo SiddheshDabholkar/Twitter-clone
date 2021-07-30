@@ -22,6 +22,16 @@ const SaveButton = styled.button`
   padding: 5px 10px;
   cursor: pointer;
 `;
+const AvtarConatinerplus = styled.div`
+  position: relative;
+`;
+
+const ImgCon = styled.div`
+  position: absolute;
+  top: 33%;
+  right: 38%;
+  cursor: pointer;
+`;
 
 const Navbar = styled.div`
   display: flex;
@@ -108,10 +118,19 @@ export default function EditProfile({ toggle }) {
                     src="https://images.pexels.com/photos/4835962/pexels-photo-4835962.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
                   />
                   <AvatarContainer height>
-                    <Avatar
-                      src="https://lh3.googleusercontent.com/proxy/zDIgShsvCOoVeSQwKyWzc64VLbQ6yVE03RupRuO9c2KyMOjSEWtQEMYyko3qN1RUHqA9q_36ATcHn8aPyxWwfZ0VwlJQTMo-ghN4mdE7hbdOccXCRqI"
-                      style={{ height: "130px", width: "130px" }}
-                    />
+                    <AvtarConatinerplus>
+                      <Avatar
+                        src="https://lh3.googleusercontent.com/proxy/zDIgShsvCOoVeSQwKyWzc64VLbQ6yVE03RupRuO9c2KyMOjSEWtQEMYyko3qN1RUHqA9q_36ATcHn8aPyxWwfZ0VwlJQTMo-ghN4mdE7hbdOccXCRqI"
+                        style={{
+                          height: "130px",
+                          width: "130px",
+                          display: "block",
+                        }}
+                      />
+                      <ImgCon style={{ fontSize: "30px" }}>
+                        <AiOutlineCamera />
+                      </ImgCon>
+                    </AvtarConatinerplus>
                   </AvatarContainer>
                 </TwitterBannerCotainer>
               </Parent>
