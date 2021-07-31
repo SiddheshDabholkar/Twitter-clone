@@ -7,6 +7,7 @@ export const ImageUploaderButton = styled.button`
   width: 25px;
   background-color: transparent;
   border-color: transparent;
+  cursor: pointer;
 `;
 
 export const TweetContainer = styled.div`

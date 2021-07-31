@@ -21,7 +21,6 @@ import {
   Restcontainer,
   ImageUploaderButton,
 } from "./";
-import { UPLOAD_PRESET, CLOUDINARY_NAME } from "../../Keys.js";
 import useUploadImage from "../../hooks/useUploadImage";
 
 const Div = styled.div`
