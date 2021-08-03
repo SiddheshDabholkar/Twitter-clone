@@ -146,15 +146,38 @@ module.exports = {
         };
       }
     },
-    async editProfile(_, { name, bio, location, website, userId }) {
+    async editProfile(
+      _,
+      {
+        username,
+        password,
+        email,
+        phone,
+        token,
+        profilePic,
+        banner,
+        bio,
+        location,
+        website,
+        name,
+        userId,
+      }
+    ) {
       try {
         const user = await User.findOneAndUpdate(
           userId,
           {
-            name,
+            username,
+            password,
+            email,
+            phone,
+            token,
+            profilePic,
+            banner,
             bio,
             location,
             website,
+            name,
           },
           { new: true }
         );
