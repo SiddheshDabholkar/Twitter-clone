@@ -22,6 +22,7 @@ import {
   ImageUploaderButton,
 } from "./";
 import useUploadImage from "../../hooks/useUploadImage";
+import { FETCH_TWEET } from "../../screens/AfterAuthPassing/Home";
 
 const Div = styled.div`
   display: flex;
@@ -50,6 +51,7 @@ const MAKE_TWEET = gql`
     }
   }
 `;
+
 export default function MakeTweet() {
   const { pathname } = useLocation();
   const newPathname = pathname.substring(1);
@@ -61,7 +63,54 @@ export default function MakeTweet() {
   const handleClick = (e) => {
     hiddenFileInput.current.click();
   };
-  const [makeTweet] = useMutation(MAKE_TWEET);
+  const [makeTweet] = useMutation(
+    MAKE_TWEET
+    //   ,
+    //   {
+    //   update(cache, { data: { makeTweet } }) {
+    //     cache.modify({
+    //       fields: {
+    //         getTweets(existingTweets = []) {
+    //           const newTweetRef = cache.writeFragment({
+    //             data: makeTweet,
+    //             fragment: gql`
+    //               fragment newTweets on Tweet {
+    //                 id
+    //                 body
+    //                 username
+    //                 createdAt
+    //                 photo
+    //                 updatedAt
+    //                 likes {
+    //                   id
+    //                   createdAt
+    //                   username
+    //                 }
+    //                 user {
+    //                   id
+    //                   username
+    //                   phone
+    //                   email
+    //                   token
+    //                   createdAt
+    //                   updatedAt
+    //                 }
+    //                 tweet {
+    //                   id
+    //                   body
+    //                   username
+    //                   createdAt
+    //                 }
+    //               }
+    //             `,
+    //           });
+    //           return [...existingTweets, newTweetRef];
+    //         },
+    //       },
+    //     });
+    //   },
+    // }
+  );
 
   const ButtonDecider = () => {
     if (newPathname.startsWith("composetweet")) {

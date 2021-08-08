@@ -9,7 +9,7 @@ const Tabs = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 25px;
+  padding: 25px 0px;
 `;
 const TabHeader = styled.ul`
   height: 50px;

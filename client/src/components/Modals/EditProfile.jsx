@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Bg, ModalContainer } from "./ModalUtils";
-import styled from "styled-components";
 import { useQuery, gql } from "@apollo/client";
+import styled from "styled-components";
 import {
   TwitterBannerCotainer,
   TwitterBanner,
@@ -13,8 +13,9 @@ import { Parent } from "../../screens/AfterAuthPassing/Profile";
 import { useForm } from "../../hooks/useForm";
 import { EditProfileInput, EditProfileTextArea } from "../Input";
 import { AiOutlineClose, AiOutlineCamera } from "react-icons/ai";
-import useUploadImage from "../../hooks/useUploadImage";
 import { ImageUploaderButton } from "../Tweet/index";
+import useUploadImage from "../../hooks/useUploadImage";
+import { useParams } from "react-router-dom";
 
 const SaveButton = styled.button`
   display: flex;
@@ -110,7 +111,10 @@ const GET_USER_DATA = gql`
 `;
 
 export default function EditProfile({ toggle }) {
-  const { loading, data } = useQuery(GET_USER_DATA);
+  const { profileId } = useParams();
+  const { loading, data } = useQuery(GET_USER_DATA, {
+    variables: { userId: profileId },
+  });
   useDisableBodyScroll(toggle);
   const hiddenFileInput = useRef(null);
   const [selectProfile, setSelectProfile] = useState("");
@@ -127,7 +131,7 @@ export default function EditProfile({ toggle }) {
     if (loading) {
       return <h1>loading....</h1>;
     } else {
-      const load = data.getUser;
+      const load = data && data.getUser;
       setName(load.name);
       setWebsite(load.website);
       setLocation(load.location);
