@@ -97,7 +97,7 @@ module.exports = {
           { expiresIn: "1h" }
         );
         // console.log("register token--->", token);
-        localStorage.setItem("jwtToken", token);
+        // document.localStorage.setItem("jwtToken", token);
         return {
           ...res.toJSON(),
           id: res._id,

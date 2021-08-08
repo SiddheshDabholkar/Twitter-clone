@@ -49,6 +49,7 @@ export default function Home() {
       return <h1>loading....</h1>;
     } else {
       const tweets = data.getTweets;
+      console.log("tweets", tweets);
       return (
         <>
           {tweets.map((data) => {
