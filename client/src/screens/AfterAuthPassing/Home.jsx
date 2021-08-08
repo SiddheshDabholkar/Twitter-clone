@@ -7,7 +7,7 @@ import MakeTweet from "../../components/Tweet/MakeTweet";
 import Tweet from "../../components/Tweet/Tweet";
 import ReTweet from "../../components/Tweet/ReTweet";
 
-const FETCH_TWEET = gql`
+export const FETCH_TWEET = gql`
   {
     getTweets {
       id
