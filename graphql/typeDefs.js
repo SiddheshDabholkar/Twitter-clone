@@ -73,10 +73,17 @@ module.exports = gql`
     reTweet(tweetId: ID!, body: String): Tweet!
     editProfile(
       name: String
+      username: String
+      password: String
+      email: String
+      phone: String
+      profilePic: String
+      banner: String
       bio: String
       location: String
       website: String
-      userId: String
+      name: String
+      userId: ID!
     ): User
   }
 `;

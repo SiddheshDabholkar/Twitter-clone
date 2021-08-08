@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Bg, ModalContainer } from "./ModalUtils";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useMutation } from "@apollo/client";
 import styled from "styled-components";
 import {
   TwitterBannerCotainer,
@@ -110,11 +110,42 @@ const GET_USER_DATA = gql`
   }
 `;
 
+const EDIT_PROFILE = gql`
+  mutation editProfile(
+    $name: String
+    $profilePic: String
+    $banner: String
+    $bio: String
+    $location: String
+    $website: String
+    $name: String
+    $userId: ID!
+  ) {
+    editProfile(
+      profilePic: $profilePic
+      banner: $banner
+      bio: $bio
+      location: $location
+      website: $website
+      name: $name
+    ) {
+      name
+      website
+      location
+      bio
+      profilePic
+      banner
+    }
+  }
+`;
+
 export default function EditProfile({ toggle }) {
   const { profileId } = useParams();
   const { loading, data } = useQuery(GET_USER_DATA, {
     variables: { userId: profileId },
   });
+  const [editProfile] = useMutation(EDIT_PROFILE);
+
   useDisableBodyScroll(toggle);
   const hiddenFileInput = useRef(null);
   const [selectProfile, setSelectProfile] = useState("");
@@ -141,8 +172,9 @@ export default function EditProfile({ toggle }) {
           <EditProfileInput
             placeholder="name"
             name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            defaultValue={name}
+            // onChange={(e) => setName(e.target.value)}
+            onChange={(e) => console.log(e.target.value)}
           />
           <EditProfileInput
             placeholder="bio"
@@ -186,7 +218,22 @@ export default function EditProfile({ toggle }) {
                   <h2>Edit Profile</h2>
                 </LeftContainer>
                 <RightContainer>
-                  <SaveButton>save</SaveButton>
+                  <SaveButton
+                    onClick={() => {
+                      editProfile({
+                        variables: {
+                          name,
+                          website,
+                          location,
+                          bio,
+                          profilePic: profileurl,
+                          banner: bannerurl,
+                        },
+                      });
+                    }}
+                  >
+                    save
+                  </SaveButton>
                 </RightContainer>
               </NavbarInner>
             </Navbar>

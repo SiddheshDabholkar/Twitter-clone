@@ -164,25 +164,43 @@ module.exports = {
       }
     ) {
       try {
-        const user = await User.findOneAndUpdate(
-          userId,
-          {
-            username,
-            password,
-            email,
-            phone,
-            token,
-            profilePic,
-            banner,
-            bio,
-            location,
-            website,
-            name,
-          },
-          { new: true }
-        );
-        user.save();
-        return user;
+        const user = await User.findById(userId);
+        if (user) {
+          if (username !== undefined) {
+            user.username = username;
+          }
+          if (password !== undefined) {
+            user.password = password;
+          }
+          if (email !== undefined) {
+            user.email = email;
+          }
+          if (phone !== undefined) {
+            user.phone = phone;
+          }
+          if (profilePic !== undefined) {
+            user.profilePic = profilePic;
+          }
+          if (banner !== undefined) {
+            user.banner = banner;
+          }
+          if (bio !== undefined) {
+            user.bio = bio;
+          }
+          if (location !== undefined) {
+            user.location = location;
+          }
+          if (website !== undefined) {
+            user.website = website;
+          }
+          if (name !== undefined) {
+            user.name = name;
+          }
+          user.save();
+          return user;
+        } else {
+          throw new Error("user not found");
+        }
       } catch (error) {
         throw new Error(error);
       }

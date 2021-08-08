@@ -170,7 +170,7 @@ export default function MakeTweet() {
                     ref={hiddenFileInput}
                     onChange={(e) => {
                       setSelectPhoto(e.target.files[0]);
-                      console.log("selected photo", selectPhoto);
+                      // console.log("selected photo", selectPhoto);
                     }}
                     style={{ display: "none" }}
                   />

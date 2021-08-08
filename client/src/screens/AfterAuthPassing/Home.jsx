@@ -48,6 +48,9 @@ export default function Home() {
     if (loading) {
       return <h1>loading....</h1>;
     } else {
+      if (data === undefined) {
+        return <h1>lol.. no one is using your platform</h1>;
+      }
       const tweets = data.getTweets;
       return (
         <>
