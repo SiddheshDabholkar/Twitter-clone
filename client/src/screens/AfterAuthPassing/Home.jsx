@@ -7,6 +7,9 @@ import MakeTweet from "../../components/Tweet/MakeTweet";
 import Tweet from "../../components/Tweet/Tweet";
 import ReTweet from "../../components/Tweet/ReTweet";
 
+//NOTE:
+//There is a problem with likes field when
+
 export const FETCH_TWEET = gql`
   {
     getTweets {
@@ -16,11 +19,11 @@ export const FETCH_TWEET = gql`
       createdAt
       photo
       updatedAt
-      likes {
-        id
-        createdAt
-        username
-      }
+      # likes {
+      #   id
+      #   createdAt
+      #   username
+      # }
       user {
         id
         username
@@ -72,6 +75,7 @@ export default function Home() {
       return <MakeTweet />;
     } else return null;
   };
+
   return (
     <>
       <DecideMakeTweet />

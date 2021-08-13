@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { UPLOAD_PRESET, CLOUDINARY_NAME } from "../Keys";
 
-export default function useUploadImage({ selectedPhoto }) {
+export default function useUploadImage(selectedPhoto) {
   const [assetUrl, setAssetUrl] = useState("");
 
   useEffect(() => {

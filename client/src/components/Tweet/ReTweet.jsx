@@ -84,27 +84,27 @@ export default function ReTweet({
   },
 }) {
   const { user } = useContext(AuthContext);
-  const [liked, setLiked] = useState(false);
+  // const [liked, setLiked] = useState(false);
   const hookretweetCreatedAt = useAgo(createdAt);
   const hooktweetCreatedAt = useAgo(tweetCreatedAt);
   const [Modal, show, toggle] = useModal(MoreList);
-  useEffect(() => {
-    if (user && likes.find((like) => like.username === user.username)) {
-      setLiked(true);
-    } else setLiked(false);
-  }, [user, likes]);
+  // useEffect(() => {
+  //   if (user && likes.find((like) => like.username === user.username)) {
+  //     setLiked(true);
+  //   } else setLiked(false);
+  // }, [user, likes]);
 
-  const [likeTweet] = useMutation(LIKE_RETWEET_MUTATION, {
-    variables: { reTweetId: id },
-  });
+  // const [likeTweet] = useMutation(LIKE_RETWEET_MUTATION, {
+  //   variables: { reTweetId: id },
+  // });
 
-  const likeIcon = () => {
-    if (liked) {
-      return <MdFavorite id="red" style={{ color: "red" }} />;
-    } else {
-      return <FaRegHeart id="red" />;
-    }
-  };
+  // const likeIcon = () => {
+  //   if (liked) {
+  //     return <MdFavorite id="red" style={{ color: "red" }} />;
+  //   } else {
+  //     return <FaRegHeart id="red" />;
+  //   }
+  // };
 
   const TweetInsideReTweet = () => {
     return (
@@ -191,12 +191,12 @@ export default function ReTweet({
                     <FaRetweet id="green" />
                   </IconContainer>
                   <IconContainer
-                    onClick={(e) => {
-                      likeTweet();
-                      e.preventDefault();
-                    }}
+                  // onClick={(e) => {
+                  //   likeTweet();
+                  //   e.preventDefault();
+                  // }}
                   >
-                    {likeIcon()}
+                    {/* {likeIcon()} */}
                   </IconContainer>
                   <IconContainer onClick={(e) => e.preventDefault()}>
                     <FiUpload id="blue" />
@@ -250,12 +250,12 @@ export default function ReTweet({
                     <FaRetweet id="green" />
                   </IconContainer>
                   <IconContainer
-                    onClick={(e) => {
-                      likeTweet();
-                      e.preventDefault();
-                    }}
+                  // onClick={(e) => {
+                  //   likeTweet();
+                  //   e.preventDefault();
+                  // }}
                   >
-                    {likeIcon()}
+                    {/* {likeIcon()} */}
                   </IconContainer>
                   <IconContainer onClick={(e) => e.preventDefault()}>
                     <FiUpload id="blue" />
