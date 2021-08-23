@@ -32,7 +32,9 @@ module.exports = {
     //*-----------------------------------//
     async getUserTweets(_, { profileId }) {
       try {
-        const tweeets = await Tweet.find().populate("user");
+        const tweeets = await Tweet.find()
+          .populate("user")
+          .sort({ createdAt: -1 });
         const mtweets = tweeets.map((tweet) => {
           if (tweet.user.id === profileId) {
             return tweet;
