@@ -178,11 +178,14 @@ module.exports = {
           if (phone !== undefined || null) {
             user.phone = phone;
           }
-          if (profilePic !== undefined || null) {
+          if (profilePic !== undefined || null || "") {
             user.profilePic = profilePic;
           }
-          if (banner !== undefined || null) {
+          if (banner !== undefined || null || "") {
             user.banner = banner;
+          }
+          if (token !== undefined || null) {
+            user.token = token;
           }
           if (bio !== undefined || null) {
             user.bio = bio;

@@ -89,6 +89,7 @@ const BodyContainer = styled.div`
   height: 100%;
   overflow-y: ${({ scroll }) => (scroll ? "scroll" : "")};
 `;
+
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -121,7 +122,6 @@ const EDIT_PROFILE = gql`
     $bio: String
     $location: String
     $website: String
-    $name: String
     $userId: ID!
   ) {
     editProfile(

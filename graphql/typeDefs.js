@@ -82,8 +82,7 @@ module.exports = gql`
       bio: String
       location: String
       website: String
-      name: String
       userId: ID!
-    ): User
+    ): User!
   }
 `;

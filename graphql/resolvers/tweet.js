@@ -39,7 +39,7 @@ module.exports = {
           }
         });
         const myprofileTweets = mtweets.filter((notnull) => notnull != null);
-        console.log(myprofileTweets);
+        // console.log(myprofileTweets);
         return myprofileTweets;
       } catch (error) {
         throw new Error(error);
