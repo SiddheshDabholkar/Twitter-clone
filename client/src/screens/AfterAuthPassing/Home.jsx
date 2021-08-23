@@ -32,6 +32,7 @@ export const FETCH_TWEET = gql`
         token
         createdAt
         updatedAt
+        profilePic
       }
       tweet {
         id

@@ -12,16 +12,32 @@ import { Avatar } from "../Avatar";
 import ReplyTweetButtons from "./ReplyTweetButtons";
 import Reply from "./Reply";
 import { TweeterUsername } from "../../Typography";
-import { TweetContainer, Row, TweetContent, IconContainer, SRow } from "./";
+import {
+  TweetContainer,
+  Row,
+  TweetContent,
+  IconContainer,
+  SRow,
+  ImageContainer,
+} from "./";
 import useModal from "../../hooks/useModal";
 import MoreList from "../Modals/MoreList";
-//
-const FETCH_REPLIES = gql`
+import { ago } from "../../utils/timeago";
+
+const GET_SINGLE_TWEET = gql`
   query ($tweetId: ID!) {
-    getReplies(tweetId: $tweetId) {
+    getTweet(tweetId: $tweetId) {
       id
       body
       username
+      createdAt
+      updatedAt
+      photo
+      user {
+        id
+        username
+        profilePic
+      }
       replies {
         id
         body
@@ -32,7 +48,7 @@ const FETCH_REPLIES = gql`
     }
   }
 `;
-//
+
 const StatContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -48,8 +64,8 @@ export default function SingleTweet() {
   const [liked, setLiked] = useState(false);
   const [Modal, show, toggle] = useModal(MoreList);
 
-  const { data: tweetReplies, loading: myTweetRepliesLoading } = useQuery(
-    FETCH_REPLIES,
+  const { data: SingleTweetData, loading: SingleTweetLoading } = useQuery(
+    GET_SINGLE_TWEET,
     {
       variables: {
         tweetId,
@@ -66,78 +82,90 @@ export default function SingleTweet() {
   };
 
   const Replies = () => {
-    if (myTweetRepliesLoading) {
-      return <h1>loading.....</h1>;
-    } else {
-      const replies = tweetReplies && tweetReplies.getReplies.replies;
-      return (
-        <>
-          {replies.map((reply) => (
-            <Reply reply={reply} />
-          ))}
-        </>
-      );
-    }
+    const replies = SingleTweetData && SingleTweetData.getTweet.replies;
+    return (
+      <>
+        {replies.map((reply) => (
+          <Reply reply={reply} />
+        ))}
+      </>
+    );
   };
 
-  return (
-    <>
-      <TweetContainer style={{ marginTop: "10px" }}>
-        <Row>
+  if (SingleTweetLoading) {
+    return <h1>loading...</h1>;
+  } else {
+    const singleTweet = SingleTweetData.getTweet;
+    const {
+      body,
+      createdAt,
+      photo,
+      username,
+      user: { profilePic },
+    } = singleTweet;
+    console.log("Single tweet", singleTweet);
+    return (
+      <>
+        <TweetContainer style={{ marginTop: "10px" }}>
           <Row>
-            <Avatar />
-            <Row col>
-              <TweeterUsername style={{ width: "95%" }}>lmao</TweeterUsername>
-              <TweeterUsername small style={{ width: "95%" }}>
-                lmao
-              </TweeterUsername>
+            <Row>
+              <Avatar src={profilePic} />
+              <Row col>
+                <TweeterUsername style={{ width: "95%" }}>
+                  {username}
+                </TweeterUsername>
+                {/* <TweeterUsername small style={{ width: "95%" }}>
+                  lmao
+                </TweeterUsername> */}
+              </Row>
             </Row>
+            <IconContainer onClick={(e) => e.preventDefault()}>
+              <BsThreeDots onClick={toggle} />
+            </IconContainer>
           </Row>
-          <IconContainer onClick={(e) => e.preventDefault()}>
-            <BsThreeDots onClick={toggle} />
-          </IconContainer>
-        </Row>
-        <Row onClick={(e) => e.preventDefault()}>
-          {show && <Modal onClick={(e) => e.preventDefault()} />}
-        </Row>
-        <Row>
-          <TweetContent>laksjhwdg asichb aishcn p9aiscn oaihscn </TweetContent>
-        </Row>
-        <Row>
-          <TweeterUsername small>date</TweeterUsername>
-        </Row>
-        <Row>
-          <StatContainer>
-            <TweeterUsername small>
-              <Scount> 1 </Scount>Retweets
-            </TweeterUsername>
-          </StatContainer>
-          <StatContainer>
-            <TweeterUsername small>
-              <Scount> 1 </Scount>Quote Tweet
-            </TweeterUsername>
-          </StatContainer>
-          <StatContainer>
-            <TweeterUsername small>
-              <Scount> 1 </Scount>Likes
-            </TweeterUsername>
-          </StatContainer>
-        </Row>
-        <SRow>
-          <IconContainer>
-            <FaRegComment id="blue" />
-          </IconContainer>
-          <IconContainer>
-            <FaRetweet id="green" />
-          </IconContainer>
-          <IconContainer>{likeIcon()}</IconContainer>
-          <IconContainer>
-            <FiUpload id="blue" />
-          </IconContainer>
-        </SRow>
-      </TweetContainer>
-      <ReplyTweetButtons tweetId={tweetId} />
-      <Replies />
-    </>
-  );
+          <Row onClick={(e) => e.preventDefault()}>
+            {show && <Modal onClick={(e) => e.preventDefault()} />}
+          </Row>
+          <Row>
+            <TweetContent>{body}</TweetContent>
+          </Row>
+          {photo && <ImageContainer src={photo} />}
+          <Row>
+            <TweeterUsername small>{ago(createdAt)}</TweeterUsername>
+          </Row>
+          <Row>
+            <StatContainer>
+              <TweeterUsername small>
+                <Scount> 1 </Scount>Retweets
+              </TweeterUsername>
+            </StatContainer>
+            <StatContainer>
+              <TweeterUsername small>
+                <Scount> 1 </Scount>Quote Tweet
+              </TweeterUsername>
+            </StatContainer>
+            <StatContainer>
+              <TweeterUsername small>
+                <Scount> 1 </Scount>Likes
+              </TweeterUsername>
+            </StatContainer>
+          </Row>
+          <SRow>
+            <IconContainer>
+              <FaRegComment id="blue" />
+            </IconContainer>
+            <IconContainer>
+              <FaRetweet id="green" />
+            </IconContainer>
+            <IconContainer>{likeIcon()}</IconContainer>
+            <IconContainer>
+              <FiUpload id="blue" />
+            </IconContainer>
+          </SRow>
+        </TweetContainer>
+        <ReplyTweetButtons tweetId={tweetId} />
+        <Replies />
+      </>
+    );
+  }
 }

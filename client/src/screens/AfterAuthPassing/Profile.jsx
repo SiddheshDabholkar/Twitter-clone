@@ -160,7 +160,7 @@ export default function Profile() {
             <TwitterBanner
               src={
                 data
-                  ? profilePic
+                  ? banner
                   : "https://res.cloudinary.com/drntday51/image/upload/v1627108184/twitter/ptupstjuaejspvhj9mfj.jpg"
               }
             />
@@ -170,7 +170,7 @@ export default function Profile() {
               style={{ height: "150px", width: "150px" }}
               src={
                 data
-                  ? banner
+                  ? profilePic
                   : "https://res.cloudinary.com/drntday51/image/upload/v1627108184/twitter/ptupstjuaejspvhj9mfj.jpg"
               }
             />
