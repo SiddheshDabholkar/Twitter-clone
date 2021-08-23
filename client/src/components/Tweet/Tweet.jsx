@@ -50,6 +50,7 @@ export default function Tweet({
       email,
       createdAt: userCreatedAt,
       updatedAt: userUpdatedAt,
+      profilePic,
     },
   },
 }) {
@@ -80,7 +81,7 @@ export default function Tweet({
         <STweetContainer>
           <SAvatarContainer>
             <Link to={`/profile/${userid}`}>
-              <SAvatar />
+              <SAvatar src={profilePic} />
             </Link>
           </SAvatarContainer>
           <Restcontainer
