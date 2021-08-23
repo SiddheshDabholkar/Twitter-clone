@@ -4,13 +4,13 @@ module.exports = gql`
   scalar Date
   type User {
     id: ID!
-    username: String
+    username: String!
     password: String!
     phone: String
-    email: String
+    email: String!
     token: String
-    createdAt: Date
-    updatedAt: Date
+    createdAt: Date!
+    updatedAt: Date!
     profilePic: String
     banner: String
     bio: String

@@ -135,7 +135,6 @@ const EDIT_PROFILE = gql`
       bio: $bio
       location: $location
       website: $website
-      name: $name
       userId: $userId
     ) {
       name
@@ -155,15 +154,19 @@ export default function EditProfile({ toggle }) {
   });
 
   useDisableBodyScroll(toggle);
+
   const hiddenFileBannerInput = useRef(null);
   const hiddenFileProfileInput = useRef(null);
+
   const [selectProfile, setSelectProfile] = useState("");
   const [selectBanner, setSelectBanner] = useState("");
+  const [name, setName] = useState("");
+  const [website, setWebsite] = useState("");
+  const [location, setLocation] = useState("");
+  const [bio, setBio] = useState("");
+
   const profileurl = useUploadImage(selectProfile);
   const bannerurl = useUploadImage(selectBanner);
-
-  console.log("profile", profileurl);
-  console.log("banner", bannerurl);
 
   useEffect(() => {
     if (selectBanner) {
@@ -177,10 +180,17 @@ export default function EditProfile({ toggle }) {
     }
   }, [selectProfile]);
 
-  const [name, setName] = useState("");
-  const [website, setWebsite] = useState("");
-  const [location, setLocation] = useState("");
-  const [bio, setBio] = useState("");
+  useEffect(() => {
+    const load = data.getUser;
+    const setEditProfileInputData = (load) => {
+      console.log(load.name);
+      load.name && setName(load.name);
+      load.website && setWebsite(load.website);
+      load.location && setLocation(load.location);
+      load.bio && setBio(load.bio);
+    };
+    load && setEditProfileInputData(load);
+  }, [data]);
 
   const handleClickBanner = (e) => {
     hiddenFileBannerInput.current.click();
@@ -192,12 +202,12 @@ export default function EditProfile({ toggle }) {
   const [editProfilefn] = useMutation(EDIT_PROFILE, {
     variables: {
       userId: profileId,
-      // name,
-      // website,
-      // location,
-      // bio,
-      // profilePic: profileurl,
-      // banner: bannerurl,
+      name,
+      website,
+      location,
+      bio,
+      profilePic: profileurl,
+      banner: bannerurl,
     },
   });
 
@@ -205,7 +215,6 @@ export default function EditProfile({ toggle }) {
     return <h1>loading....</h1>;
   }
   if (data) {
-    const load = data.getUser;
     return (
       <>
         <Bg onClick={toggle}>
@@ -293,28 +302,28 @@ export default function EditProfile({ toggle }) {
                     type="text"
                     placeholder="name"
                     name="name"
-                    defaultValue={load.name}
+                    defaultValue={name}
                     onChange={(e) => setName(e.target.value)}
                   />
                   <EditProfileInput
                     type="text"
                     placeholder="bio"
                     name="bio"
-                    defaultValue={load.bio}
+                    defaultValue={bio}
                     onChange={(e) => setBio(e.target.value)}
                   />
                   <EditProfileTextArea
                     type="text"
                     placeholder="location"
                     name="location"
-                    defaultValue={load.location}
+                    defaultValue={location}
                     onChange={(e) => setLocation(e.target.value)}
                   />
                   <EditProfileInput
                     type="text"
                     placeholder="website"
                     name="website"
-                    defaultValue={load.website}
+                    defaultValue={website}
                     onChange={(e) => setWebsite(e.target.value)}
                   />
                 </FormContainer>

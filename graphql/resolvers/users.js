@@ -166,34 +166,34 @@ module.exports = {
       try {
         const user = await User.findById(userId);
         if (user) {
-          if (username !== undefined) {
+          if (username !== undefined || null) {
             user.username = username;
           }
-          if (password !== undefined) {
+          if (password !== undefined || null) {
             user.password = password;
           }
-          if (email !== undefined) {
+          if (email !== undefined || null) {
             user.email = email;
           }
-          if (phone !== undefined) {
+          if (phone !== undefined || null) {
             user.phone = phone;
           }
-          if (profilePic !== undefined) {
+          if (profilePic !== undefined || null) {
             user.profilePic = profilePic;
           }
-          if (banner !== undefined) {
+          if (banner !== undefined || null) {
             user.banner = banner;
           }
-          if (bio !== undefined) {
+          if (bio !== undefined || null) {
             user.bio = bio;
           }
-          if (location !== undefined) {
+          if (location !== undefined || null) {
             user.location = location;
           }
-          if (website !== undefined) {
+          if (website !== undefined || null) {
             user.website = website;
           }
-          if (name !== undefined) {
+          if (name !== undefined || null) {
             user.name = name;
           }
           user.save();
