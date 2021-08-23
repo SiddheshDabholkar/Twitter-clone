@@ -4,13 +4,13 @@ module.exports = gql`
   scalar Date
   type User {
     id: ID!
-    username: String
+    username: String!
     password: String!
     phone: String
-    email: String
+    email: String!
     token: String
-    createdAt: Date
-    updatedAt: Date
+    createdAt: Date!
+    updatedAt: Date!
     profilePic: String
     banner: String
     bio: String
@@ -73,10 +73,16 @@ module.exports = gql`
     reTweet(tweetId: ID!, body: String): Tweet!
     editProfile(
       name: String
+      username: String
+      password: String
+      email: String
+      phone: String
+      profilePic: String
+      banner: String
       bio: String
       location: String
       website: String
-      userId: String
-    ): User
+      userId: ID!
+    ): User!
   }
 `;

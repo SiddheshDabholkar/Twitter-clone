@@ -54,18 +54,22 @@ export default function MyTweets() {
   if (loading) {
     return <h1>loading....</h1>;
   } else {
-    const tweets = data.getUserTweets;
-    return (
-      <>
-        {tweets.map((data) => {
-          const { tweet } = data;
-          if (tweet === null) {
-            return <Tweet tweet={data} />;
-          } else {
-            return <ReTweet retweet={data} />;
-          }
-        })}
-      </>
-    );
+    if (data === undefined) {
+      return <h1>waiting for your first tweet</h1>;
+    } else {
+      const tweets = data.getUserTweets;
+      return (
+        <>
+          {tweets.map((data) => {
+            const { tweet } = data;
+            if (tweet === null) {
+              return <Tweet tweet={data} />;
+            } else {
+              return <ReTweet retweet={data} />;
+            }
+          })}
+        </>
+      );
+    }
   }
 }

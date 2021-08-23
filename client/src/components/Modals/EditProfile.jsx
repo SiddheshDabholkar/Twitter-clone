@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Bg, ModalContainer } from "./ModalUtils";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useMutation } from "@apollo/client";
 import styled from "styled-components";
 import {
   TwitterBannerCotainer,
@@ -10,7 +10,6 @@ import {
 import { Avatar } from "../../components/Avatar";
 import { useDisableBodyScroll } from "../../hooks/useDisableBodyScroll";
 import { Parent } from "../../screens/AfterAuthPassing/Profile";
-import { useForm } from "../../hooks/useForm";
 import { EditProfileInput, EditProfileTextArea } from "../Input";
 import { AiOutlineClose, AiOutlineCamera } from "react-icons/ai";
 import { ImageUploaderButton } from "../Tweet/index";
@@ -90,6 +89,7 @@ const BodyContainer = styled.div`
   height: 100%;
   overflow-y: ${({ scroll }) => (scroll ? "scroll" : "")};
 `;
+
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -110,146 +110,228 @@ const GET_USER_DATA = gql`
   }
 `;
 
+const EDIT_PROFILE = gql`
+  mutation editProfile(
+    $name: String
+    $username: String
+    $password: String
+    $email: String
+    $phone: String
+    $profilePic: String
+    $banner: String
+    $bio: String
+    $location: String
+    $website: String
+    $userId: ID!
+  ) {
+    editProfile(
+      name: $name
+      username: $username
+      password: $password
+      email: $email
+      phone: $phone
+      profilePic: $profilePic
+      banner: $banner
+      bio: $bio
+      location: $location
+      website: $website
+      userId: $userId
+    ) {
+      name
+      website
+      location
+      bio
+      profilePic
+      banner
+    }
+  }
+`;
+
 export default function EditProfile({ toggle }) {
   const { profileId } = useParams();
   const { loading, data } = useQuery(GET_USER_DATA, {
     variables: { userId: profileId },
   });
+
   useDisableBodyScroll(toggle);
-  const hiddenFileInput = useRef(null);
+
+  const hiddenFileBannerInput = useRef(null);
+  const hiddenFileProfileInput = useRef(null);
+
   const [selectProfile, setSelectProfile] = useState("");
   const [selectBanner, setSelectBanner] = useState("");
-  const profileurl = useUploadImage(selectProfile);
-  const bannerurl = useUploadImage(selectBanner);
-
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
   const [location, setLocation] = useState("");
   const [bio, setBio] = useState("");
 
-  const Loadform = () => {
-    if (loading) {
-      return <h1>loading....</h1>;
-    } else {
-      const load = data && data.getUser;
-      setName(load.name);
-      setWebsite(load.website);
-      setLocation(load.location);
-      setBio(load.bio);
-      return (
-        <FormContainer>
-          <EditProfileInput
-            placeholder="name"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <EditProfileInput
-            placeholder="bio"
-            name="bio"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-          />
-          <EditProfileTextArea
-            placeholder="location"
-            name="location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          />
-          <EditProfileInput
-            placeholder="website"
-            name="website"
-            value={website}
-            onChange={(e) => setWebsite(e.target.value)}
-          />
-        </FormContainer>
-      );
+  const profileurl = useUploadImage(selectProfile);
+  const bannerurl = useUploadImage(selectBanner);
+
+  useEffect(() => {
+    if (selectBanner) {
+      setSelectBanner(selectBanner);
     }
+  }, [selectBanner]);
+
+  useEffect(() => {
+    if (selectProfile) {
+      setSelectProfile(selectProfile);
+    }
+  }, [selectProfile]);
+
+  useEffect(() => {
+    const load = data.getUser;
+    const setEditProfileInputData = (load) => {
+      console.log(load.name);
+      load.name && setName(load.name);
+      load.website && setWebsite(load.website);
+      load.location && setLocation(load.location);
+      load.bio && setBio(load.bio);
+    };
+    load && setEditProfileInputData(load);
+  }, [data]);
+
+  const handleClickBanner = (e) => {
+    hiddenFileBannerInput.current.click();
+  };
+  const handleClickProfile = (e) => {
+    hiddenFileProfileInput.current.click();
   };
 
-  const handleClick = (e) => {
-    hiddenFileInput.current.click();
-  };
+  const [editProfilefn] = useMutation(EDIT_PROFILE, {
+    variables: {
+      userId: profileId,
+      name,
+      website,
+      location,
+      bio,
+      profilePic: profileurl,
+      banner: bannerurl,
+    },
+  });
 
-  return (
-    <>
-      <Bg onClick={toggle}>
-        <ModalContainer onClick={(e) => e.stopPropagation()}>
-          <BodyContainer>
-            <Navbar>
-              <NavbarInner>
-                <LeftContainer>
-                  <AiOutlineClose
-                    onClick={toggle}
-                    style={{ fontSize: "30px" }}
-                  />
-                  <h2>Edit Profile</h2>
-                </LeftContainer>
-                <RightContainer>
-                  <SaveButton>save</SaveButton>
-                </RightContainer>
-              </NavbarInner>
-            </Navbar>
-            <BodyContainer scroll>
-              <Parent>
-                <TwitterBannerCotainer>
-                  <TwitterBannerContainerPlus>
-                    <TwitterBanner
-                      height
-                      src="https://res.cloudinary.com/drntday51/image/upload/v1627672203/djjmszfofddf407p8rwp.png"
+  if (loading) {
+    return <h1>loading....</h1>;
+  }
+  if (data) {
+    return (
+      <>
+        <Bg onClick={toggle}>
+          <ModalContainer onClick={(e) => e.stopPropagation()}>
+            <BodyContainer>
+              <Navbar>
+                <NavbarInner>
+                  <LeftContainer>
+                    <AiOutlineClose
+                      onClick={toggle}
+                      style={{ fontSize: "30px" }}
                     />
-                    <ImgConUpdate>
-                      <ImageUploaderButton onClick={handleClick}>
-                        <AiOutlineCamera
-                          style={{ fontSize: "30px", color: "#fff" }}
-                        />
-                      </ImageUploaderButton>
-                      <input
-                        type="file"
-                        ref={hiddenFileInput}
-                        onChange={(e) => {
-                          setSelectBanner(e.target.files[0]);
-                          console.log("selected banner", selectBanner);
-                        }}
-                        style={{ display: "none" }}
+                    <h2>Edit Profile</h2>
+                  </LeftContainer>
+                  <RightContainer>
+                    <SaveButton
+                      onClick={() => {
+                        editProfilefn();
+                        toggle();
+                      }}
+                    >
+                      save
+                    </SaveButton>
+                  </RightContainer>
+                </NavbarInner>
+              </Navbar>
+              <BodyContainer scroll>
+                <Parent>
+                  <TwitterBannerCotainer>
+                    <TwitterBannerContainerPlus>
+                      <TwitterBanner
+                        height
+                        src="https://res.cloudinary.com/drntday51/image/upload/v1627672203/djjmszfofddf407p8rwp.png"
                       />
-                    </ImgConUpdate>
-                  </TwitterBannerContainerPlus>
-                  <AvatarContainer height>
-                    <AvtarConatinerplus>
-                      <Avatar
-                        src="https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
-                        style={{
-                          height: "130px",
-                          width: "130px",
-                          display: "block",
-                        }}
-                      />
-                      <ImgCon>
-                        <ImageUploaderButton onClick={handleClick}>
+                      <ImgConUpdate>
+                        <ImageUploaderButton onClick={handleClickBanner}>
                           <AiOutlineCamera
                             style={{ fontSize: "30px", color: "#fff" }}
                           />
                         </ImageUploaderButton>
                         <input
                           type="file"
-                          ref={hiddenFileInput}
+                          ref={hiddenFileBannerInput}
                           onChange={(e) => {
-                            setSelectProfile(e.target.files[0]);
-                            console.log("select profile", selectProfile);
+                            setSelectBanner(e.target.files[0]);
+                            console.log(selectBanner);
                           }}
                           style={{ display: "none" }}
                         />
-                      </ImgCon>
-                    </AvtarConatinerplus>
-                  </AvatarContainer>
-                </TwitterBannerCotainer>
-              </Parent>
-              <Loadform />
+                      </ImgConUpdate>
+                    </TwitterBannerContainerPlus>
+                    <AvatarContainer height>
+                      <AvtarConatinerplus>
+                        <Avatar
+                          src="https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
+                          style={{
+                            height: "130px",
+                            width: "130px",
+                            display: "block",
+                          }}
+                        />
+                        <ImgCon>
+                          <ImageUploaderButton onClick={handleClickProfile}>
+                            <AiOutlineCamera
+                              style={{ fontSize: "30px", color: "#fff" }}
+                            />
+                          </ImageUploaderButton>
+                          <input
+                            type="file"
+                            ref={hiddenFileProfileInput}
+                            onChange={(e) => {
+                              setSelectProfile(e.target.files[0]);
+                              console.log("select profile", selectProfile);
+                            }}
+                            style={{ display: "none" }}
+                          />
+                        </ImgCon>
+                      </AvtarConatinerplus>
+                    </AvatarContainer>
+                  </TwitterBannerCotainer>
+                </Parent>
+                {/* <Loadform /> */}
+                <FormContainer>
+                  <EditProfileInput
+                    type="text"
+                    placeholder="name"
+                    name="name"
+                    defaultValue={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  <EditProfileInput
+                    type="text"
+                    placeholder="bio"
+                    name="bio"
+                    defaultValue={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                  />
+                  <EditProfileTextArea
+                    type="text"
+                    placeholder="location"
+                    name="location"
+                    defaultValue={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                  />
+                  <EditProfileInput
+                    type="text"
+                    placeholder="website"
+                    name="website"
+                    defaultValue={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                  />
+                </FormContainer>
+              </BodyContainer>
             </BodyContainer>
-          </BodyContainer>
-        </ModalContainer>
-      </Bg>
-    </>
-  );
+          </ModalContainer>
+        </Bg>
+      </>
+    );
+  }
 }

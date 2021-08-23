@@ -54,25 +54,25 @@ export default function Tweet({
   },
 }) {
   const { user } = useContext(AuthContext);
-  const [liked, setLiked] = useState(false);
+  // const [liked, setLiked] = useState(false);
   const [Modal, show, toggle] = useModal(MoreList);
-  useEffect(() => {
-    if (user && likes.find((like) => like.username === user.username)) {
-      setLiked(true);
-    } else setLiked(false);
-  }, [user, likes]);
+  // useEffect(() => {
+  //   if (user && likes.find((like) => like.username === user.username)) {
+  //     setLiked(true);
+  //   } else setLiked(false);
+  // }, [user, likes]);
 
-  const [likeTweet] = useMutation(LIKE_TWEET_MUTATION, {
-    variables: { tweetId: id },
-  });
+  // const [likeTweet] = useMutation(LIKE_TWEET_MUTATION, {
+  //   variables: { tweetId: id },
+  // });
 
-  const likeIcon = () => {
-    if (liked) {
-      return <MdFavorite id="red" style={{ color: "red" }} />;
-    } else {
-      return <FaRegHeart id="red" />;
-    }
-  };
+  // const likeIcon = () => {
+  //   if (liked) {
+  //     return <MdFavorite id="red" style={{ color: "red" }} />;
+  //   } else {
+  //     return <FaRegHeart id="red" />;
+  //   }
+  // };
 
   return (
     <>
@@ -119,12 +119,12 @@ export default function Tweet({
                 <FaRetweet id="green" />
               </IconContainer>
               <IconContainer
-                onClick={(e) => {
-                  likeTweet();
-                  e.preventDefault();
-                }}
+              // onClick={(e) => {
+              //   likeTweet();
+              //   e.preventDefault();
+              // }}
               >
-                {likeIcon()}
+                {/* {likeIcon()} */}
               </IconContainer>
               <IconContainer onClick={(e) => e.preventDefault()}>
                 <FiUpload id="blue" />

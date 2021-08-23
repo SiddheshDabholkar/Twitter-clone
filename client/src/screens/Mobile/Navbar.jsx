@@ -62,7 +62,6 @@ export default function HomeNavbar() {
   const { pathname } = useLocation();
   const { width } = useWindowSize();
   const newPathname = pathname.substring(1);
-  console.log(newPathname);
 
   const ButtonDecider = () => {
     if (newPathname.startsWith("composetweet")) {

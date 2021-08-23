@@ -138,6 +138,18 @@ export default function Profile() {
   if (loading) {
     return <h1>loading....</h1>;
   } else {
+    const userInfo = data.getUser;
+    const {
+      username,
+      phone,
+      email,
+      profilePic,
+      banner,
+      bio,
+      location,
+      website,
+      name,
+    } = userInfo;
     return (
       <>
         <SNavbarContainer>
@@ -148,7 +160,7 @@ export default function Profile() {
             <TwitterBanner
               src={
                 data
-                  ? data.banner
+                  ? profilePic
                   : "https://res.cloudinary.com/drntday51/image/upload/v1627108184/twitter/ptupstjuaejspvhj9mfj.jpg"
               }
             />
@@ -158,7 +170,7 @@ export default function Profile() {
               style={{ height: "150px", width: "150px" }}
               src={
                 data
-                  ? data.banner
+                  ? banner
                   : "https://res.cloudinary.com/drntday51/image/upload/v1627108184/twitter/ptupstjuaejspvhj9mfj.jpg"
               }
             />
@@ -171,14 +183,16 @@ export default function Profile() {
           <DecideButton />
         </ButtonContainer>
         <BioContainer>
-          <STweeterUsername>{data && data.bio}</STweeterUsername>
-          <STweeterUsername>{data && data.name}</STweeterUsername>
-          <LocationnJoinContainer>
-            <IconContainer>
-              <HiOutlineLocationMarker />
-            </IconContainer>
-            <STweetContent>{data && data.location}</STweetContent>
-          </LocationnJoinContainer>
+          {bio && <STweeterUsername>{bio}</STweeterUsername>}
+          {name && <STweeterUsername>{name}</STweeterUsername>}
+          {location && (
+            <LocationnJoinContainer>
+              <IconContainer>
+                <HiOutlineLocationMarker />
+              </IconContainer>
+              <STweetContent>{location}</STweetContent>
+            </LocationnJoinContainer>
+          )}
           <LocationnJoinContainer>
             <STweetContent>
               <b style={{ color: "black" }}>69</b> following

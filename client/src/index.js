@@ -6,11 +6,11 @@ import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
-  createHttpLink,
+  HttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
-const httpLink = createHttpLink({
+const httpLink = new HttpLink({
   uri: "http://localhost:5000",
 });
 

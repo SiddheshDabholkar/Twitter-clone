@@ -164,25 +164,46 @@ module.exports = {
       }
     ) {
       try {
-        const user = await User.findOneAndUpdate(
-          userId,
-          {
-            username,
-            password,
-            email,
-            phone,
-            token,
-            profilePic,
-            banner,
-            bio,
-            location,
-            website,
-            name,
-          },
-          { new: true }
-        );
-        user.save();
-        return user;
+        const user = await User.findById(userId);
+        if (user) {
+          if (username !== undefined || null) {
+            user.username = username;
+          }
+          if (password !== undefined || null) {
+            user.password = password;
+          }
+          if (email !== undefined || null) {
+            user.email = email;
+          }
+          if (phone !== undefined || null) {
+            user.phone = phone;
+          }
+          if (profilePic !== undefined || null || "") {
+            user.profilePic = profilePic;
+          }
+          if (banner !== undefined || null || "") {
+            user.banner = banner;
+          }
+          if (token !== undefined || null) {
+            user.token = token;
+          }
+          if (bio !== undefined || null) {
+            user.bio = bio;
+          }
+          if (location !== undefined || null) {
+            user.location = location;
+          }
+          if (website !== undefined || null) {
+            user.website = website;
+          }
+          if (name !== undefined || null) {
+            user.name = name;
+          }
+          user.save();
+          return user;
+        } else {
+          throw new Error("user not found");
+        }
       } catch (error) {
         throw new Error(error);
       }
