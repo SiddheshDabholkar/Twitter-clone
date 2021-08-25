@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
 import styled from "styled-components";
@@ -23,6 +23,7 @@ import {
 } from "./";
 import useUploadImage from "../../hooks/useUploadImage";
 import { FETCH_TWEET } from "../../screens/AfterAuthPassing/Home";
+import { AuthContext } from "../../context/auth";
 
 const Div = styled.div`
   display: flex;
@@ -53,6 +54,7 @@ const MAKE_TWEET = gql`
 `;
 
 export default function MakeTweet() {
+  const { user } = useContext(AuthContext);
   const { pathname } = useLocation();
   const newPathname = pathname.substring(1);
   const [tweetBody, setTweetBody] = useState("");
@@ -93,7 +95,14 @@ export default function MakeTweet() {
     <>
       <TweetContainer row margin="30px 0px 0px 0px">
         <SAvatarContainer>
-          <SAvatar style={{ marginTop: "20%" }} />
+          <SAvatar
+            style={{ marginTop: "20%" }}
+            src={
+              user.profilePic
+                ? user.profilePic
+                : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
+            }
+          />
         </SAvatarContainer>
         <Restcontainer
           col

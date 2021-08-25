@@ -84,7 +84,14 @@ export default function LogOutModal({ showLogOutModal }) {
           <StyledCard>
             <CardCon>
               <SSAvatrcont>
-                <SAvatar small />
+                <SAvatar
+                  small
+                  src={
+                    user.profilePic
+                      ? user.profilePic
+                      : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
+                  }
+                />
               </SSAvatrcont>
               <SmallPContainer>
                 <SmallP bold>{user.username}</SmallP>
@@ -98,7 +105,5 @@ export default function LogOutModal({ showLogOutModal }) {
         </LogOutModalContainer>
       </>
     );
-  } else {
-    return null;
-  }
+  } else return null;
 }

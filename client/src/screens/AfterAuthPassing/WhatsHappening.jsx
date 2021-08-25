@@ -213,8 +213,6 @@ export default function WhatsHappening() {
     variables: { username: query },
   });
 
-  console.log("query", query, "data", data);
-
   // const SearchShower = () => {
   //   if (newPathname.startsWith("explore")) {
   //     return null;
