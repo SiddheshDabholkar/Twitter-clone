@@ -183,35 +183,53 @@ const SStyledButton = styled(StyledButton)`
 `;
 export default function WhatsHappening() {
   const [showSearchModal, setshowSearchModal] = useState(false);
+  const [query, setQuery] = useState("");
   const { pathname } = useLocation();
   const newPathname = pathname.substring(1);
 
-  const SearchShower = () => {
-    if (newPathname.startsWith("explore")) {
-      return null;
-    } else {
-      return (
-        <>
-          <SearchContainer>
-            {/* <Search /> */}
-            <StyledSearchInput
-              placeholder="Search twitter"
-              onChange={(e) => {
-                console.log(e.target.value);
-                // setshowSearchModal(!showSearchModal);
-              }}
-              onCLick={() => setshowSearchModal(!showSearchModal)}
-            ></StyledSearchInput>
-          </SearchContainer>
-        </>
-      );
-    }
-  };
+  // const SearchShower = () => {
+  //   if (newPathname.startsWith("explore")) {
+  //     return null;
+  //   } else {
+  //     return (
+  //       <>
+  //         <SearchContainer>
+  //           {/* <Search /> */}
+  //           <StyledSearchInput
+  //             placeholder="Search twitter"
+  //             value={query}
+  //             onChange={(e) => {
+  //               const q = e.target.value;
+  //               setQuery(q);
+  //               q.length > 0
+  //                 ? setshowSearchModal(true)
+  //                 : setshowSearchModal(false);
+  //             }}
+  //             onCLick={() => setshowSearchModal(!showSearchModal)}
+  //           ></StyledSearchInput>
+  //         </SearchContainer>
+  //       </>
+  //     );
+  //   }
+  // };
 
   return (
     <>
       <WhatsHappeningContainer>
-        <SearchShower />
+        <SearchContainer>
+          <StyledSearchInput
+            value={query}
+            placeholder="Search twitter"
+            onChange={(e) => {
+              const q = e.target.value;
+              setQuery(q);
+              q.length > 0
+                ? setshowSearchModal(true)
+                : setshowSearchModal(false);
+            }}
+            onCLick={() => setshowSearchModal(!showSearchModal)}
+          ></StyledSearchInput>
+        </SearchContainer>
         <RestContainer>
           <SearchModal showSearchModal={showSearchModal} />
           {/* Whats happening */}
