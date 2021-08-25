@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 //
@@ -21,6 +21,7 @@ import { RiFileListLine } from "react-icons/ri";
 import { HiOutlineUser } from "react-icons/hi";
 import { CgMoreO } from "react-icons/cg";
 import { FiMoreHorizontal } from "react-icons/fi";
+import useOnClickOutsideRef from "../../hooks/useOnClickOutsideRef";
 
 //styles
 const SideBarContainer = styled.div`
@@ -120,9 +121,11 @@ const LogoLinkContainer = styled.div`
   top: 0;
   right: 0;
 `;
+
 export default function SideBar() {
   const { user } = useContext(AuthContext);
   const [showLogOutModal, setShowLogOutModal] = useState(false);
+
   // console.log(user.id);
   const links = [
     {
@@ -172,7 +175,7 @@ export default function SideBar() {
             <Logo src={`${process.env.PUBLIC_URL}/icons8-twitter.svg`} small />
           </LogoContainer>
           {links.map((link) => (
-            <ItemContainer>
+            <ItemContainer key={link.label}>
               <IconContainer>
                 <Link to={link.to}>{link.icon}</Link>
               </IconContainer>
@@ -209,13 +212,15 @@ export default function SideBar() {
           </ButtonContainer>
         </LogoLinkContainer>
         <LogOutModal showLogOutModal={showLogOutModal} />
-        <SidebarFooter
-          onClick={() => {
-            setShowLogOutModal(!showLogOutModal);
-          }}
-        >
+        <SidebarFooter onClick={() => setShowLogOutModal(!showLogOutModal)}>
           <AvatarContainer style={{ width: "20%" }}>
-            <Avatar />
+            <Avatar
+              src={
+                user.profilePic
+                  ? user.profilePic
+                  : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
+              }
+            />
           </AvatarContainer>
           <SmallParagrah style={{ width: "60%" }}>venom</SmallParagrah>
           <FiMoreHorizontal style={{ width: "20%", fontSize: "25px" }} />
