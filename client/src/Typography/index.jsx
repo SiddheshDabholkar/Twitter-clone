@@ -29,5 +29,6 @@ export const TweeterUsername = styled.p`
   align-items: center;
   line-height: 30px;
   padding: 0;
-  margin: 2px;
+  /* margin: 2px; */
+  margin: ${({ topzero }) => (topzero ? "0px 2px" : "2px")};
 `;

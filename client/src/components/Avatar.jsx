@@ -28,9 +28,11 @@ export const AvatarContainer = styled.div`
 `;
 export const SAvatarContainer = styled(AvatarContainer)`
   flex-direction: column;
-  width: 5%;
+  /* width: 5%; */
+  width: ${({ large }) => (large ? "20%" : "5%")};
   height: 90%;
-  justify-content: flex-start;
+  /* justify-content: flex-start; */
+  justify-content: ${({ center }) => (center ? "center" : "flex-start")};
   padding: 4px;
   margin: 4px;
 `;

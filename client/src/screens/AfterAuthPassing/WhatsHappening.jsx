@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
+import { useQuery, gql } from "@apollo/client";
 //
 import { Avatar, AvatarContainer } from "../../components/Avatar";
 import { ButtonContainer } from "../../components/Buttons/ButtonContainer";
@@ -8,6 +9,7 @@ import { StyledButton } from "../../components/Buttons/AuthButton";
 import { RestContainer } from "../../container/RestContainer";
 import SearchModal from "../../components/Modals/SearchModal";
 import { StyledSearchInput } from "../../components/Search";
+import useOnClickOutsideRef from "../../hooks/useOnClickOutsideRef";
 // import Search from "../../components/Search";
 
 const WhatsHappeningContainer = styled.div`
@@ -181,39 +183,87 @@ const SStyledButton = styled(StyledButton)`
   margin: 0;
   background-color: transparent;
 `;
+const FETCH_SEARCHED_USER = gql`
+  query getSearchedUser($username: String) {
+    getSearchedUser(username: $username) {
+      id
+      username
+      phone
+      email
+      createdAt
+      updatedAt
+      profilePic
+      banner
+      bio
+      location
+      website
+      name
+    }
+  }
+`;
+
 export default function WhatsHappening() {
   const [showSearchModal, setshowSearchModal] = useState(false);
+  const [query, setQuery] = useState("");
   const { pathname } = useLocation();
   const newPathname = pathname.substring(1);
+  const modalRef = useOnClickOutsideRef(() => setshowSearchModal(false));
 
-  const SearchShower = () => {
-    if (newPathname.startsWith("explore")) {
-      return null;
-    } else {
-      return (
-        <>
-          <SearchContainer>
-            {/* <Search /> */}
-            <StyledSearchInput
-              placeholder="Search twitter"
-              onChange={(e) => {
-                console.log(e.target.value);
-                // setshowSearchModal(!showSearchModal);
-              }}
-              onCLick={() => setshowSearchModal(!showSearchModal)}
-            ></StyledSearchInput>
-          </SearchContainer>
-        </>
-      );
-    }
-  };
+  const { loading, data } = useQuery(FETCH_SEARCHED_USER, {
+    variables: { username: query },
+  });
+
+  console.log("query", query, "data", data);
+
+  // const SearchShower = () => {
+  //   if (newPathname.startsWith("explore")) {
+  //     return null;
+  //   } else {
+  //     return (
+  //       <>
+  //         <SearchContainer>
+  //           {/* <Search /> */}
+  //           <StyledSearchInput
+  //             placeholder="Search twitter"
+  //             value={query}
+  //             onChange={(e) => {
+  //               const q = e.target.value;
+  //               setQuery(q);
+  //               q.length > 0
+  //                 ? setshowSearchModal(true)
+  //                 : setshowSearchModal(false);
+  //             }}
+  //             onCLick={() => setshowSearchModal(!showSearchModal)}
+  //           ></StyledSearchInput>
+  //         </SearchContainer>
+  //       </>
+  //     );
+  //   }
+  // };
 
   return (
     <>
       <WhatsHappeningContainer>
-        <SearchShower />
+        <SearchContainer>
+          <StyledSearchInput
+            value={query}
+            placeholder="Search twitter"
+            onChange={(e) => {
+              const q = e.target.value;
+              setQuery(q);
+              q.length > 0
+                ? setshowSearchModal(true)
+                : setshowSearchModal(false);
+            }}
+            onCLick={() => setshowSearchModal(!showSearchModal)}
+          ></StyledSearchInput>
+        </SearchContainer>
         <RestContainer>
-          <SearchModal showSearchModal={showSearchModal} />
+          <SearchModal
+            showSearchModal={showSearchModal}
+            data={data && data}
+            ref={modalRef}
+          />
           {/* Whats happening */}
           <SubContainer>
             <Title title="Whats Happening" />
