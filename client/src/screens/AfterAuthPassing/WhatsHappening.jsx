@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
@@ -9,6 +9,7 @@ import { StyledButton } from "../../components/Buttons/AuthButton";
 import { RestContainer } from "../../container/RestContainer";
 import SearchModal from "../../components/Modals/SearchModal";
 import { StyledSearchInput } from "../../components/Search";
+import useOnClickOutsideRef from "../../hooks/useOnClickOutsideRef";
 // import Search from "../../components/Search";
 
 const WhatsHappeningContainer = styled.div`
@@ -182,7 +183,6 @@ const SStyledButton = styled(StyledButton)`
   margin: 0;
   background-color: transparent;
 `;
-
 const FETCH_SEARCHED_USER = gql`
   query getSearchedUser($username: String) {
     getSearchedUser(username: $username) {
@@ -207,6 +207,7 @@ export default function WhatsHappening() {
   const [query, setQuery] = useState("");
   const { pathname } = useLocation();
   const newPathname = pathname.substring(1);
+  const modalRef = useOnClickOutsideRef(() => setshowSearchModal(false));
 
   const { loading, data } = useQuery(FETCH_SEARCHED_USER, {
     variables: { username: query },
@@ -258,7 +259,11 @@ export default function WhatsHappening() {
           ></StyledSearchInput>
         </SearchContainer>
         <RestContainer>
-          <SearchModal showSearchModal={showSearchModal} data={data && data} />
+          <SearchModal
+            showSearchModal={showSearchModal}
+            data={data && data}
+            ref={modalRef}
+          />
           {/* Whats happening */}
           <SubContainer>
             <Title title="Whats Happening" />

@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { TweeterUsername, SmallParagraph } from "../../Typography";
 import { SAvatarContainer, SAvatar } from "../Avatar";
+import { Link } from "react-router-dom";
+import { SLink } from "../Tweet";
 
 const SearchModalContainer = styled.div`
   display: flex;
@@ -42,15 +44,23 @@ export default function SearchModal({ showSearchModal, data }) {
             return (
               <>
                 <UserCard>
-                  <SAvatarContainer large>
-                    <SAvatar />
-                  </SAvatarContainer>
-                  <InfoContainer>
-                    <TweeterUsername>{d.username}</TweeterUsername>
-                    <TweeterUsername small topzero>
-                      {d.bio}
-                    </TweeterUsername>
-                  </InfoContainer>
+                  <SLink to={`/profile/${d.id}`}>
+                    <SAvatarContainer large>
+                      <SAvatar
+                        src={
+                          d.profilePic
+                            ? d.profilePic
+                            : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
+                        }
+                      />
+                    </SAvatarContainer>
+                    <InfoContainer>
+                      <TweeterUsername>{d.username}</TweeterUsername>
+                      <TweeterUsername small topzero>
+                        {d.bio}
+                      </TweeterUsername>
+                    </InfoContainer>
+                  </SLink>
                 </UserCard>
               </>
             );
