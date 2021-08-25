@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
+import { useQuery, gql } from "@apollo/client";
 //
 import { Avatar, AvatarContainer } from "../../components/Avatar";
 import { ButtonContainer } from "../../components/Buttons/ButtonContainer";
@@ -181,11 +182,37 @@ const SStyledButton = styled(StyledButton)`
   margin: 0;
   background-color: transparent;
 `;
+
+const FETCH_SEARCHED_USER = gql`
+  query getSearchedUser($username: String) {
+    getSearchedUser(username: $username) {
+      id
+      username
+      phone
+      email
+      createdAt
+      updatedAt
+      profilePic
+      banner
+      bio
+      location
+      website
+      name
+    }
+  }
+`;
+
 export default function WhatsHappening() {
   const [showSearchModal, setshowSearchModal] = useState(false);
   const [query, setQuery] = useState("");
   const { pathname } = useLocation();
   const newPathname = pathname.substring(1);
+
+  const { loading, data } = useQuery(FETCH_SEARCHED_USER, {
+    variables: { username: query },
+  });
+
+  console.log("query", query, "data", data);
 
   // const SearchShower = () => {
   //   if (newPathname.startsWith("explore")) {
@@ -231,7 +258,7 @@ export default function WhatsHappening() {
           ></StyledSearchInput>
         </SearchContainer>
         <RestContainer>
-          <SearchModal showSearchModal={showSearchModal} />
+          <SearchModal showSearchModal={showSearchModal} data={data && data} />
           {/* Whats happening */}
           <SubContainer>
             <Title title="Whats Happening" />

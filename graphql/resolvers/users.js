@@ -32,6 +32,15 @@ module.exports = {
         throw new Error(error);
       }
     },
+    async getSearchedUser(_, { username }) {
+      try {
+        let usrname = new RegExp("^" + username);
+        const user = await User.find({ username: { $regex: usrname } });
+        return user;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
   },
 
   Mutation: {
