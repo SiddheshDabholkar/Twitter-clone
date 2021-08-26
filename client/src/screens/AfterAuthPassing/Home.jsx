@@ -69,7 +69,6 @@ export default function Home() {
   useEffect(() => {
     if (userdata) {
       const u = userdata.getUser;
-      console.log("userdata", u);
       dispatch({
         type: "LOGIN",
         payload: u,

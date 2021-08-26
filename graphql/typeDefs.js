@@ -17,6 +17,8 @@ module.exports = gql`
     location: String
     website: String
     name: String
+    following: [User]
+    followers: [User]
   }
   type Tweet {
     id: ID!
@@ -85,5 +87,6 @@ module.exports = gql`
       website: String
       userId: ID!
     ): User!
+    followUnfollow(otherUserId: ID!): User
   }
 `;

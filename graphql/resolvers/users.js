@@ -217,5 +217,30 @@ module.exports = {
         throw new Error(error);
       }
     },
+    async followUnfollow(_, { otherUserId }, context) {
+      try {
+        const { id } = checkAuth(context);
+        const otherUser = await User.findById(otherUserId).populate(
+          "following followers"
+        );
+        const user = await User.findById(id).populate("following followers");
+
+        if (otherUser.followers.find((m) => m.id === id)) {
+          otherUser.followers = otherUser.followers.filter((f) => f.id !== id);
+          user.following = user.following.filter((f) => f.id !== otherUserId);
+          otherUser.save();
+          user.save();
+          return otherUser, user;
+        } else {
+          otherUser.followers.push(id);
+          user.following.push(otherUserId);
+          otherUser.save();
+          user.save();
+          return otherUser, user;
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
   },
 };
