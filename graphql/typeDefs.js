@@ -26,7 +26,8 @@ module.exports = gql`
     username: String
     createdAt: Date
     updatedAt: Date
-    likes: [Like]
+    # likes: [Like]
+    likes: [User!]
     photo: String
     user: User!
     replies: [replies]
@@ -48,12 +49,11 @@ module.exports = gql`
     email: String
   }
 
-  type Like {
-    id: ID
-    createdAt: String
-    username: String
-    user: User!
-  }
+  # type Like {
+  #   # createdAt: Date
+  #   # updatedAt: Date
+  #   user: User!
+  # }
 
   type Query {
     getTweets: [Tweet]
@@ -72,6 +72,7 @@ module.exports = gql`
     deleteTweet(tweetId: ID!): String
     createReply(tweetId: String!, body: String!): Tweet!
     deleteReply(tweetId: ID!, replyId: ID!): Tweet!
+    # likeTweet(tweetId: ID!): User!
     likeTweet(tweetId: ID!): Tweet!
     reTweet(tweetId: ID!, body: String): Tweet!
     editProfile(

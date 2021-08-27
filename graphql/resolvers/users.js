@@ -219,7 +219,6 @@ module.exports = {
         throw new Error(error);
       }
     },
-
     async followUnfollow(_, { otherUserId }, context) {
       try {
         const { id } = checkAuth(context);

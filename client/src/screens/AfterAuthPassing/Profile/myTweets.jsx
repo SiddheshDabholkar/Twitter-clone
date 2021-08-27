@@ -14,11 +14,9 @@ const FETCH_MY_TWEETS = gql`
       createdAt
       photo
       updatedAt
-      # likes {
-      #   id
-      #   createdAt
-      #   username
-      # }
+      likes {
+        id
+      }
       user {
         id
         username

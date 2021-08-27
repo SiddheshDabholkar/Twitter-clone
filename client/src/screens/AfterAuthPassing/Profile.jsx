@@ -186,6 +186,7 @@ export default function Profile() {
   } else {
     const userInfo = data.getUser;
     const {
+      id,
       username,
       phone,
       email,

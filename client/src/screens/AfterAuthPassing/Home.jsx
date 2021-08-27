@@ -35,11 +35,18 @@ export const FETCH_TWEET = gql`
       createdAt
       photo
       updatedAt
-      # likes {
-      #   id
-      #   createdAt
-      #   username
-      # }
+      likes {
+        id
+        username
+        phone
+        email
+        profilePic
+        banner
+        bio
+        location
+        website
+        name
+      }
       user {
         id
         username
@@ -67,10 +74,10 @@ export default function Home() {
   const { loading: userLoading, data: userdata } = useQuery(FETCH_USER, {
     variables: { userId: user.id },
   });
+
   useEffect(() => {
     if (userdata) {
       const u = userdata.getUser;
-      console.log("u", u);
       dispatch({
         type: "LOGIN",
         payload: u,

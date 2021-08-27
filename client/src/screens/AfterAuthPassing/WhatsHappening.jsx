@@ -247,11 +247,13 @@ export default function WhatsHappening() {
             value={query}
             placeholder="Search twitter"
             onChange={(e) => {
-              const q = e.target.value;
-              setQuery(q);
-              q.length > 0
-                ? setshowSearchModal(true)
-                : setshowSearchModal(false);
+              if (e.target.value.length > 0) {
+                const q = e.target.value;
+                setQuery(q);
+                q.length > 0
+                  ? setshowSearchModal(true)
+                  : setshowSearchModal(false);
+              }
             }}
             onCLick={() => setshowSearchModal(!showSearchModal)}
           ></StyledSearchInput>
