@@ -10,7 +10,7 @@ module.exports = {
         const tweets = await Tweet.find()
           .sort({ createdAt: -1 })
           .populate("user")
-          .populate("tweet");
+          .populate("tweet likes");
         return tweets;
       } catch (e) {
         throw new Error(e);
@@ -19,7 +19,7 @@ module.exports = {
     //*-----------------------------------//
     async getTweet(_, { tweetId }) {
       try {
-        const tweet = await Tweet.findById(tweetId).populate("user");
+        const tweet = await Tweet.findById(tweetId).populate("user likes");
         if (tweet) {
           return tweet;
         } else {
@@ -33,7 +33,7 @@ module.exports = {
     async getUserTweets(_, { profileId }) {
       try {
         const tweeets = await Tweet.find()
-          .populate("user")
+          .populate("user likes")
           .sort({ createdAt: -1 });
         const mtweets = tweeets.map((tweet) => {
           if (tweet.user.id === profileId) {
@@ -97,22 +97,22 @@ module.exports = {
     },
     //*-----------------------------------//
     async likeTweet(_, { tweetId }, context) {
-      const { username } = checkAuth(context);
-      const tweet = await Tweet.findById(tweetId);
+      const { id } = checkAuth(context);
+      const tweet = await Tweet.findById(tweetId).populate("likes likes.user");
       if (tweet) {
-        if (tweet.likes.find((like) => like.username === username)) {
-          tweet.likes = tweet.likes.filter(
-            (like) => like.username !== username
-          );
-          await tweet.save();
+        if (tweet.likes.some((like) => like.id === id)) {
+          return await Tweet.findByIdAndUpdate(
+            tweetId,
+            {
+              $pull: { likes: id },
+            },
+            { new: true }
+          ).populate("likes likes.user");
         } else {
-          tweet.likes.push({
-            username,
-          });
+          tweet.likes.push(id);
+          await tweet.save();
+          return tweet;
         }
-
-        await tweet.save();
-        return tweet;
       } else throw new UserInputError("Tweet not found");
     },
     //*-----------------------------------//

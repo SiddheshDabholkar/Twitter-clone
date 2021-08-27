@@ -22,19 +22,61 @@ import {
 } from "./";
 import MoreList from "../Modals/MoreList";
 import useModal from "../../hooks/useModal";
+// import { FETCH_TWEET } from "../../screens/AfterAuthPassing/Home";
 //
-const LIKE_TWEET_MUTATION = gql`
+export const LIKE_TWEET_MUTATION = gql`
   mutation likeTweet($tweetId: ID!) {
     likeTweet(tweetId: $tweetId) {
       id
+      username
+      photo
+      body
       likes {
-        username
         id
       }
     }
   }
 `;
-
+export const FETCH_TWEET = gql`
+  {
+    getTweets {
+      id
+      body
+      username
+      createdAt
+      photo
+      updatedAt
+      likes {
+        id
+        username
+        phone
+        email
+        profilePic
+        banner
+        bio
+        location
+        website
+        name
+      }
+      user {
+        id
+        username
+        phone
+        email
+        token
+        createdAt
+        updatedAt
+        profilePic
+      }
+      tweet {
+        id
+        body
+        username
+        createdAt
+      }
+    }
+  }
+`;
 export default function Tweet({
   tweet: {
     id,
@@ -55,25 +97,24 @@ export default function Tweet({
   },
 }) {
   const { user } = useContext(AuthContext);
-  // const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(false);
   const [Modal, show, toggle] = useModal(MoreList);
-  // useEffect(() => {
-  //   if (user && likes.find((like) => like.username === user.username)) {
-  //     setLiked(true);
-  //   } else setLiked(false);
-  // }, [user, likes]);
 
-  // const [likeTweet] = useMutation(LIKE_TWEET_MUTATION, {
-  //   variables: { tweetId: id },
-  // });
+  useEffect(() => {
+    if (user && likes.find((like) => like.id === user.id)) {
+      setLiked(true);
+    } else setLiked(false);
+  }, [user, likes]);
 
-  // const likeIcon = () => {
-  //   if (liked) {
-  //     return <MdFavorite id="red" style={{ color: "red" }} />;
-  //   } else {
-  //     return <FaRegHeart id="red" />;
-  //   }
-  // };
+  const [likeTweet] = useMutation(LIKE_TWEET_MUTATION);
+
+  const likeIcon = () => {
+    if (liked) {
+      return <MdFavorite id="red" style={{ color: "red" }} />;
+    } else {
+      return <FaRegHeart id="red" />;
+    }
+  };
 
   return (
     <>
@@ -120,12 +161,12 @@ export default function Tweet({
                 <FaRetweet id="green" />
               </IconContainer>
               <IconContainer
-              // onClick={(e) => {
-              //   likeTweet();
-              //   e.preventDefault();
-              // }}
+                onClick={(e) => {
+                  likeTweet({ variables: { tweetId: id } });
+                  e.preventDefault();
+                }}
               >
-                {/* {likeIcon()} */}
+                {likeIcon()}
               </IconContainer>
               <IconContainer onClick={(e) => e.preventDefault()}>
                 <FiUpload id="blue" />

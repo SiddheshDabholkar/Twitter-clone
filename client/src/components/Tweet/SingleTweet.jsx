@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useMutation } from "@apollo/client";
 //
 import { FaRegComment, FaRetweet, FaRegHeart } from "react-icons/fa";
 import { MdFavorite } from "react-icons/md";
@@ -23,6 +23,8 @@ import {
 import useModal from "../../hooks/useModal";
 import MoreList from "../Modals/MoreList";
 import { ago } from "../../utils/timeago";
+import { LIKE_TWEET_MUTATION } from "./Tweet";
+import { AuthContext } from "../../context/auth";
 
 const GET_SINGLE_TWEET = gql`
   query ($tweetId: ID!) {
@@ -32,6 +34,9 @@ const GET_SINGLE_TWEET = gql`
       username
       createdAt
       updatedAt
+      likes {
+        id
+      }
       photo
       user {
         id
@@ -48,7 +53,6 @@ const GET_SINGLE_TWEET = gql`
     }
   }
 `;
-
 const StatContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -61,8 +65,10 @@ const Scount = styled.span`
 `;
 export default function SingleTweet() {
   let { tweetId } = useParams();
+  const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
   const [Modal, show, toggle] = useModal(MoreList);
+  const [likeTweet] = useMutation(LIKE_TWEET_MUTATION);
 
   const { data: SingleTweetData, loading: SingleTweetLoading } = useQuery(
     GET_SINGLE_TWEET,
@@ -81,6 +87,14 @@ export default function SingleTweet() {
     }
   };
 
+  const CheckIfUserHaveAlreadyLikedPost = (likes, user) => {
+    useEffect(() => {
+      if (user && likes.find((like) => like.id === user.id)) {
+        setLiked(true);
+      } else setLiked(false);
+    }, [user, likes]);
+  };
+
   const Replies = () => {
     const replies = SingleTweetData && SingleTweetData.getTweet.replies;
     return (
@@ -96,14 +110,17 @@ export default function SingleTweet() {
     return <h1>loading...</h1>;
   } else {
     const singleTweet = SingleTweetData.getTweet;
+    console.log("singleTweet", singleTweet);
     const {
+      id,
       body,
       createdAt,
       photo,
+      likes,
       username,
       user: { profilePic },
     } = singleTweet;
-    console.log("Single tweet", singleTweet);
+    CheckIfUserHaveAlreadyLikedPost(likes, user);
     return (
       <>
         <TweetContainer style={{ marginTop: "10px" }}>
@@ -157,7 +174,14 @@ export default function SingleTweet() {
             <IconContainer>
               <FaRetweet id="green" />
             </IconContainer>
-            <IconContainer>{likeIcon()}</IconContainer>
+            <IconContainer
+              onClick={(e) => {
+                e.preventDefault();
+                likeTweet({ variables: { tweetId: id } });
+              }}
+            >
+              {likeIcon()}
+            </IconContainer>
             <IconContainer>
               <FiUpload id="blue" />
             </IconContainer>

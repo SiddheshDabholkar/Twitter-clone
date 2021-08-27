@@ -21,7 +21,6 @@ const tweetSchema = new Schema(
     ],
     likes: [
       {
-        username: String,
         type: ObjectId,
         ref: "User",
       },
