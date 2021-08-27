@@ -22,7 +22,9 @@ module.exports = {
     },
     async getUser(_, { userId }) {
       try {
-        const user = await User.findById(userId).populate("tweet ReTweet");
+        const user = await User.findById(userId).populate(
+          "tweet ReTweet following followers"
+        );
         if (user) {
           return user;
         } else {
@@ -217,6 +219,7 @@ module.exports = {
         throw new Error(error);
       }
     },
+
     async followUnfollow(_, { otherUserId }, context) {
       try {
         const { id } = checkAuth(context);
@@ -224,19 +227,29 @@ module.exports = {
           "following followers"
         );
         const user = await User.findById(id).populate("following followers");
-
         if (otherUser.followers.find((m) => m.id === id)) {
-          otherUser.followers = otherUser.followers.filter((f) => f.id !== id);
-          user.following = user.following.filter((f) => f.id !== otherUserId);
-          otherUser.save();
-          user.save();
-          return otherUser, user;
+          return await User.findByIdAndUpdate(
+            otherUserId,
+            {
+              $pull: { followers: id },
+            },
+            { new: true },
+            (result) => {
+              User.findByIdAndUpdate(
+                id,
+                {
+                  $pull: { following: otherUserId },
+                },
+                { new: true }
+              ).populate("following followers");
+            }
+          ).populate("following followers");
         } else {
           otherUser.followers.push(id);
           user.following.push(otherUserId);
           otherUser.save();
           user.save();
-          return otherUser, user;
+          return user, otherUser;
         }
       } catch (error) {
         throw new Error(error);

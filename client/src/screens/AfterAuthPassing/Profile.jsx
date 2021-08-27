@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { AuthContext } from "../../context/auth";
@@ -15,7 +15,7 @@ import ProfileTab from "../../screens/AfterAuthPassing/Profile/ProfileTabs";
 import GoBack from "../../components/Buttons/GoBackButton";
 import EditProfile from "../../components/Modals/EditProfile";
 import useModal from "../../hooks/useModal";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useMutation } from "@apollo/client";
 
 export const Parent = styled.div`
   display: flex;
@@ -85,6 +85,7 @@ const SNavbarContainer = styled(NavbarContainer)`
 const FETCH_USER = gql`
   query getUser($userId: ID!) {
     getUser(userId: $userId) {
+      id
       username
       phone
       email
@@ -94,6 +95,27 @@ const FETCH_USER = gql`
       location
       website
       name
+      following {
+        id
+      }
+      followers {
+        id
+      }
+    }
+  }
+`;
+
+const FOLLOW_UNFOLLOW = gql`
+  mutation followUnfollow($otherUserId: ID!) {
+    followUnfollow(otherUserId: $otherUserId) {
+      id
+      username
+      following {
+        id
+      }
+      followers {
+        id
+      }
     }
   }
 `;
@@ -102,9 +124,30 @@ export default function Profile() {
   let { profileId } = useParams();
   const { user } = useContext(AuthContext);
   const [Modal, show, toggle] = useModal(EditProfile);
-  const { loading, data, error } = useQuery(FETCH_USER, {
+
+  const [FOLLOWING, SETFOLLOWING] = useState(false);
+
+  const { loading, data } = useQuery(FETCH_USER, {
     variables: { userId: profileId },
   });
+
+  const [followUnfollow] = useMutation(FOLLOW_UNFOLLOW);
+
+  useEffect(() => {
+    const checkIFUserISFollowing = (followers) => {
+      return followers.some((f) => f.id === user.id);
+    };
+    if (data) {
+      const userInfo = data.getUser;
+      const { followers } = userInfo;
+      console.log(checkIFUserISFollowing(followers));
+      if (checkIFUserISFollowing(followers)) {
+        SETFOLLOWING(true);
+      } else {
+        SETFOLLOWING(false);
+      }
+    }
+  }, [data]);
 
   const DecideButton = () => {
     if (user.id === profileId) {
@@ -128,8 +171,11 @@ export default function Profile() {
           borderColor="#1da1f2"
           small
           style={{ width: "20%" }}
+          onClick={() =>
+            followUnfollow({ variables: { otherUserId: profileId } })
+          }
         >
-          follow
+          {FOLLOWING ? "following" : "follow"}
         </StyledButton>
       );
     }
@@ -149,6 +195,8 @@ export default function Profile() {
       location,
       website,
       name,
+      following,
+      followers,
     } = userInfo;
     return (
       <>
@@ -195,10 +243,10 @@ export default function Profile() {
           )}
           <LocationnJoinContainer>
             <STweetContent>
-              <b style={{ color: "black" }}>69</b> following
+              <b style={{ color: "black" }}>{following.length}</b> following
             </STweetContent>
             <STweetContent>
-              <b style={{ color: "black" }}>69</b> follower
+              <b style={{ color: "black" }}>{followers.length}</b> follower
             </STweetContent>
           </LocationnJoinContainer>
         </BioContainer>

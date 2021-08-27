@@ -126,7 +126,6 @@ export default function SideBar() {
   const { user } = useContext(AuthContext);
   const [showLogOutModal, setShowLogOutModal] = useState(false);
 
-  // console.log(user.id);
   const links = [
     {
       to: "/home",
