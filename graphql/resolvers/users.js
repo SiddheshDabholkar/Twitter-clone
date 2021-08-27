@@ -22,7 +22,9 @@ module.exports = {
     },
     async getUser(_, { userId }) {
       try {
-        const user = await User.findById(userId).populate("tweet ReTweet");
+        const user = await User.findById(userId).populate(
+          "tweet ReTweet following followers"
+        );
         if (user) {
           return user;
         } else {
@@ -212,6 +214,42 @@ module.exports = {
           return user;
         } else {
           throw new Error("user not found");
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+
+    async followUnfollow(_, { otherUserId }, context) {
+      try {
+        const { id } = checkAuth(context);
+        const otherUser = await User.findById(otherUserId).populate(
+          "following followers"
+        );
+        const user = await User.findById(id).populate("following followers");
+        if (otherUser.followers.find((m) => m.id === id)) {
+          return await User.findByIdAndUpdate(
+            otherUserId,
+            {
+              $pull: { followers: id },
+            },
+            { new: true },
+            (result) => {
+              User.findByIdAndUpdate(
+                id,
+                {
+                  $pull: { following: otherUserId },
+                },
+                { new: true }
+              ).populate("following followers");
+            }
+          ).populate("following followers");
+        } else {
+          otherUser.followers.push(id);
+          user.following.push(otherUserId);
+          otherUser.save();
+          user.save();
+          return user, otherUser;
         }
       } catch (error) {
         throw new Error(error);

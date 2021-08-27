@@ -14,6 +14,8 @@ const userSchema = new Schema(
     location: String,
     website: String,
     name: String,
+    following: [{ type: ObjectId, ref: "User" }],
+    followers: [{ type: ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );

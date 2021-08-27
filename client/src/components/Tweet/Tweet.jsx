@@ -77,7 +77,7 @@ export default function Tweet({
 
   return (
     <>
-      <SLink to={`/tweet/${id}`} col key={username}>
+      <SLink to={`/tweet/${id}`} col key={id}>
         <STweetContainer>
           <SAvatarContainer>
             <Link to={`/profile/${userid}`}>

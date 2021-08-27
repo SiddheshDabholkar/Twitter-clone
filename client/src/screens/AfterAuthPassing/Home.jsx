@@ -13,6 +13,7 @@ import { AuthContext } from "../../context/auth";
 const FETCH_USER = gql`
   query getUser($userId: ID!) {
     getUser(userId: $userId) {
+      id
       username
       phone
       email
@@ -69,7 +70,7 @@ export default function Home() {
   useEffect(() => {
     if (userdata) {
       const u = userdata.getUser;
-      console.log("userdata", u);
+      console.log("u", u);
       dispatch({
         type: "LOGIN",
         payload: u,
