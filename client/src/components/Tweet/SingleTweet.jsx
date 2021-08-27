@@ -120,7 +120,6 @@ export default function SingleTweet() {
       username,
       user: { profilePic },
     } = singleTweet;
-    CheckIfUserHaveAlreadyLikedPost(likes, user);
     return (
       <>
         <TweetContainer style={{ marginTop: "10px" }}>
@@ -178,6 +177,7 @@ export default function SingleTweet() {
               onClick={(e) => {
                 e.preventDefault();
                 likeTweet({ variables: { tweetId: id } });
+                CheckIfUserHaveAlreadyLikedPost(likes, user);
               }}
             >
               {likeIcon()}
