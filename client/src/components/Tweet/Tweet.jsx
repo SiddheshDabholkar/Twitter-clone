@@ -146,7 +146,7 @@ export default function Tweet({
               )}
             </Row>
             <Row onClick={(e) => e.preventDefault()}>
-              {show && <Modal onClick={(e) => e.preventDefault()} />}
+              {show && <Modal onClick={(e) => e.preventDefault()} id={id} />}
             </Row>
 
             <Row>

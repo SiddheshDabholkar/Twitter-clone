@@ -48,7 +48,21 @@ const MAKE_TWEET = gql`
     createTweet(body: $body, photo: $photo) {
       id
       body
+      username
+      createdAt
+      updatedAt
       photo
+      likes {
+        id
+      }
+      replies {
+        id
+        body
+        username
+      }
+      tweet {
+        id
+      }
     }
   }
 `;

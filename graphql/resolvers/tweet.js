@@ -9,8 +9,7 @@ module.exports = {
       try {
         const tweets = await Tweet.find()
           .sort({ createdAt: -1 })
-          .populate("user")
-          .populate("tweet likes");
+          .populate("tweet likes replies user");
         return tweets;
       } catch (e) {
         throw new Error(e);
@@ -19,7 +18,9 @@ module.exports = {
     //*-----------------------------------//
     async getTweet(_, { tweetId }) {
       try {
-        const tweet = await Tweet.findById(tweetId).populate("user likes");
+        const tweet = await Tweet.findById(tweetId).populate(
+          "tweet likes replies user"
+        );
         if (tweet) {
           return tweet;
         } else {
@@ -33,7 +34,7 @@ module.exports = {
     async getUserTweets(_, { profileId }) {
       try {
         const tweeets = await Tweet.find()
-          .populate("user likes")
+          .populate("tweet likes replies user")
           .sort({ createdAt: -1 });
         const mtweets = tweeets.map((tweet) => {
           if (tweet.user.id === profileId) {
