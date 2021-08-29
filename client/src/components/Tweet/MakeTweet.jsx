@@ -51,11 +51,10 @@ const MAKE_TWEET = gql`
       username
       createdAt
       updatedAt
+      photo
       likes {
         id
-        username
       }
-      photo
       replies {
         id
         body

@@ -89,7 +89,9 @@ export default function MoreList(props) {
               <RiDeleteBinLine style={{ color: "black" }} />
             </IconContainer>
             <ListNameContainer>
-              <span style={{ color: "black" }}>delete</span>
+              <span style={{ color: "black" }} onClick={deleteTweet}>
+                delete
+              </span>
             </ListNameContainer>
           </ListBox>
         </ListModal>

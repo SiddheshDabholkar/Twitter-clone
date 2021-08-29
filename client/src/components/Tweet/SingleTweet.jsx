@@ -145,7 +145,7 @@ export default function SingleTweet() {
             </IconContainer>
           </Row>
           <Row onClick={(e) => e.preventDefault()}>
-            {show && <Modal onClick={(e) => e.preventDefault()} />}
+            {show && <Modal onClick={(e) => e.preventDefault()} id={id} />}
           </Row>
           <Row>
             <TweetContent>{body}</TweetContent>
