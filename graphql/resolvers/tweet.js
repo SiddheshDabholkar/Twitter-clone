@@ -87,7 +87,8 @@ module.exports = {
         const tweet = await Tweet.findById(tweetId);
         if (user.username === tweet.username) {
           await tweet.delete();
-          return "Tweet deleted sucessfully";
+          // return "Tweet deleted sucessfully";
+          return tweetId;
         } else {
           throw new AuthenticationError("Action not allowed");
         }

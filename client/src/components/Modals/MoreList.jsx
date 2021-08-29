@@ -2,9 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { useMutation, gql } from "@apollo/client";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { FETCH_TWEET } from "../../screens/AfterAuthPassing/Home";
 
 export const DELETE_TWEET = gql`
-  mutation deleteTweet($tweetId: ID) {
+  mutation deleteTweet($tweetId: ID!) {
     deleteTweet(tweetId: $tweetId)
   }
 `;
@@ -60,20 +61,30 @@ const ListNameContainer = styled.div`
   justify-content: center;
   width: 80%;
 `;
-
 export default function MoreList(props) {
   const { tweetId } = props;
-  const [deleteTweet] = useMutation(DELETE_TWEET);
+  const [deleteTweet] = useMutation(DELETE_TWEET, {
+    variables: { tweetId },
+    update(proxy, result) {
+      const d = proxy.readQuery({
+        query: FETCH_TWEET,
+      });
+      const filteredData = d.getTweets.filter(
+        (i) => i.id !== result.data.deleteTweet
+      );
+      proxy.writeQuery({
+        query: FETCH_TWEET,
+        data: {
+          getTweets: filteredData,
+        },
+      });
+    },
+  });
   return (
     <>
       <ListModalContainer>
         <ListModal>
-          <ListBox
-            onClick={(e) => {
-              e.preventDefault();
-              deleteTweet({ variables: tweetId });
-            }}
-          >
+          <ListBox onClick={deleteTweet}>
             <IconContainer>
               <RiDeleteBinLine style={{ color: "black" }} />
             </IconContainer>
