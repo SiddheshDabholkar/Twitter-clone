@@ -1,6 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import { useMutation, gql } from "@apollo/client";
 import { RiDeleteBinLine } from "react-icons/ri";
+
+export const DELETE_TWEET = gql`
+  mutation deleteTweet($tweetId: ID) {
+    deleteTweet(tweetId: $tweetId)
+  }
+`;
 
 const ListModalContainer = styled.div`
   display: flex;
@@ -54,12 +61,19 @@ const ListNameContainer = styled.div`
   width: 80%;
 `;
 
-export default function MoreList() {
+export default function MoreList(props) {
+  const { tweetId } = props;
+  const [deleteTweet] = useMutation(DELETE_TWEET);
   return (
     <>
       <ListModalContainer>
         <ListModal>
-          <ListBox>
+          <ListBox
+            onClick={(e) => {
+              e.preventDefault();
+              deleteTweet({ variables: tweetId });
+            }}
+          >
             <IconContainer>
               <RiDeleteBinLine style={{ color: "black" }} />
             </IconContainer>

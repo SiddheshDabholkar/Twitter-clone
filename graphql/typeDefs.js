@@ -72,7 +72,6 @@ module.exports = gql`
     deleteTweet(tweetId: ID!): String
     createReply(tweetId: String!, body: String!): Tweet!
     deleteReply(tweetId: ID!, replyId: ID!): Tweet!
-    # likeTweet(tweetId: ID!): User!
     likeTweet(tweetId: ID!): Tweet!
     reTweet(tweetId: ID!, body: String): Tweet!
     editProfile(

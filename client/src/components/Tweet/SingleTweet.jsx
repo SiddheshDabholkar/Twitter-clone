@@ -53,6 +53,7 @@ const GET_SINGLE_TWEET = gql`
     }
   }
 `;
+
 const StatContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -69,6 +70,7 @@ export default function SingleTweet() {
   const [liked, setLiked] = useState(false);
   const [Modal, show, toggle] = useModal(MoreList);
   const [likeTweet] = useMutation(LIKE_TWEET_MUTATION);
+  const [likes, setLikes] = useState([]);
 
   const { data: SingleTweetData, loading: SingleTweetLoading } = useQuery(
     GET_SINGLE_TWEET,
@@ -79,6 +81,11 @@ export default function SingleTweet() {
     }
   );
 
+  useEffect(() => {
+    const singleTweet = SingleTweetData && SingleTweetData.getTweet;
+    singleTweet?.likes && setLikes(likes);
+  }, [SingleTweetData, likes]);
+
   const likeIcon = () => {
     if (liked) {
       return <MdFavorite id="red" style={{ color: "red" }} />;
@@ -87,13 +94,11 @@ export default function SingleTweet() {
     }
   };
 
-  const CheckIfUserHaveAlreadyLikedPost = (likes, user) => {
-    useEffect(() => {
-      if (user && likes.find((like) => like.id === user.id)) {
-        setLiked(true);
-      } else setLiked(false);
-    }, [user, likes]);
-  };
+  useEffect(() => {
+    if (user && likes.find((like) => like.id === user.id)) {
+      setLiked(true);
+    } else setLiked(false);
+  }, [user, likes]);
 
   const Replies = () => {
     const replies = SingleTweetData && SingleTweetData.getTweet.replies;
@@ -110,7 +115,6 @@ export default function SingleTweet() {
     return <h1>loading...</h1>;
   } else {
     const singleTweet = SingleTweetData.getTweet;
-    console.log("singleTweet", singleTweet);
     const {
       id,
       body,
@@ -120,6 +124,7 @@ export default function SingleTweet() {
       username,
       user: { profilePic },
     } = singleTweet;
+
     return (
       <>
         <TweetContainer style={{ marginTop: "10px" }}>
@@ -177,7 +182,7 @@ export default function SingleTweet() {
               onClick={(e) => {
                 e.preventDefault();
                 likeTweet({ variables: { tweetId: id } });
-                CheckIfUserHaveAlreadyLikedPost(likes, user);
+                // setCheck(true);
               }}
             >
               {likeIcon()}

@@ -48,7 +48,24 @@ const MAKE_TWEET = gql`
     createTweet(body: $body, photo: $photo) {
       id
       body
+      username
+      createdAt
+      updatedAt
+      likes {
+        id
+        username
+      }
       photo
+      replies {
+        id
+        body
+        username
+      }
+      tweet {
+        id
+        body
+        createdAt
+      }
     }
   }
 `;
@@ -66,8 +83,21 @@ export default function MakeTweet() {
     hiddenFileInput.current.click();
   };
   // const [makeTweet] = useMutation(MAKE_TWEET);
-  const [makeTweet] = useMutation(MAKE_TWEET);
-
+  const [makeTweet] = useMutation(MAKE_TWEET, {
+    variables: { body: tweetBody, photo: url },
+    update(proxy, result) {
+      const data = proxy.readQuery({
+        query: FETCH_TWEET,
+      });
+      proxy.writeQuery({
+        query: FETCH_TWEET,
+        data: {
+          getTweets: [result.data.createTweet, ...data.getTweets],
+        },
+      });
+      setTweetBody("");
+    },
+  });
   const ButtonDecider = () => {
     if (newPathname.startsWith("composetweet")) {
       return null;
@@ -80,9 +110,7 @@ export default function MakeTweet() {
               txtColor="#fff"
               bgColor="#1da1f2"
               borderColor="transparent"
-              onClick={() =>
-                makeTweet({ variables: { body: tweetBody, photo: url } })
-              }
+              onClick={makeTweet}
             >
               tweet
             </CStyledButton>
