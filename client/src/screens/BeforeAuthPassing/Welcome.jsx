@@ -34,8 +34,14 @@ const StyledHeader = styled.h1`
   justify-content: flex-start;
   width: 100%;
   font-weight: bolder;
-  font-size: ${({ small }) => (small ? "50px" : "100px")};
-  @media (min-width: 972px) {
+  font-size: ${({ small }) => (small ? "45px" : "75px")};
+  @media (max-width: 1400px) {
+    font-size: ${({ small }) => (small ? "40px" : "65px")};
+  }
+  @media (max-width: 1200px) {
+    font-size: ${({ small }) => (small ? "30px" : "55px")};
+  }
+  @media (max-width: 972px) {
     font-size: ${({ small }) => (small ? "30px" : "70px")};
   }
   @media (max-width: 790px) {

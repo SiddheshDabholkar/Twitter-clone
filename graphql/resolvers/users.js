@@ -46,16 +46,8 @@ module.exports = {
   },
 
   Mutation: {
-    async register(
-      _,
-      { registerInput: { username, email, password, confirmPassword, phone } }
-    ) {
-      const { valid, errors } = validateRegisterInput(
-        username,
-        email,
-        password,
-        confirmPassword
-      );
+    async register(_, { username, password }) {
+      const { valid, errors } = validateRegisterInput(username, password);
       if (!valid) {
         throw new UserInputError("Errors", { errors });
       }
@@ -69,31 +61,32 @@ module.exports = {
         });
       }
 
-      const usedEmail = await User.findOne({ email });
-      if (usedEmail) {
-        throw new UserInputError("Email already in use", {
-          errors: {
-            email: "email already taken",
-          },
-        });
-      }
+      // const usedEmail = await User.findOne({ email });
+      // if (usedEmail) {
+      //   throw new UserInputError("Email already in use", {
+      //     errors: {
+      //       email: "email already taken",
+      //     },
+      //   });
+      // }
 
-      const usedPhoneNo = await User.findOne({ phone });
-      if (usedPhoneNo) {
-        throw new UserInputError("phone number already in use", {
-          errors: {
-            phone: "phone number already in use",
-          },
-        });
-      }
+      // const usedPhoneNo = await User.findOne({ phone });
+      // if (usedPhoneNo) {
+      //   throw new UserInputError("phone number already in use", {
+      //     errors: {
+      //       phone: "phone number already in use",
+      //     },
+      //   });
+      // }
 
-      if (valid && !usedUsername && !usedEmail && !usedPhoneNo) {
+      // if (valid && !usedUsername && !usedEmail && !usedPhoneNo) {
+      if (valid && !usedUsername) {
         hashedPassword = await bcrypt.hash(password, 12);
         const newUser = new User({
-          email,
+          // email,
           username,
           password: hashedPassword,
-          phone,
+          // phone,
         });
         const res = await newUser.save();
         // console.log("res--->", res);
@@ -102,11 +95,12 @@ module.exports = {
             id: res._id,
             email: res.email,
             username: res.username,
-            phone: res.phone,
+            // phone: res.phone,
           },
           SECRET_KEY,
           { expiresIn: "1h" }
         );
+        // console.log("res user", res);
         // console.log("register token--->", token);
         // document.localStorage.setItem("jwtToken", token);
         return {
