@@ -7,7 +7,7 @@ module.exports = gql`
     username: String!
     password: String!
     phone: String
-    email: String!
+    email: String
     token: String
     createdAt: Date!
     updatedAt: Date!
@@ -41,13 +41,13 @@ module.exports = gql`
     createdAt: Date
     updatedAt: Date
   }
-  input RegisterInput {
-    username: String
-    password: String!
-    confirmPassword: String!
-    phone: String
-    email: String
-  }
+  # input RegisterInput {
+  # username: String
+  # password: String!
+  # confirmPassword: String!
+  # phone: String
+  # email: String
+  # }
 
   # type Like {
   #   # createdAt: Date
@@ -66,7 +66,8 @@ module.exports = gql`
   }
 
   type Mutation {
-    register(registerInput: RegisterInput): User!
+    # register(registerInput: RegisterInput): User!
+    register(username: String!, password: String!): User!
     login(input: String!, password: String!): User!
     createTweet(body: String!, photo: String): Tweet!
     deleteTweet(tweetId: ID!): String

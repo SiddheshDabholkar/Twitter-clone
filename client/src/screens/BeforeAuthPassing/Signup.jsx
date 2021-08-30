@@ -1,8 +1,11 @@
-import React, { useState } from "react";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import React, { useContext, useState } from "react";
+// import { Link, useLocation, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { gql, useMutation } from "@apollo/client";
 //
 import { StyledInput } from "../../components/Input";
-import { SmallHeader, SmallParagraph } from "../../Typography";
+import { SmallHeader } from "../../Typography";
+// import { SmallHeader, SmallParagraph } from "../../Typography";
 import { Logo, LogoContainer } from "../../components/Logo";
 import { StyledButton } from "../../components/Buttons/AuthButton";
 import { ButtonContainer } from "../../components/Buttons/ButtonContainer";
@@ -14,43 +17,66 @@ import {
 //
 import { MainContainer } from "../../container/MainContainer";
 import { CardContainer } from "../../container/CardContainer";
-import Confirmotp from "./Confirmotp";
+import { AuthContext } from "../../context/auth";
+// import Confirmotp from "./Confirmotp";
+
+const SIGN_UP = gql`
+  mutation register($username: String!, $password: String!) {
+    register(username: $username, password: $password) {
+      id
+      username
+      token
+    }
+  }
+`;
 
 export default function Signin({ onClose, show }) {
-  const [useFirst, setUseFirst] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const location = useLocation();
+  const context = useContext(AuthContext);
   const history = useHistory();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [signup] = useMutation(SIGN_UP, {
+    variables: { username, password },
+    update(_, { data: { register: userData } }) {
+      // console.log("userData", userData);
+      context.login(userData);
+      history.push("/home");
+    },
+  });
+  // const [useFirst, setUseFirst] = useState(true);
+  // const [showModal, setShowModal] = useState(false);
+  // const location = useLocation();
+  // const history = useHistory();
 
-  const Input = () => {
-    if (useFirst) {
-      return (
-        <>
-          <StyledInput placeholder="phone" />
-          <SmallParagraph
-            start
-            onClick={() => setUseFirst(false)}
-            style={{ cursor: "pointer" }}
-          >
-            use Email instead
-          </SmallParagraph>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <StyledInput placeholder="email" />
-          <SmallParagraph
-            start
-            onClick={() => setUseFirst(true)}
-            style={{ cursor: "pointer" }}
-          >
-            use phone instead
-          </SmallParagraph>
-        </>
-      );
-    }
-  };
+  // const Input = () => {
+  //   if (useFirst) {
+  //     return (
+  //       <>
+  //         <StyledInput placeholder="phone" />
+  //         <SmallParagraph
+  //           start
+  //           onClick={() => setUseFirst(false)}
+  //           style={{ cursor: "pointer" }}
+  //         >
+  //           use Email instead
+  //         </SmallParagraph>
+  //       </>
+  //     );
+  //   } else {
+  //     return (
+  //       <>
+  //         <StyledInput placeholder="email" />
+  //         <SmallParagraph
+  //           start
+  //           onClick={() => setUseFirst(true)}
+  //           style={{ cursor: "pointer" }}
+  //         >
+  //           use phone instead
+  //         </SmallParagraph>
+  //       </>
+  //     );
+  //   }
+  // };
 
   if (!show) return null;
   return (
@@ -65,8 +91,17 @@ export default function Signin({ onClose, show }) {
                 </LogoContainer>
               </MainContainer>
               <SmallHeader>Create your account</SmallHeader>
-              <StyledInput placeholder="name" />
-              <Input />
+              <StyledInput
+                placeholder="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <StyledInput
+                placeholder="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              {/* <Input /> */}
               <ButtonContainer>
                 <StyledButton
                   bgColor="#1da1f2"
@@ -75,13 +110,15 @@ export default function Signin({ onClose, show }) {
                   style={{ width: "100%" }}
                 >
                   <Link
-                    to={{
-                      pathname: "/confirmotp",
-                      state: { background: location },
-                    }}
-                    onClick={() => {
-                      setShowModal(true);
-                    }}
+                    // to="/home"
+                    onClick={signup}
+                    // to={{
+                    //   pathname: "/confirmotp",
+                    //   state: { background: location },
+                    // }}
+                    // onClick={() => {
+                    //   setShowModal(true);
+                    // }}
                   >
                     Signup
                   </Link>
@@ -91,13 +128,13 @@ export default function Signin({ onClose, show }) {
           </ModalContent>
         </ModalContainer>
       </Bg>
-      <Confirmotp
+      {/* <Confirmotp
         showModal={showModal}
         onCloseModal={() => {
           setShowModal(false);
           history.push("/");
         }}
-      />
+      /> */}
     </>
   );
 }

@@ -1,7 +1,7 @@
 | Features             | Frontend | Backend  |
 | -------------------- | -------- | -------- |
 | login                | &#x2714; | &#x2714; |
-| signup               | &#x2718; | &#x2714; |
+| signup               | &#x2714; | &#x2714; |
 | logout               | &#x2714; | &#x2714; |
 | like/dislike         | &#x2714; | &#x2714; |
 | follow/unfollow      | &#x2714; | &#x2714; |
