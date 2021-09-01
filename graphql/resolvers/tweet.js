@@ -9,7 +9,7 @@ module.exports = {
       try {
         const tweets = await Tweet.find()
           .sort({ createdAt: -1 })
-          .populate("tweet likes replies user");
+          .populate("tweet likes replies user tweet.user");
         return tweets;
       } catch (e) {
         throw new Error(e);
@@ -19,9 +19,10 @@ module.exports = {
     async getTweet(_, { tweetId }) {
       try {
         const tweet = await Tweet.findById(tweetId).populate(
-          "tweet likes replies user"
+          "tweet likes replies user tweet.user"
         );
         if (tweet) {
+          console.log("tweet", tweet);
           return tweet;
         } else {
           throw new Error("Tweet not found");
@@ -34,7 +35,7 @@ module.exports = {
     async getUserTweets(_, { profileId }) {
       try {
         const tweeets = await Tweet.find()
-          .populate("tweet likes replies user")
+          .populate("tweet likes replies user tweet.user")
           .sort({ createdAt: -1 });
         const mtweets = tweeets.map((tweet) => {
           if (tweet.user.id === profileId) {
@@ -65,12 +66,17 @@ module.exports = {
         username: user.username,
       });
       const tweet = await newTweet.save();
+      await tweet.populate("user").execPopulate();
       return tweet;
     },
     //*-----------------------------------//
     async reTweet(_, { tweetId, body }, context) {
       const user = checkAuth(context);
-      const tweet = await Tweet.findById(tweetId).populate("tweet").exec();
+      const tweet = await Tweet.findById(tweetId)
+        // .populate("tweet tweet.user")
+        .populate({ path: "tweet", populate: "user" })
+        .exec();
+      console.log("tweet", tweet);
       const newReTweet = new Tweet({
         body,
         user: user.id,
@@ -78,7 +84,7 @@ module.exports = {
         username: user.username,
       });
       const reTweet = await newReTweet.save();
-      // console.log(reTweet);
+      await reTweet.populate("user tweet.user").execPopulate();
       return reTweet;
     },
     //*-----------------------------------//

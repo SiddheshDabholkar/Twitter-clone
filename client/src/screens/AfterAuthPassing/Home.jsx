@@ -8,8 +8,6 @@ import Tweet from "../../components/Tweet/Tweet";
 import ReTweet from "../../components/Tweet/ReTweet";
 import { AuthContext } from "../../context/auth";
 
-//NOTE:
-//There is a problem with likes field when
 const FETCH_USER = gql`
   query getUser($userId: ID!) {
     getUser(userId: $userId) {
@@ -62,6 +60,10 @@ export const FETCH_TWEET = gql`
         body
         username
         createdAt
+        user {
+          id
+          profilePic
+        }
       }
     }
   }
@@ -83,7 +85,7 @@ export default function Home() {
         payload: u,
       });
     }
-  }, [userdata]);
+  }, [userdata, dispatch]);
 
   const Tweets = () => {
     if (loading) {
