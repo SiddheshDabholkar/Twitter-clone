@@ -18,7 +18,6 @@ export const Bg = styled.div`
     margin: 0px;
     width: 100%;
     height: 100%;
-    padding: 10px;
   }
 `;
 
@@ -39,16 +38,16 @@ export const ModalContainer = styled.div`
   background-color: #fff;
 
   @media (min-width: 920px) {
-    margin: 10% 25%;
+    margin: 7% 20%;
     height: auto;
   }
 
-  @media (max-width: 550px) {
+  @media (max-width: 620px) {
     /* position: relative; */
-    margin: 0px;
-    width: 100%;
+    margin: auto !important;
+    width: 100% !important;
+    border-radius: 0px;
     height: 100%;
-    padding: 10px;
   }
 `;
 
