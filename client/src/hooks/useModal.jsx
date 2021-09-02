@@ -8,5 +8,5 @@ export default function useModal(Component) {
     return <Component {...props} />;
   };
 
-  return [Modal, showModal, toggle];
+  return { Modal, showModal, toggle };
 }

@@ -22,6 +22,7 @@ import {
 } from "./";
 import MoreList from "../Modals/MoreList";
 import useModal from "../../hooks/useModal";
+import ReTweet from "../Modals/ReTweetModal";
 // import { FETCH_TWEET } from "../../screens/AfterAuthPassing/Home";
 //
 export const LIKE_TWEET_MUTATION = gql`
@@ -77,6 +78,7 @@ export const FETCH_TWEET = gql`
     }
   }
 `;
+
 export default function Tweet({
   tweet: {
     id,
@@ -98,7 +100,12 @@ export default function Tweet({
 }) {
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
-  const [Modal, show, toggle] = useModal(MoreList);
+  const { Modal, show, toggle } = useModal(MoreList);
+  // const {
+  //   Modal: ReTweetModal,
+  //   show: ReTweetShow,
+  //   toggle: ReTweetToggle,
+  // } = useModal(ReTweet);
 
   useEffect(() => {
     if (user && likes.find((like) => like.id === user.id)) {

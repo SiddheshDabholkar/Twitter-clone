@@ -231,7 +231,7 @@ export default function WhatsHappening() {
   //                 ? setshowSearchModal(true)
   //                 : setshowSearchModal(false);
   //             }}
-  //             onCLick={() => setshowSearchModal(!showSearchModal)}
+  //             onClick={() => setshowSearchModal(!showSearchModal)}
   //           ></StyledSearchInput>
   //         </SearchContainer>
   //       </>
@@ -255,7 +255,7 @@ export default function WhatsHappening() {
                   : setshowSearchModal(false);
               }
             }}
-            onCLick={() => setshowSearchModal(!showSearchModal)}
+            onClick={() => setshowSearchModal(!showSearchModal)}
           ></StyledSearchInput>
         </SearchContainer>
         <RestContainer>

@@ -54,6 +54,15 @@ const MAKE_TWEET = gql`
       photo
       likes {
         id
+        username
+        phone
+        email
+        profilePic
+        banner
+        bio
+        location
+        website
+        name
       }
       replies {
         id
@@ -63,7 +72,12 @@ const MAKE_TWEET = gql`
       tweet {
         id
         body
+        username
         createdAt
+        user {
+          id
+          profilePic
+        }
       }
     }
   }

@@ -9,7 +9,8 @@ module.exports = {
       try {
         const tweets = await Tweet.find()
           .sort({ createdAt: -1 })
-          .populate("tweet likes replies user tweet.user");
+          .populate("tweet likes replies user")
+          .populate({ path: "tweet", populate: "user" });
         return tweets;
       } catch (e) {
         throw new Error(e);
@@ -58,7 +59,6 @@ module.exports = {
       if (body.trim() === "") {
         throw new Error("Post body cannot be empty");
       }
-      console.log(photo);
       const newTweet = new Tweet({
         body,
         photo,
@@ -84,7 +84,10 @@ module.exports = {
         username: user.username,
       });
       const reTweet = await newReTweet.save();
-      await reTweet.populate("user tweet.user").execPopulate();
+      await reTweet.populate("user tweet").execPopulate();
+      await reTweet
+        .populate({ path: "tweet", populate: "user" })
+        .execPopulate();
       return reTweet;
     },
     //*-----------------------------------//
