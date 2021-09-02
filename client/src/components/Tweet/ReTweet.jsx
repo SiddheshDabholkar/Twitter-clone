@@ -28,6 +28,7 @@ import {
 } from "./";
 import { SAvatar, SAvatarContainer } from "../Avatar.jsx";
 import MoreList from "../Modals/MoreList";
+import Retweet from "../Modals/ReTweetModal";
 import useModal from "../../hooks/useModal";
 import { LIKE_TWEET_MUTATION } from "./Tweet";
 //
@@ -79,6 +80,11 @@ export default function ReTweet({
   const hookretweetCreatedAt = useAgo(createdAt);
   const hooktweetCreatedAt = useAgo(tweetCreatedAt);
   const { Modal, show, toggle } = useModal(MoreList);
+  const {
+    Modal: ReTweetModal,
+    show: ReTweetShow,
+    toggle: ReTweetToggle,
+  } = useModal(Retweet);
 
   useEffect(() => {
     if (user && likes.find((like) => like.id === user.id)) {

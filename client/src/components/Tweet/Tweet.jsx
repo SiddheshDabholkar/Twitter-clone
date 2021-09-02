@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { useMutation, gql } from "@apollo/client";
 import { Link } from "react-router-dom";
+import useModal from "../../hooks/useModal";
 import { useAgo } from "../../hooks/useAgo";
 //
 import { FaRegComment, FaRetweet, FaRegHeart } from "react-icons/fa";
@@ -20,11 +21,13 @@ import {
   TweetContent,
   IconContainer,
 } from "./";
+//modal component
+import useDropdown from "../../hooks/useDropdown";
+import ReTweet from "../Dropdown/ReTweetDropdown";
 import MoreList from "../Modals/MoreList";
-import useModal from "../../hooks/useModal";
-import ReTweet from "../Modals/ReTweetModal";
-// import { FETCH_TWEET } from "../../screens/AfterAuthPassing/Home";
-//
+
+import { FETCH_TWEET } from "../../screens/AfterAuthPassing/Home";
+
 export const LIKE_TWEET_MUTATION = gql`
   mutation likeTweet($tweetId: ID!) {
     likeTweet(tweetId: $tweetId) {
@@ -38,46 +41,46 @@ export const LIKE_TWEET_MUTATION = gql`
     }
   }
 `;
-export const FETCH_TWEET = gql`
-  {
-    getTweets {
-      id
-      body
-      username
-      createdAt
-      photo
-      updatedAt
-      likes {
-        id
-        username
-        phone
-        email
-        profilePic
-        banner
-        bio
-        location
-        website
-        name
-      }
-      user {
-        id
-        username
-        phone
-        email
-        token
-        createdAt
-        updatedAt
-        profilePic
-      }
-      tweet {
-        id
-        body
-        username
-        createdAt
-      }
-    }
-  }
-`;
+// export const FETCH_TWEET = gql`
+//   {
+//     getTweets {
+//       id
+//       body
+//       username
+//       createdAt
+//       photo
+//       updatedAt
+//       likes {
+//         id
+//         username
+//         phone
+//         email
+//         profilePic
+//         banner
+//         bio
+//         location
+//         website
+//         name
+//       }
+//       user {
+//         id
+//         username
+//         phone
+//         email
+//         token
+//         createdAt
+//         updatedAt
+//         profilePic
+//       }
+//       tweet {
+//         id
+//         body
+//         username
+//         createdAt
+//       }
+//     }
+//   }
+// `;
 
 export default function Tweet({
   tweet: {
@@ -100,12 +103,14 @@ export default function Tweet({
 }) {
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
+
   const { Modal, show, toggle } = useModal(MoreList);
-  // const {
-  //   Modal: ReTweetModal,
-  //   show: ReTweetShow,
-  //   toggle: ReTweetToggle,
-  // } = useModal(ReTweet);
+
+  const {
+    DropDown: ReTweetDropdown,
+    show: showReTweetDropdown,
+    toggle: toggleReTweetDropdown,
+  } = useDropdown(ReTweet);
 
   useEffect(() => {
     if (user && likes.find((like) => like.id === user.id)) {
@@ -166,8 +171,16 @@ export default function Tweet({
               <IconContainer onClick={(e) => e.preventDefault()}>
                 <FaRegComment id="blue" />
               </IconContainer>
-              <IconContainer onClick={(e) => e.preventDefault()}>
+
+              <IconContainer
+                onClick={(e) => {
+                  // RetweetToggle();
+                  toggleReTweetDropdown();
+                  e.preventDefault();
+                }}
+              >
                 <FaRetweet id="green" />
+                {showReTweetDropdown && <ReTweetDropdown tweetId={id} />}
               </IconContainer>
               <IconContainer
                 onClick={(e) => {

@@ -1,11 +1,19 @@
 import React from "react";
-import { useDisableBodyScroll } from "../../hooks/useDisableBodyScroll";
+import styled from "styled-components";
 
-export default function ReTweetModal({ toggle }) {
-  useDisableBodyScroll(toggle);
+const ModalContainer = styled.div`
+  display: inline-block;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  background-color: #000;
+  width: 30%;
+`;
+export default function RetweetModal() {
   return (
     <>
-      <h1>Retweet modal</h1>
+      <ModalContainer>lol</ModalContainer>
     </>
   );
 }

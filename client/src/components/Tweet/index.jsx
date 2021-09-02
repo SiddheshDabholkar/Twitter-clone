@@ -89,13 +89,16 @@ export const TweetContent = styled.p`
 `;
 
 export const IconContainer = styled.div`
-  display: flex;
+  display: inline-block;
+  position: relative;
   flex-direction: column;
   font-size: 20px;
   border-radius: 50%;
+  width: 25%;
   align-items: center;
   justify-content: center;
   color: grey;
+
   #blue {
     :hover {
       color: #1da1f2;

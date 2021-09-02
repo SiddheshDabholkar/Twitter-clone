@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 //
 import { useAgo } from "../../hooks/useAgo";
@@ -16,6 +16,7 @@ import { TweeterUsername } from "../../Typography/index";
 import { FaRegComment, FaRetweet, FaRegHeart } from "react-icons/fa";
 import { FiUpload } from "react-icons/fi";
 import { MdFavorite } from "react-icons/md";
+import { AuthContext } from "../../context/auth";
 
 const StyledAbove = styled(Above)`
   padding: 0;
@@ -25,25 +26,24 @@ const StyledAbove = styled(Above)`
 export default function Reply({
   reply: { id, body, username, createdAt, updatedAt },
 }) {
-  const [liked, setLiked] = useState(false);
+  // const [liked, setLiked] = useState(false);
+  // const { user } = useContext(AuthContext);
 
-  //   useEffect(() => {
-  //     if (user && likes.find((like) => like.username === user.username)) {
-  //       setLiked(true);
-  //     } else setLiked(false);
-  //   }, [user, likes]);
+  // useEffect(() => {
+  //   if (user && likes.find((like) => like.id === user.id)) {
+  //     setLiked(true);
+  //   } else setLiked(false);
+  // }, [user, likes]);
 
-  //   const [likeTweet] = useMutation(LIKE_TWEET_MUTATION, {
-  //     variables: { tweetId: id },
-  //   });
+  // const [likeTweet] = useMutation(LIKE_TWEET_MUTATION);
 
-  const likeIcon = () => {
-    if (liked) {
-      return <MdFavorite id="red" style={{ color: "red" }} />;
-    } else {
-      return <FaRegHeart id="red" />;
-    }
-  };
+  // const likeIcon = () => {
+  //   if (liked) {
+  //     return <MdFavorite id="red" style={{ color: "red" }} />;
+  //   } else {
+  //     return <FaRegHeart id="red" />;
+  //   }
+  // };
 
   return (
     <>
@@ -76,7 +76,8 @@ export default function Reply({
           <IconContainer>
             <FaRetweet id="green" />
           </IconContainer>
-          <IconContainer>{likeIcon()}</IconContainer>
+          {/* <IconContainer>{likeIcon()}</IconContainer> */}
+          <IconContainer></IconContainer>
           <IconContainer>
             <FiUpload id="blue" />
           </IconContainer>
