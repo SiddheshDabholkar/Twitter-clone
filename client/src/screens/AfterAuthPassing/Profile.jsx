@@ -123,7 +123,7 @@ const FOLLOW_UNFOLLOW = gql`
 export default function Profile() {
   let { profileId } = useParams();
   const { user } = useContext(AuthContext);
-  const [Modal, show, toggle] = useModal(EditProfile);
+  const { Modal, show, toggle } = useModal(EditProfile);
 
   const [FOLLOWING, SETFOLLOWING] = useState(false);
 

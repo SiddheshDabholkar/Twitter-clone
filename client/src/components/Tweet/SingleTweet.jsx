@@ -68,7 +68,7 @@ export default function SingleTweet() {
   let { tweetId } = useParams();
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
-  const [Modal, show, toggle] = useModal(MoreList);
+  const { Modal, show, toggle } = useModal(MoreList);
   const [likeTweet] = useMutation(LIKE_TWEET_MUTATION);
   const [likes, setLikes] = useState([]);
 
