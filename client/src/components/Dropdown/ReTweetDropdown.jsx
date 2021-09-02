@@ -6,6 +6,8 @@ import { Dropdown, Ul, Li } from "./DropDownUtils";
 import { gql, useMutation } from "@apollo/client";
 import { AuthContext } from "../../context/auth";
 import { FETCH_TWEET } from "../../screens/AfterAuthPassing/Home";
+import ReTweetModal from "../Modals/ReTweetQuoteModal";
+import useModal from "../../hooks/useModal";
 
 const Span = styled.span`
   font-size: 15px;
@@ -58,6 +60,8 @@ const MAKE_RETWEET = gql`
 export default function ReTweetDropdown({ tweetId }) {
   const { user } = useContext(AuthContext);
   const [body] = useState("");
+  const { Modal, show, toggle } = useModal(ReTweetModal);
+
   const [makeReTweet] = useMutation(MAKE_RETWEET, {
     variables: { body, tweetId },
     update(proxy, result) {
@@ -72,6 +76,7 @@ export default function ReTweetDropdown({ tweetId }) {
       });
     },
   });
+
   return (
     <>
       <Dropdown>
@@ -80,12 +85,13 @@ export default function ReTweetDropdown({ tweetId }) {
             <BsPencil />
             <Span>Retweet</Span>
           </Li>
-          <Li>
+          <Li onClick={toggle}>
             <FaRetweet />
             <Span>Quote Tweet</Span>
           </Li>
         </Ul>
       </Dropdown>
+      {show && <Modal onClick={(e) => e.preventDefault()} />}
     </>
   );
 }

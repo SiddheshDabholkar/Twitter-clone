@@ -14,8 +14,8 @@ export default function ReTweetModal() {
   return (
     <>
       <Bg>
-        <ReTweetModalContainer onClick={(e) => e.stopPropagation()}>
-          lol
+        <ReTweetModalContainer onClick={(e) => e.stopPropogation()}>
+          <div>lol</div>
         </ReTweetModalContainer>
       </Bg>
     </>

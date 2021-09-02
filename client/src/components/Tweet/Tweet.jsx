@@ -41,46 +41,6 @@ export const LIKE_TWEET_MUTATION = gql`
     }
   }
 `;
-// export const FETCH_TWEET = gql`
-//   {
-//     getTweets {
-//       id
-//       body
-//       username
-//       createdAt
-//       photo
-//       updatedAt
-//       likes {
-//         id
-//         username
-//         phone
-//         email
-//         profilePic
-//         banner
-//         bio
-//         location
-//         website
-//         name
-//       }
-//       user {
-//         id
-//         username
-//         phone
-//         email
-//         token
-//         createdAt
-//         updatedAt
-//         profilePic
-//       }
-//       tweet {
-//         id
-//         body
-//         username
-//         createdAt
-//       }
-//     }
-//   }
-// `;
 
 export default function Tweet({
   tweet: {
@@ -174,13 +134,17 @@ export default function Tweet({
 
               <IconContainer
                 onClick={(e) => {
-                  // RetweetToggle();
-                  toggleReTweetDropdown();
                   e.preventDefault();
+                  toggleReTweetDropdown();
                 }}
               >
                 <FaRetweet id="green" />
-                {showReTweetDropdown && <ReTweetDropdown tweetId={id} />}
+                {showReTweetDropdown && (
+                  <ReTweetDropdown
+                    onClick={(e) => e.preventDefault()}
+                    tweetId={id}
+                  />
+                )}
               </IconContainer>
               <IconContainer
                 onClick={(e) => {
