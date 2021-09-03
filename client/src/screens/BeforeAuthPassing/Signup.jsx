@@ -18,6 +18,7 @@ import {
 import { MainContainer } from "../../container/MainContainer";
 import { CardContainer } from "../../container/CardContainer";
 import { AuthContext } from "../../context/auth";
+import { useDisableBodyScroll } from "../../hooks/useDisableBodyScroll";
 // import Confirmotp from "./Confirmotp";
 
 const SIGN_UP = gql`
@@ -81,9 +82,9 @@ export default function Signin({ onClose, show }) {
   if (!show) return null;
   return (
     <>
-      <Bg>
-        <ModalContainer onClick={onClose}>
-          <ModalContent onClick={(e) => e.stopPropagation()}>
+      <Bg onClick={onClose}>
+        <ModalContainer onClick={(e) => e.stopPropagation()}>
+          <ModalContent>
             <CardContainer>
               <MainContainer nowrap style={{ flexDirection: "row" }}>
                 <LogoContainer>

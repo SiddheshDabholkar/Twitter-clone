@@ -5,10 +5,10 @@ export const CardContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 420px;
+  width: 410px;
   height: auto;
   @media (max-width: 450px) {
     width: 100%;
-    padding: 10px;
+    /* padding: 10px; */
   }
 `;

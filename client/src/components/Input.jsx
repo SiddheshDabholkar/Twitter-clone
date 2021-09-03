@@ -11,7 +11,7 @@ export const StyledInput = styled.input`
   font-size: 20px;
   padding: 5px 20px;
   width: 90%;
-  margin: 20px;
+  margin: 10px auto;
   @media (max-width: 450px) {
     width: 80%;
     margin: 10px;
