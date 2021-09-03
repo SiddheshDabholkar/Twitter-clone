@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useAgo } from "../../hooks/useAgo";
 //
 import { FaRegComment, FaRetweet, FaRegHeart } from "react-icons/fa";
@@ -32,16 +32,18 @@ import MoreList from "../Modals/MoreList";
 import useModal from "../../hooks/useModal";
 import { LIKE_TWEET_MUTATION } from "./Tweet";
 //
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   width: 100%;
 `;
-const TwetCon = styled(TweetContainer)`
+export const TwetCon = styled(TweetContainer)`
   border: 1px solid #80808052;
-  width: inherit;
+  /* width: inherit; */
+  width: ${({ full }) => (full ? "98%" : "inherit")};
+  margin-right: ${({ full }) => (full ? "10px" : "")};
   border-radius: 15px;
   cursor: pointer;
   :hover {

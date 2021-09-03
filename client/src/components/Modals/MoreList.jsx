@@ -1,14 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { RiDeleteBinLine } from "react-icons/ri";
-import { FETCH_TWEET } from "../../screens/AfterAuthPassing/Home";
-
-export const DELETE_TWEET = gql`
-  mutation deleteTweet($tweetId: ID!) {
-    deleteTweet(tweetId: $tweetId)
-  }
-`;
+import { FETCH_TWEET } from "../../graphql/queries";
+import { DELETE_TWEET } from "../../graphql/mutation";
 
 const ListModalContainer = styled.div`
   display: flex;

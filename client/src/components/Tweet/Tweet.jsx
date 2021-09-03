@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { Link } from "react-router-dom";
 import useModal from "../../hooks/useModal";
 import { useAgo } from "../../hooks/useAgo";
@@ -26,41 +26,28 @@ import useDropdown from "../../hooks/useDropdown";
 import ReTweet from "../Dropdown/ReTweetDropdown";
 import MoreList from "../Modals/MoreList";
 
-import { FETCH_TWEET } from "../../screens/AfterAuthPassing/Home";
+import { LIKE_TWEET_MUTATION } from "../../graphql/mutation";
 
-export const LIKE_TWEET_MUTATION = gql`
-  mutation likeTweet($tweetId: ID!) {
-    likeTweet(tweetId: $tweetId) {
-      id
-      username
-      photo
-      body
-      likes {
-        id
-      }
-    }
-  }
-`;
-
-export default function Tweet({
-  tweet: {
-    id,
-    body,
-    username,
-    createdAt,
-    photo,
-    likes,
-    user: {
-      id: userid,
-      username: userUsername,
-      phone,
-      email,
-      createdAt: userCreatedAt,
-      updatedAt: userUpdatedAt,
-      profilePic,
+export default function Tweet(props) {
+  const {
+    tweet: {
+      id,
+      body,
+      username,
+      createdAt,
+      photo,
+      likes,
+      user: {
+        id: userid,
+        username: userUsername,
+        phone,
+        email,
+        createdAt: userCreatedAt,
+        updatedAt: userUpdatedAt,
+        profilePic,
+      },
     },
-  },
-}) {
+  } = props;
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
 
@@ -143,6 +130,7 @@ export default function Tweet({
                   <ReTweetDropdown
                     // onClick={(e) => e.preventDefault()}
                     tweetId={id}
+                    data={props}
                   />
                 )}
               </IconContainer>

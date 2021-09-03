@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { Link, useLocation, useHistory } from "react-router-dom";
 //
 import { useForm } from "../../hooks/useForm";
@@ -13,18 +13,8 @@ import { StyledInput } from "../../components/Input";
 import { Logo, LogoContainer } from "../../components/Logo";
 import { AuthContext } from "../../context/auth";
 import Signup from "./Signup";
+import { LOGIN_USER } from "../../graphql/mutation";
 //
-const LOGIN_USER = gql`
-  mutation login($input: String!, $password: String!) {
-    login(input: $input, password: $password) {
-      token
-      username
-      phone
-      email
-      id
-    }
-  }
-`;
 
 export default function Login() {
   const context = useContext(AuthContext);

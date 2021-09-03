@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 //
 import { Avatar, AvatarContainer } from "../../components/Avatar";
 import { ButtonContainer } from "../../components/Buttons/ButtonContainer";
@@ -10,6 +10,7 @@ import { RestContainer } from "../../container/RestContainer";
 import SearchModal from "../../components/Modals/SearchModal";
 import { StyledSearchInput } from "../../components/Search";
 import useOnClickOutsideRef from "../../hooks/useOnClickOutsideRef";
+import { FETCH_SEARCHED_USER } from "../../graphql/queries";
 // import Search from "../../components/Search";
 
 const WhatsHappeningContainer = styled.div`
@@ -182,24 +183,6 @@ const SStyledButton = styled(StyledButton)`
   padding: 0;
   margin: 0;
   background-color: transparent;
-`;
-const FETCH_SEARCHED_USER = gql`
-  query getSearchedUser($username: String) {
-    getSearchedUser(username: $username) {
-      id
-      username
-      phone
-      email
-      createdAt
-      updatedAt
-      profilePic
-      banner
-      bio
-      location
-      website
-      name
-    }
-  }
 `;
 
 export default function WhatsHappening() {

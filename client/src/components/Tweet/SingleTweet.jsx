@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { useQuery, gql, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 //
 import { FaRegComment, FaRetweet, FaRegHeart } from "react-icons/fa";
 import { MdFavorite } from "react-icons/md";
@@ -23,36 +23,10 @@ import {
 import useModal from "../../hooks/useModal";
 import MoreList from "../Modals/MoreList";
 import { ago } from "../../utils/timeago";
-import { LIKE_TWEET_MUTATION } from "./Tweet";
 import { AuthContext } from "../../context/auth";
 
-const GET_SINGLE_TWEET = gql`
-  query ($tweetId: ID!) {
-    getTweet(tweetId: $tweetId) {
-      id
-      body
-      username
-      createdAt
-      updatedAt
-      likes {
-        id
-      }
-      photo
-      user {
-        id
-        username
-        profilePic
-      }
-      replies {
-        id
-        body
-        username
-        createdAt
-        updatedAt
-      }
-    }
-  }
-`;
+import { LIKE_TWEET_MUTATION } from "../../graphql/mutation";
+import { GET_SINGLE_TWEET } from "../../graphql/queries";
 
 const StatContainer = styled.div`
   display: flex;

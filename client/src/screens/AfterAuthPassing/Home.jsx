@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 //
 import useWindowSize from "../../hooks/useWindow";
 //
@@ -7,67 +7,7 @@ import MakeTweet from "../../components/Tweet/MakeTweet";
 import Tweet from "../../components/Tweet/Tweet";
 import ReTweet from "../../components/Tweet/ReTweet";
 import { AuthContext } from "../../context/auth";
-
-const FETCH_USER = gql`
-  query getUser($userId: ID!) {
-    getUser(userId: $userId) {
-      id
-      username
-      phone
-      email
-      profilePic
-      banner
-      bio
-      location
-      website
-      name
-    }
-  }
-`;
-export const FETCH_TWEET = gql`
-  {
-    getTweets {
-      id
-      body
-      username
-      createdAt
-      photo
-      updatedAt
-      likes {
-        id
-        username
-        phone
-        email
-        profilePic
-        banner
-        bio
-        location
-        website
-        name
-      }
-      user {
-        id
-        username
-        phone
-        email
-        token
-        createdAt
-        updatedAt
-        profilePic
-      }
-      tweet {
-        id
-        body
-        username
-        createdAt
-        user {
-          id
-          profilePic
-        }
-      }
-    }
-  }
-`;
+import { FETCH_TWEET, FETCH_USER } from "../../graphql/queries";
 
 export default function Home() {
   const { width } = useWindowSize();

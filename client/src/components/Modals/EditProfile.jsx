@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Bg, ModalContainer } from "./ModalUtils";
-import { useQuery, gql, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import styled from "styled-components";
 import {
   TwitterBannerCotainer,
@@ -16,6 +16,8 @@ import { ImageUploaderButton } from "../Tweet/index";
 import useUploadImage from "../../hooks/useUploadImage";
 import { useParams } from "react-router-dom";
 import { Navbar, NavbarInner, LeftContainer, BodyContainer } from "./common";
+import { EDIT_PROFILE } from "../../graphql/mutation";
+import { GET_USER_DATA } from "../../graphql/queries";
 
 export const SaveButton = styled.button`
   display: flex;
@@ -63,56 +65,6 @@ const FormContainer = styled.div`
   flex-direction: column;
   margin-top: 80px;
   padding: 20px 90px;
-`;
-
-const GET_USER_DATA = gql`
-  query getUser($userId: ID!) {
-    getUser(userId: $userId) {
-      name
-      website
-      location
-      bio
-      profilePic
-      banner
-    }
-  }
-`;
-
-const EDIT_PROFILE = gql`
-  mutation editProfile(
-    $name: String
-    $username: String
-    $password: String
-    $email: String
-    $phone: String
-    $profilePic: String
-    $banner: String
-    $bio: String
-    $location: String
-    $website: String
-    $userId: ID!
-  ) {
-    editProfile(
-      name: $name
-      username: $username
-      password: $password
-      email: $email
-      phone: $phone
-      profilePic: $profilePic
-      banner: $banner
-      bio: $bio
-      location: $location
-      website: $website
-      userId: $userId
-    ) {
-      name
-      website
-      location
-      bio
-      profilePic
-      banner
-    }
-  }
 `;
 
 export default function EditProfile({ toggle }) {

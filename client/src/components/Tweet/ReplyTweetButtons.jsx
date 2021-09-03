@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 //
 import { MdPermMedia } from "react-icons/md";
 import { AiOutlineFileGif } from "react-icons/ai";
@@ -18,26 +18,13 @@ import {
   UtilContainer,
   UploadcontentContainer,
 } from ".";
+import { MAKE_REPLY } from "../../graphql/mutation";
 //
 const RestCon = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 90%;
-`;
-
-const MAKE_REPLY = gql`
-  mutation createReply($body: String!, $tweetId: String!) {
-    createReply(body: $body, tweetId: $tweetId) {
-      id
-      username
-      replies {
-        id
-        body
-        username
-      }
-    }
-  }
 `;
 
 export default function ReplyTweetButtons({ tweetId }) {
