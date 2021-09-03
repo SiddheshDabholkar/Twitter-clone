@@ -15,8 +15,9 @@ import { AiOutlineClose, AiOutlineCamera } from "react-icons/ai";
 import { ImageUploaderButton } from "../Tweet/index";
 import useUploadImage from "../../hooks/useUploadImage";
 import { useParams } from "react-router-dom";
+import { Navbar, NavbarInner, LeftContainer, BodyContainer } from "./common";
 
-const SaveButton = styled.button`
+export const SaveButton = styled.button`
   display: flex;
   border-color: transparent;
   background-color: #1da1f2;
@@ -49,45 +50,12 @@ const ImgConUpdate = styled.div`
   cursor: pointer;
 `;
 
-const Navbar = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 55px;
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
-  justify-content: center;
-  align-items: center;
-`;
-
-const NavbarInner = styled.div`
-  width: 93%;
-  height: 99%;
-  display: flex;
-  flex-direction: row;
-`;
-
-const LeftContainer = styled.div`
-  display: flex;
-  width: 30%;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`;
 const RightContainer = styled.div`
   display: flex;
   width: 70%;
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
-`;
-
-const BodyContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  overflow-y: ${({ scroll }) => (scroll ? "scroll" : "")};
 `;
 
 const FormContainer = styled.div`

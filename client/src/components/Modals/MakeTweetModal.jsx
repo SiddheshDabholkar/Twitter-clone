@@ -55,7 +55,7 @@ const FootCont = styled.div`
   justify-content: ${({ end }) => (end ? "flex-end" : "center")};
   width: ${({ small }) => (small ? "40%" : "60%")};
 `;
-export default function ReTweetModal() {
+export default function MakeTweetModal({ toggle }) {
   const { user } = useContext(AuthContext);
   return (
     <>
@@ -70,7 +70,10 @@ export default function ReTweetModal() {
             <Navbar style={{ borderBottom: "1px solid #00011110" }} long>
               <NavbarInner>
                 <LeftContainer>
-                  <AiOutlineClose style={{ fontSize: "30px" }} />
+                  <AiOutlineClose
+                    style={{ fontSize: "30px", cursor: "pointer" }}
+                    onClick={toggle}
+                  />
                 </LeftContainer>
               </NavbarInner>
             </Navbar>
@@ -92,7 +95,7 @@ export default function ReTweetModal() {
                   }}
                 >
                   <TweetInput
-                    placeholder="Add a comment ?"
+                    placeholder="Whats's happening?"
                     cols="40"
                     rows="2"
                   />
