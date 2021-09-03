@@ -30,7 +30,7 @@ import { SAvatar, SAvatarContainer } from "../Avatar.jsx";
 import MoreList from "../Modals/MoreList";
 // import Retweet from "../Modals/ReTweetModal";
 import useModal from "../../hooks/useModal";
-import { LIKE_TWEET_MUTATION } from "./Tweet";
+import { LIKE_TWEET_MUTATION } from "../../graphql/mutation";
 //
 export const Container = styled.div`
   display: flex;
