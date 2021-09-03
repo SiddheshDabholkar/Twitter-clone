@@ -79,7 +79,12 @@ export default function ReTweetDropdown({ tweetId }) {
 
   return (
     <>
-      <Dropdown>
+      <Dropdown
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+        }}
+      >
         <Ul>
           <Li onClick={makeReTweet}>
             <BsPencil />

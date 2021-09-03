@@ -23,7 +23,6 @@ module.exports = {
           .populate("tweet likes replies user")
           .populate({ path: "tweet", populate: "user" });
         if (tweet) {
-          console.log("tweet", tweet);
           return tweet;
         } else {
           throw new Error("Tweet not found");

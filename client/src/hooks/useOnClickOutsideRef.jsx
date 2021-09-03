@@ -1,17 +1,18 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
-export default function useOnClickOutsideRef(callback, initialValue = null) {
-  const elementRef = useRef(initialValue);
+export default function useOnClickOutside(ref, handler) {
   useEffect(() => {
-    function handler(event) {
-      if (!elementRef.current?.contains(event.target)) {
-        callback();
+    const listener = (event) => {
+      if (!ref.current || ref.current.contains(event.target)) {
+        return;
       }
-    }
-    window.addEventListener("click", handler);
-    return () => window.removeEventListener("click", handler);
-  }, [callback]);
-  return elementRef;
+      handler(event);
+    };
+    document.addEventListener("mousedown", listener);
+    document.addEventListener("touchstart", listener);
+    return () => {
+      document.removeEventListener("mousedown", listener);
+      document.removeEventListener("touchstart", listener);
+    };
+  }, [ref, handler]);
 }
-
-// https://blog.bhanuteja.dev/easily-detect-outside-click-using-useref-hook

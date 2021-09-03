@@ -141,7 +141,7 @@ export default function Tweet({
                 <FaRetweet id="green" />
                 {showReTweetDropdown && (
                   <ReTweetDropdown
-                    onClick={(e) => e.preventDefault()}
+                    // onClick={(e) => e.preventDefault()}
                     tweetId={id}
                   />
                 )}
