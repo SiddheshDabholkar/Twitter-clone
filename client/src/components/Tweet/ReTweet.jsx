@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useAgo } from "../../hooks/useAgo";
 //
 import { FaRegComment, FaRetweet, FaRegHeart } from "react-icons/fa";
@@ -27,59 +27,77 @@ import {
   RetweetIconContainer,
 } from "./";
 import { SAvatar, SAvatarContainer } from "../Avatar.jsx";
+import useDropdown from "../../hooks/useDropdown";
 import MoreList from "../Modals/MoreList";
-// import Retweet from "../Modals/ReTweetModal";
-import useModal from "../../hooks/useModal";
-import { LIKE_TWEET_MUTATION } from "./Tweet";
-//
-const Container = styled.div`
+import ReTweetD from "../Dropdown/ReTweetDropdown";
+
+import { LIKE_TWEET_MUTATION } from "../../graphql/mutation";
+
+export const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   width: 100%;
 `;
-const TwetCon = styled(TweetContainer)`
+export const TwetCon = styled(TweetContainer)`
   border: 1px solid #80808052;
-  width: inherit;
+  /* width: inherit; */
+  width: ${({ full }) => (full ? "98%" : "inherit")};
+  margin-right: ${({ full }) => (full ? "10px" : "")};
   border-radius: 15px;
   cursor: pointer;
   :hover {
     background-color: #8080800f;
   }
 `;
-export default function ReTweet({
-  retweet: {
-    id,
-    body,
-    username,
-    createdAt,
-    updatedAt,
-    likes,
-    user: {
-      id: userid,
-      username: userUsername,
-      phone,
-      email,
-      createdAt: userCreatedAt,
-      updatedAt: userUpdatedAt,
-      profilePic,
+export default function ReTweet(props) {
+  const {
+    retweet: {
+      id,
+      body,
+      username,
+      createdAt,
+      updatedAt,
+      likes,
+      user: {
+        id: userid,
+        username: userUsername,
+        phone,
+        email,
+        createdAt: userCreatedAt,
+        updatedAt: userUpdatedAt,
+        profilePic,
+      },
+      tweet: {
+        id: tweetid,
+        body: tweetBody,
+        photo: tweetPhoto,
+        username: tweetUsername,
+        createdAt: tweetCreatedAt,
+        updatedAt: tweetUpdatedAt,
+        user: { id: insideUserId, profilePic: insideUserProfilePic },
+      },
     },
-    tweet: {
-      id: tweetid,
-      body: tweetBody,
-      username: tweetUsername,
-      createdAt: tweetCreatedAt,
-      updatedAt: tweetUpdatedAt,
-      user: { id: insideUserId, profilePic: insideUserProfilePic },
-    },
-  },
-}) {
+  } = props;
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
   const hookretweetCreatedAt = useAgo(createdAt);
   const hooktweetCreatedAt = useAgo(tweetCreatedAt);
-  const { Modal, show, toggle } = useModal(MoreList);
+
+  const {
+    DropDown: ReTweetDropdown,
+    show: showReTweetDropdown,
+    toggle: toggleReTweetDropdown,
+    setShow: setShowReTweetDropDown,
+  } = useDropdown(ReTweetD);
+
+  const {
+    DropDown: MoreListDropdown,
+    show: showMoreListDropdown,
+    toggle: toggleMoreListDropdown,
+    setShow: setShowMoreListDropdown,
+  } = useDropdown(MoreList);
 
   useEffect(() => {
     if (user && likes.find((like) => like.id === user.id)) {
@@ -97,198 +115,208 @@ export default function ReTweet({
     }
   };
 
-  const TweetInsideReTweet = () => {
+  const BottomButtons = ({ tweetId }) => {
     return (
-      <TwetCon>
-        <Container>
-          <SAvatarContainer>
-            <SAvatar
-              small
-              src={
-                insideUserProfilePic
-                  ? insideUserProfilePic
-                  : "https://res.cloudinary.com/drntday51/image/upload/v1627108184/twitter/ptupstjuaejspvhj9mfj.jpg"
-              }
-            />
-          </SAvatarContainer>
-          <Restcontainer
-            col
-            style={{
-              width: "90%",
+      <>
+        <Row
+          style={{ justifyContent: "space-around" }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <IconContainer onClick={(e) => e.preventDefault()}>
+            <FaRegComment id="blue" />
+          </IconContainer>
+          <IconContainer
+            onClick={(e) => {
+              e.preventDefault();
+              toggleReTweetDropdown();
             }}
           >
-            <SLink to={`/tweet/${tweetid}`} col>
-              <Row>
-                <TweeterUsername>{tweetUsername}</TweeterUsername>
-                <TweeterUsername small>
-                  {" . "}
-                  {hooktweetCreatedAt}
-                </TweeterUsername>
-              </Row>
-              <Row>
-                <TweetContent>{tweetBody}</TweetContent>
-              </Row>
-            </SLink>
-          </Restcontainer>
-        </Container>
-      </TwetCon>
+            <FaRetweet id="green" />
+            {showReTweetDropdown && (
+              <ReTweetDropdown
+                tweetId={id}
+                data={props}
+                setShow={setShowReTweetDropDown}
+              />
+            )}
+          </IconContainer>
+          <IconContainer
+            onClick={(e) => {
+              e.preventDefault();
+              likeTweet({ variables: { tweetId } });
+            }}
+          >
+            {likeIcon()}
+          </IconContainer>
+          <IconContainer onClick={(e) => e.preventDefault()}>
+            <FiUpload id="blue" />
+          </IconContainer>
+        </Row>
+      </>
     );
   };
 
-  const CheckIfItHaveBody = () => {
-    if (body.length === 0 || body === null) {
-      // when you retweet without body
-      // you will see the same tweet of
-      // but with the retweeted heading
-      // with username
-      return (
-        <>
-          <SLink to={`/tweet/${id}`} col>
-            <Above>
-              <RetweetIconContainer>
-                <FaRetweet style={{ color: "grey" }} />
-              </RetweetIconContainer>
-              <RetweetedHeadingContainer>
-                <RetweetedHeading>{username} retweeted</RetweetedHeading>
-              </RetweetedHeadingContainer>
-            </Above>
-            <STweetContainer>
-              <SAvatarContainer>
-                <Link to={`profile/${userid}`}>
-                  <SAvatar
-                    src={
-                      profilePic
-                        ? profilePic
-                        : "https://res.cloudinary.com/drntday51/image/upload/v1627108184/twitter/ptupstjuaejspvhj9mfj.jpg"
-                    }
-                  />
-                </Link>
-              </SAvatarContainer>
-              <Restcontainer
-                col
-                style={{
-                  width: "90%",
-                }}
-              >
+  const TweetInsideReTweet = () => {
+    return (
+      <SLink to={`/tweet/${tweetid}`} col>
+        <TwetCon>
+          <Container>
+            <SAvatarContainer>
+              <SAvatar
+                small
+                src={
+                  insideUserProfilePic
+                    ? insideUserProfilePic
+                    : "https://res.cloudinary.com/drntday51/image/upload/v1627108184/twitter/ptupstjuaejspvhj9mfj.jpg"
+                }
+              />
+            </SAvatarContainer>
+            <Restcontainer
+              col
+              style={{
+                width: "90%",
+              }}
+            >
+              <SLink to={`/tweet/${tweetid}`} col>
                 <Row>
-                  <Row>
-                    <TweeterUsername>{username}</TweeterUsername>
-                    <TweeterUsername small>
-                      {" . "}
-                      {hooktweetCreatedAt}
-                    </TweeterUsername>
-                  </Row>
-                  {user.id === userid && (
-                    <IconContainer onClick={(e) => e.preventDefault()}>
-                      <BsThreeDots onClick={toggle} />
-                    </IconContainer>
-                  )}
+                  <TweeterUsername>{tweetUsername}</TweeterUsername>
+                  <TweeterUsername small>
+                    {" . "}
+                    {hooktweetCreatedAt}
+                  </TweeterUsername>
                 </Row>
-                {show && (
-                  <Modal onClick={(e) => e.preventDefault()} tweetId={id} />
-                )}
-                <Row
-                  style={{ justifyContent: "space-around" }}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <IconContainer onClick={(e) => e.preventDefault()}>
-                    <FaRegComment id="blue" />
-                  </IconContainer>
-                  <IconContainer onClick={(e) => e.preventDefault()}>
-                    <FaRetweet id="green" />
-                  </IconContainer>
-                  <IconContainer
-                    onClick={(e) => {
-                      e.preventDefault();
-                      likeTweet({ variables: { tweetId: id } });
-                    }}
-                  >
-                    {likeIcon()}
-                  </IconContainer>
-                  <IconContainer onClick={(e) => e.preventDefault()}>
-                    <FiUpload id="blue" />
-                  </IconContainer>
-                </Row>
-              </Restcontainer>
-            </STweetContainer>
-          </SLink>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <SLink to={`/tweet/${id}`} col>
-            <STweetContainer>
-              <SAvatarContainer>
-                <Link to={`profile/${userid}`}>
-                  <SAvatar
-                    src={
-                      profilePic
-                        ? profilePic
-                        : "https://res.cloudinary.com/drntday51/image/upload/v1627108184/twitter/ptupstjuaejspvhj9mfj.jpg"
-                    }
-                  />
-                </Link>
-              </SAvatarContainer>
-              <Restcontainer
-                col
-                style={{
-                  width: "90%",
-                }}
-              >
                 <Row>
-                  <Row>
-                    <TweeterUsername>{username}</TweeterUsername>
-                    <TweeterUsername small>
-                      {" . "}
-                      {hookretweetCreatedAt}
-                    </TweeterUsername>
-                  </Row>
-                  {user.id === userid && (
-                    <IconContainer onClick={(e) => e.preventDefault()}>
-                      <BsThreeDots onClick={toggle} />
-                    </IconContainer>
-                  )}
+                  <TweetContent>{tweetBody}</TweetContent>
                 </Row>
-                {show && (
-                  <Modal onClick={(e) => e.preventDefault()} tweetId={id} />
-                )}
-                <Row>
-                  <TweetContent>{body}</TweetContent>
-                </Row>
-                <SLink to={`/tweet/${tweetid}`} col>
-                  <TweetInsideReTweet />
-                </SLink>
-                <Row style={{ justifyContent: "space-around" }}>
-                  <IconContainer onClick={(e) => e.preventDefault()}>
-                    <FaRegComment id="blue" />
-                  </IconContainer>
-                  <IconContainer onClick={(e) => e.preventDefault()}>
-                    <FaRetweet id="green" />
-                  </IconContainer>
-                  <IconContainer
-                    onClick={(e) => {
-                      e.preventDefault();
-                      likeTweet({ variables: { tweetId: id } });
-                    }}
-                  >
-                    {likeIcon()}
-                  </IconContainer>
-                  <IconContainer onClick={(e) => e.preventDefault()}>
-                    <FiUpload id="blue" />
-                  </IconContainer>
-                </Row>
-              </Restcontainer>
-            </STweetContainer>
-          </SLink>
-        </>
-      );
-    }
+              </SLink>
+            </Restcontainer>
+          </Container>
+        </TwetCon>
+      </SLink>
+    );
   };
 
-  return (
-    <>
-      <CheckIfItHaveBody />
-    </>
-  );
+  const MiddlePart = ({
+    username,
+    createdat,
+    id,
+    likeid,
+    body,
+    photo,
+    tir,
+  }) => {
+    return (
+      <>
+        <Row>
+          <Row>
+            <TweeterUsername>{username}</TweeterUsername>
+            <TweeterUsername small>
+              {" . "}
+              {createdat}
+            </TweeterUsername>
+          </Row>
+          {user.id === userid && (
+            <IconContainer onClick={(e) => e.preventDefault()}>
+              <BsThreeDots onClick={toggleMoreListDropdown} />
+            </IconContainer>
+          )}
+        </Row>
+        {showMoreListDropdown && (
+          <MoreListDropdown
+            onClick={(e) => e.preventDefault()}
+            tweetId={id}
+            setShow={setShowMoreListDropdown}
+          />
+        )}
+        <Row>
+          <TweetContent>{body}</TweetContent>
+        </Row>
+        {photo && <ImageContainer src={photo} />}
+        {tir && <TweetInsideReTweet />}
+        <BottomButtons tweetId={likeid} />
+      </>
+    );
+  };
+
+  if (body.length === 0 || body === null) {
+    return (
+      <>
+        <SLink to={`/tweet/${id}`} col>
+          <Above style={{ marginLeft: "15%" }}>
+            <RetweetIconContainer>
+              <FaRetweet style={{ color: "grey" }} />
+            </RetweetIconContainer>
+            <RetweetedHeadingContainer>
+              <RetweetedHeading>{username} retweeted</RetweetedHeading>
+            </RetweetedHeadingContainer>
+          </Above>
+          <STweetContainer>
+            <SAvatarContainer>
+              <Link to={`profile/${insideUserId}`}>
+                <SAvatar
+                  src={
+                    insideUserProfilePic
+                      ? insideUserProfilePic
+                      : "https://res.cloudinary.com/drntday51/image/upload/v1627108184/twitter/ptupstjuaejspvhj9mfj.jpg"
+                  }
+                />
+              </Link>
+            </SAvatarContainer>
+            <Restcontainer
+              col
+              style={{
+                width: "90%",
+              }}
+            >
+              <MiddlePart
+                username={tweetUsername}
+                createdat={hooktweetCreatedAt}
+                id={id}
+                likeid={tweetid}
+                body={tweetBody}
+                photo={tweetPhoto}
+                tir={false}
+              />
+            </Restcontainer>
+          </STweetContainer>
+        </SLink>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <SLink to={`/tweet/${id}`} col>
+          <STweetContainer>
+            <SAvatarContainer>
+              <Link to={`profile/${userid}`}>
+                <SAvatar
+                  src={
+                    profilePic
+                      ? profilePic
+                      : "https://res.cloudinary.com/drntday51/image/upload/v1627108184/twitter/ptupstjuaejspvhj9mfj.jpg"
+                  }
+                />
+              </Link>
+            </SAvatarContainer>
+            <Restcontainer
+              col
+              style={{
+                width: "90%",
+              }}
+            >
+              <MiddlePart
+                username={username}
+                createdat={hookretweetCreatedAt}
+                id={id}
+                likeid={id}
+                body={body}
+                photo={null}
+                tir={true}
+              />
+            </Restcontainer>
+          </STweetContainer>
+        </SLink>
+      </>
+    );
+  }
 }

@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import styled from "styled-components";
+import { useMutation } from "@apollo/client";
 
 import { AiOutlineClose } from "react-icons/ai";
 import { MdPermMedia } from "react-icons/md";
@@ -12,23 +13,18 @@ import { Bg } from "./ModalUtils";
 import { BodyContainer, Navbar, NavbarInner, LeftContainer } from "./common";
 import {
   IconContainer,
+  ImageUploaderButton,
   Restcontainer,
   STweetContainer,
-  TweetContent,
-  Row,
-  SLink,
-  ImageContainer,
-  ImageUploaderButton,
 } from "../Tweet";
-import { SAvatar, SAvatarContainer } from "../Avatar";
+import { SAvatar } from "../Avatar";
 import { SaveButton } from "./EditProfile";
 import { TweetInput } from "../Input";
 import { AuthContext } from "../../context/auth";
-import { TwetCon, Container } from "../Tweet/ReTweet";
-import { TweeterUsername } from "../../Typography";
-import { Link } from "react-router-dom";
 import useOnClickOutsideRef from "../../hooks/useOnClickOutsideRef";
+import { MAKE_TWEET } from "../../graphql/mutation";
 import useUploadImage from "../../hooks/useUploadImage";
+import { FETCH_TWEET } from "../../graphql/queries";
 
 const ReTweetModalContainer = styled.div`
   display: flex;
@@ -59,7 +55,6 @@ const TweetFooter = styled.div`
   height: 50px;
   width: 100% !important;
   margin-bottom: 0px;
-  margin-top: ${({ mt }) => mt};
   border-top: 1px solid #e0dfdf;
 `;
 const FootCont = styled.div`
@@ -70,78 +65,36 @@ const FootCont = styled.div`
   justify-content: ${({ end }) => (end ? "flex-end" : "center")};
   width: ${({ small }) => (small ? "40%" : "60%")};
 `;
-export default function ReTweetModal(props) {
-  const { toggle, setShow } = props;
+
+export default function MakeTweetModal({ toggle, setShow }) {
+  const ref = useRef(null);
   const [tweetBodyTM, setTweetBodyTM] = useState("");
   const [selectPhotoTM, setSelectPhotoTM] = useState("");
-  const url = useUploadImage(selectPhotoTM);
-  const {
-    data: {
-      id,
-      body,
-      username,
-      createdAt,
-      photo,
-      user: {
-        id: userid,
-        // username: userUsername,
-        // phone,
-        // email,
-        // createdAt: userCreatedAt,
-        // updatedAt: userUpdatedAt,
-        profilePic,
-      },
-    },
-  } = props;
   const { user } = useContext(AuthContext);
-  const ref = useRef(null);
+
   useOnClickOutsideRef(ref, () => setShow(false));
+  const url = useUploadImage(selectPhotoTM);
 
   const hiddenFileInputMT = useRef(null);
   const handleClick = (e) => {
     hiddenFileInputMT.current.click();
   };
 
-  const TweetInsideReTweet = () => {
-    return (
-      <TwetCon full>
-        <Container>
-          <SAvatarContainer>
-            <Link to={`/profile/${userid}`}>
-              <SAvatar
-                small
-                src={
-                  profilePic
-                    ? profilePic
-                    : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
-                }
-              />
-            </Link>
-          </SAvatarContainer>
-          <Restcontainer
-            col
-            style={{
-              width: "90%",
-            }}
-          >
-            <SLink to={`/tweet/${id}`} col>
-              <Row>
-                <TweeterUsername>{username}</TweeterUsername>
-                <TweeterUsername small>
-                  {" . "}
-                  {createdAt}
-                </TweeterUsername>
-              </Row>
-              <Row>
-                <TweetContent>{body}</TweetContent>
-              </Row>
-              {photo && <ImageContainer src={photo} />}
-            </SLink>
-          </Restcontainer>
-        </Container>
-      </TwetCon>
-    );
-  };
+  const [makeTweet] = useMutation(MAKE_TWEET, {
+    variables: { body: tweetBodyTM, photo: url },
+    update(proxy, result) {
+      const data = proxy.readQuery({
+        query: FETCH_TWEET,
+      });
+      proxy.writeQuery({
+        query: FETCH_TWEET,
+        data: {
+          getTweets: [result.data.createTweet, ...data.getTweets],
+        },
+      });
+      setTweetBodyTM("");
+    },
+  });
 
   return (
     <>
@@ -158,13 +111,13 @@ export default function ReTweetModal(props) {
               <NavbarInner>
                 <LeftContainer>
                   <AiOutlineClose
-                    style={{ fontSize: "30px" }}
+                    style={{ fontSize: "30px", cursor: "pointer" }}
                     onClick={toggle}
                   />
                 </LeftContainer>
               </NavbarInner>
             </Navbar>
-            <BodyContainer mt="10px" scroll>
+            <BodyContainer mt="10px">
               <STweetContainer noborder noHover no>
                 <Acon>
                   <SAvatar
@@ -182,14 +135,13 @@ export default function ReTweetModal(props) {
                   }}
                 >
                   <TweetInput
-                    placeholder="Add a comment ?"
+                    placeholder="Whats's happening?"
                     cols="40"
                     rows="2"
                     value={tweetBodyTM}
                     onChange={(e) => setTweetBodyTM(e.target.value)}
                   />
-                  <TweetInsideReTweet />
-                  <TweetFooter mt="15px">
+                  <TweetFooter>
                     <FootCont small>
                       <IconContainer>
                         <ImageUploaderButton onClick={handleClick}>
@@ -223,7 +175,14 @@ export default function ReTweetModal(props) {
                       </IconContainer>
                     </FootCont>
                     <FootCont end mr="10px">
-                      <SaveButton>tweet</SaveButton>
+                      <SaveButton
+                        onClick={(e) => {
+                          makeTweet();
+                          toggle();
+                        }}
+                      >
+                        tweet
+                      </SaveButton>
                     </FootCont>
                   </TweetFooter>
                 </Restcontainer>

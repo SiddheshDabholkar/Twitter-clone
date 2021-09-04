@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 // import { Link, useLocation, useHistory } from "react-router-dom";
 import { Link, useHistory } from "react-router-dom";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 //
 import { StyledInput } from "../../components/Input";
 import { SmallHeader } from "../../Typography";
@@ -19,17 +19,8 @@ import { MainContainer } from "../../container/MainContainer";
 import { CardContainer } from "../../container/CardContainer";
 import { AuthContext } from "../../context/auth";
 import { useDisableBodyScroll } from "../../hooks/useDisableBodyScroll";
+import { SIGN_UP } from "../../graphql/mutation";
 // import Confirmotp from "./Confirmotp";
-
-const SIGN_UP = gql`
-  mutation register($username: String!, $password: String!) {
-    register(username: $username, password: $password) {
-      id
-      username
-      token
-    }
-  }
-`;
 
 export default function Signin({ onClose, show }) {
   const context = useContext(AuthContext);

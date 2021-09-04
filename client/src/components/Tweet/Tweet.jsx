@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { Link } from "react-router-dom";
 import useModal from "../../hooks/useModal";
 import { useAgo } from "../../hooks/useAgo";
@@ -26,51 +26,43 @@ import useDropdown from "../../hooks/useDropdown";
 import ReTweet from "../Dropdown/ReTweetDropdown";
 import MoreList from "../Modals/MoreList";
 
-import { FETCH_TWEET } from "../../screens/AfterAuthPassing/Home";
+import { LIKE_TWEET_MUTATION } from "../../graphql/mutation";
 
-export const LIKE_TWEET_MUTATION = gql`
-  mutation likeTweet($tweetId: ID!) {
-    likeTweet(tweetId: $tweetId) {
-      id
-      username
-      photo
-      body
-      likes {
-        id
-      }
-    }
-  }
-`;
-
-export default function Tweet({
-  tweet: {
-    id,
-    body,
-    username,
-    createdAt,
-    photo,
-    likes,
-    user: {
-      id: userid,
-      username: userUsername,
-      phone,
-      email,
-      createdAt: userCreatedAt,
-      updatedAt: userUpdatedAt,
-      profilePic,
+export default function Tweet(props) {
+  const {
+    tweet: {
+      id,
+      body,
+      username,
+      createdAt,
+      photo,
+      likes,
+      user: {
+        id: userid,
+        username: userUsername,
+        phone,
+        email,
+        createdAt: userCreatedAt,
+        updatedAt: userUpdatedAt,
+        profilePic,
+      },
     },
-  },
-}) {
+  } = props;
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
-
-  const { Modal, show, toggle } = useModal(MoreList);
 
   const {
     DropDown: ReTweetDropdown,
     show: showReTweetDropdown,
     toggle: toggleReTweetDropdown,
+    setShow: setShowReTweetDropDown,
   } = useDropdown(ReTweet);
+  const {
+    DropDown: MoreListDropdown,
+    show: showMoreListDropdown,
+    toggle: toggleMoreListDropdown,
+    setShow: setShowMoreListDropdown,
+  } = useDropdown(MoreList);
 
   useEffect(() => {
     if (user && likes.find((like) => like.id === user.id)) {
@@ -94,7 +86,13 @@ export default function Tweet({
         <STweetContainer>
           <SAvatarContainer>
             <Link to={`/profile/${userid}`}>
-              <SAvatar src={profilePic} />
+              <SAvatar
+                src={
+                  profilePic
+                    ? profilePic
+                    : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
+                }
+              />
             </Link>
           </SAvatarContainer>
           <Restcontainer
@@ -113,13 +111,17 @@ export default function Tweet({
               </Row>
               {user.id === userid && (
                 <IconContainer onClick={(e) => e.preventDefault()}>
-                  <BsThreeDots onClick={toggle} />
+                  <BsThreeDots onClick={toggleMoreListDropdown} />
                 </IconContainer>
               )}
             </Row>
             <Row onClick={(e) => e.preventDefault()}>
-              {show && (
-                <Modal onClick={(e) => e.preventDefault()} tweetId={id} />
+              {showMoreListDropdown && (
+                <MoreListDropdown
+                  onClick={(e) => e.preventDefault()}
+                  tweetId={id}
+                  setShow={setShowMoreListDropdown}
+                />
               )}
             </Row>
 
@@ -131,7 +133,6 @@ export default function Tweet({
               <IconContainer onClick={(e) => e.preventDefault()}>
                 <FaRegComment id="blue" />
               </IconContainer>
-
               <IconContainer
                 onClick={(e) => {
                   e.preventDefault();
@@ -141,8 +142,9 @@ export default function Tweet({
                 <FaRetweet id="green" />
                 {showReTweetDropdown && (
                   <ReTweetDropdown
-                    // onClick={(e) => e.preventDefault()}
                     tweetId={id}
+                    data={props}
+                    setShow={setShowReTweetDropDown}
                   />
                 )}
               </IconContainer>

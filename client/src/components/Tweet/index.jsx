@@ -17,7 +17,8 @@ export const TweetContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  border-bottom: 1px solid #80808038;
+  /* border-bottom: 1px solid #80808038; */
+  border-bottom: ${({ noborder }) => (noborder ? "" : "1px solid #80808038")};
   height: auto;
 `;
 
@@ -68,11 +69,13 @@ export const ImageContainer = styled.img`
 export const STweetContainer = styled(TweetContainer)`
   width: 100%;
   flex-direction: row;
-  padding: 25px;
+  /* padding: 25px; */
+  padding: ${({ no }) => (no ? "" : "25px")};
   padding-top: 0px;
   cursor: pointer;
   :hover {
-    background-color: #f5f5f5;
+    /* background-color: #f5f5f5; */
+    background-color: ${({ noHover }) => (noHover ? "" : " #f5f5f5")};
   }
 `;
 
@@ -100,6 +103,7 @@ export const IconContainer = styled.div`
   color: grey;
 
   #blue {
+    color: #1da1f2;
     :hover {
       color: #1da1f2;
       background-color: #1da1f273;

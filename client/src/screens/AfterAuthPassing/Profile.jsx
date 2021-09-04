@@ -15,7 +15,9 @@ import ProfileTab from "../../screens/AfterAuthPassing/Profile/ProfileTabs";
 import GoBack from "../../components/Buttons/GoBackButton";
 import EditProfile from "../../components/Modals/EditProfile";
 import useModal from "../../hooks/useModal";
-import { useQuery, gql, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
+import { FOLLOW_UNFOLLOW } from "../../graphql/mutation";
+import { FETCH_USER } from "../../graphql/queries";
 
 export const Parent = styled.div`
   display: flex;
@@ -80,44 +82,6 @@ const STweetContent = styled(TweetContent)`
 `;
 const SNavbarContainer = styled(NavbarContainer)`
   height: 55px;
-`;
-
-const FETCH_USER = gql`
-  query getUser($userId: ID!) {
-    getUser(userId: $userId) {
-      id
-      username
-      phone
-      email
-      profilePic
-      banner
-      bio
-      location
-      website
-      name
-      following {
-        id
-      }
-      followers {
-        id
-      }
-    }
-  }
-`;
-
-const FOLLOW_UNFOLLOW = gql`
-  mutation followUnfollow($otherUserId: ID!) {
-    followUnfollow(otherUserId: $otherUserId) {
-      id
-      username
-      following {
-        id
-      }
-      followers {
-        id
-      }
-    }
-  }
 `;
 
 export default function Profile() {

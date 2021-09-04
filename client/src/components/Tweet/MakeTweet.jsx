@@ -1,6 +1,6 @@
 import { useState, useRef, useContext } from "react";
 import { useLocation } from "react-router-dom";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import styled from "styled-components";
 //
 import { MdPermMedia } from "react-icons/md";
@@ -22,8 +22,10 @@ import {
   ImageUploaderButton,
 } from "./";
 import useUploadImage from "../../hooks/useUploadImage";
-import { FETCH_TWEET } from "../../screens/AfterAuthPassing/Home";
 import { AuthContext } from "../../context/auth";
+
+import { FETCH_TWEET } from "../../graphql/queries";
+import { MAKE_TWEET } from "../../graphql/mutation";
 
 const Div = styled.div`
   display: flex;
@@ -43,46 +45,6 @@ const SIconContainer = styled(IconContainer)`
 // checkout the ben awad youtube video
 // how to update cache after mutation
 
-const MAKE_TWEET = gql`
-  mutation createTweet($body: String!, $photo: String) {
-    createTweet(body: $body, photo: $photo) {
-      id
-      body
-      username
-      createdAt
-      updatedAt
-      photo
-      likes {
-        id
-        username
-        phone
-        email
-        profilePic
-        banner
-        bio
-        location
-        website
-        name
-      }
-      replies {
-        id
-        body
-        username
-      }
-      tweet {
-        id
-        body
-        username
-        createdAt
-        user {
-          id
-          profilePic
-        }
-      }
-    }
-  }
-`;
-
 export default function MakeTweet() {
   const { user } = useContext(AuthContext);
   const { pathname } = useLocation();
@@ -95,7 +57,6 @@ export default function MakeTweet() {
   const handleClick = (e) => {
     hiddenFileInput.current.click();
   };
-  // const [makeTweet] = useMutation(MAKE_TWEET);
   const [makeTweet] = useMutation(MAKE_TWEET, {
     variables: { body: tweetBody, photo: url },
     update(proxy, result) {

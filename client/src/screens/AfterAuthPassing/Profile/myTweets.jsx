@@ -1,46 +1,10 @@
 import React from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 //
 import Tweet from "../../../components/Tweet/Tweet";
 import ReTweet from "../../../components/Tweet/ReTweet";
-
-const FETCH_MY_TWEETS = gql`
-  query ($profileId: ID!) {
-    getUserTweets(profileId: $profileId) {
-      id
-      body
-      username
-      createdAt
-      photo
-      updatedAt
-      likes {
-        id
-      }
-      user {
-        id
-        username
-        phone
-        email
-        token
-        createdAt
-        updatedAt
-        profilePic
-        banner
-        bio
-        location
-        website
-        name
-      }
-      tweet {
-        id
-        body
-        username
-        createdAt
-      }
-    }
-  }
-`;
+import { FETCH_MY_TWEETS } from "../../../graphql/queries";
 
 export default function MyTweets() {
   const { profileId } = useParams();

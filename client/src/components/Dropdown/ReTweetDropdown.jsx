@@ -1,66 +1,32 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { FaRetweet } from "react-icons/fa";
 import { BsPencil } from "react-icons/bs";
 import styled from "styled-components";
 import { Dropdown, Ul, Li } from "./DropDownUtils";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { AuthContext } from "../../context/auth";
-import { FETCH_TWEET } from "../../screens/AfterAuthPassing/Home";
-import ReTweetModal from "../Modals/ReTweetQuoteModal";
+import ReTweetQuoteModal from "../Modals/ReTweetQuoteModal";
 import useModal from "../../hooks/useModal";
+
+import { MAKE_RETWEET } from "../../graphql/mutation";
+import { FETCH_TWEET } from "../../graphql/queries";
+import useOnClickOutside from "../../hooks/useOnClickOutsideRef";
 
 const Span = styled.span`
   font-size: 15px;
   margin-left: 8px;
 `;
 
-const MAKE_RETWEET = gql`
-  mutation reTweet($body: String, $tweetId: ID!) {
-    reTweet(body: $body, tweetId: $tweetId) {
-      id
-      body
-      username
-      createdAt
-      updatedAt
-      likes {
-        id
-        username
-        phone
-        email
-        profilePic
-        banner
-        bio
-        location
-        website
-        name
-      }
-      user {
-        id
-        username
-        phone
-        email
-        token
-        createdAt
-        updatedAt
-        profilePic
-      }
-      tweet {
-        id
-        body
-        username
-        createdAt
-        user {
-          id
-          profilePic
-        }
-      }
-    }
-  }
-`;
-export default function ReTweetDropdown({ tweetId }) {
-  const { user } = useContext(AuthContext);
+export default function ReTweetDropdown(props) {
+  const ref = useRef(null);
+  // const { user } = useContext(AuthContext);
+  const { tweetId, setShow: sShow } = props;
+  const {
+    data: { tweet },
+  } = props;
   const [body] = useState("");
-  const { Modal, show, toggle } = useModal(ReTweetModal);
+  const { Modal, show, toggle, setShow } = useModal(ReTweetQuoteModal);
+  useOnClickOutside(ref, () => sShow(false));
 
   const [makeReTweet] = useMutation(MAKE_RETWEET, {
     variables: { body, tweetId },
@@ -80,6 +46,7 @@ export default function ReTweetDropdown({ tweetId }) {
   return (
     <>
       <Dropdown
+        ref={ref}
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
@@ -96,7 +63,14 @@ export default function ReTweetDropdown({ tweetId }) {
           </Li>
         </Ul>
       </Dropdown>
-      {show && <Modal onClick={(e) => e.preventDefault()} />}
+      {show && (
+        <Modal
+          onClick={(e) => e.preventDefault()}
+          toggle={toggle}
+          data={tweet}
+          setShow={setShow}
+        />
+      )}
     </>
   );
 }
