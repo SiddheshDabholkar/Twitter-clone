@@ -65,7 +65,10 @@ export default function ReTweetDropdown(props) {
       </Dropdown>
       {show && (
         <Modal
-          onClick={(e) => e.preventDefault()}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
           toggle={toggle}
           data={tweet}
           setShow={setShow}
