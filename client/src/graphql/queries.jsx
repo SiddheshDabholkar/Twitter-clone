@@ -83,6 +83,7 @@ export const FETCH_TWEET = gql`
       tweet {
         id
         body
+        photo
         username
         createdAt
         user {

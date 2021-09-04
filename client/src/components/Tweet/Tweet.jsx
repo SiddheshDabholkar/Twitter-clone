@@ -51,8 +51,6 @@ export default function Tweet(props) {
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
 
-  // const { Modal, show, toggle, setShow } = useModal(MoreList);
-
   const {
     DropDown: ReTweetDropdown,
     show: showReTweetDropdown,

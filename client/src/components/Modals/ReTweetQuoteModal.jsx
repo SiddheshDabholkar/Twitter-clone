@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import styled from "styled-components";
 
 import { AiOutlineClose } from "react-icons/ai";
@@ -18,6 +18,7 @@ import {
   Row,
   SLink,
   ImageContainer,
+  ImageUploaderButton,
 } from "../Tweet";
 import { SAvatar, SAvatarContainer } from "../Avatar";
 import { SaveButton } from "./EditProfile";
@@ -27,6 +28,7 @@ import { TwetCon, Container } from "../Tweet/ReTweet";
 import { TweeterUsername } from "../../Typography";
 import { Link } from "react-router-dom";
 import useOnClickOutsideRef from "../../hooks/useOnClickOutsideRef";
+import useUploadImage from "../../hooks/useUploadImage";
 
 const ReTweetModalContainer = styled.div`
   display: flex;
@@ -70,6 +72,9 @@ const FootCont = styled.div`
 `;
 export default function ReTweetModal(props) {
   const { toggle, setShow } = props;
+  const [tweetBodyTM, setTweetBodyTM] = useState("");
+  const [selectPhotoTM, setSelectPhotoTM] = useState("");
+  const url = useUploadImage(selectPhotoTM);
   const {
     data: {
       id,
@@ -91,6 +96,11 @@ export default function ReTweetModal(props) {
   const { user } = useContext(AuthContext);
   const ref = useRef(null);
   useOnClickOutsideRef(ref, () => setShow(false));
+
+  const hiddenFileInputMT = useRef(null);
+  const handleClick = (e) => {
+    hiddenFileInputMT.current.click();
+  };
 
   const TweetInsideReTweet = () => {
     return (
@@ -137,6 +147,7 @@ export default function ReTweetModal(props) {
     <>
       <Bg transparent>
         <ReTweetModalContainer
+          ref={ref}
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
@@ -153,7 +164,7 @@ export default function ReTweetModal(props) {
                 </LeftContainer>
               </NavbarInner>
             </Navbar>
-            <BodyContainer mt="10px">
+            <BodyContainer mt="10px" scroll>
               <STweetContainer noborder noHover no>
                 <Acon>
                   <SAvatar
@@ -174,12 +185,29 @@ export default function ReTweetModal(props) {
                     placeholder="Add a comment ?"
                     cols="40"
                     rows="2"
+                    value={tweetBodyTM}
+                    onChange={(e) => setTweetBodyTM(e.target.value)}
                   />
                   <TweetInsideReTweet />
                   <TweetFooter mt="15px">
                     <FootCont small>
                       <IconContainer>
-                        <MdPermMedia id="blue" />
+                        <ImageUploaderButton onClick={handleClick}>
+                          <MdPermMedia
+                            id="blue"
+                            style={{ color: "#1da1f2", fontSize: "20px" }}
+                          />
+                        </ImageUploaderButton>
+                        <input
+                          type="file"
+                          ref={hiddenFileInputMT}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectPhotoTM(e.target.files[0]);
+                            // console.log("selected photo", selectPhotoTM);
+                          }}
+                          style={{ display: "none" }}
+                        />
                       </IconContainer>
                       <IconContainer>
                         <AiOutlineFileGif id="blue" />

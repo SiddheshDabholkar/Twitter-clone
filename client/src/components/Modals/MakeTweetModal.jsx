@@ -74,7 +74,6 @@ export default function MakeTweetModal({ toggle, setShow }) {
 
   useOnClickOutsideRef(ref, () => setShow(false));
   const url = useUploadImage(selectPhotoTM);
-  console.log("url", url);
 
   const hiddenFileInputMT = useRef(null);
   const handleClick = (e) => {
