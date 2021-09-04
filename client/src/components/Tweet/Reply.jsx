@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+import { useMutation } from "@apollo/client";
 //
+import useDropdown from "../../hooks/useDropdown";
 import { useAgo } from "../../hooks/useAgo";
 import {
   TweetContainer,
@@ -16,9 +18,11 @@ import { TweeterUsername } from "../../Typography/index";
 import { FaRegComment, FaRetweet, FaRegHeart } from "react-icons/fa";
 import { FiUpload } from "react-icons/fi";
 import { MdFavorite } from "react-icons/md";
+import { BsThreeDots } from "react-icons/bs";
+
 import { AuthContext } from "../../context/auth";
 import { LIKE_TWEET_MUTATION } from "../../graphql/mutation";
-import { useMutation } from "@apollo/client";
+import MoreList from "../Dropdown/MoreList";
 
 const StyledAbove = styled(Above)`
   padding: 0;
@@ -26,7 +30,15 @@ const StyledAbove = styled(Above)`
 `;
 
 export default function Reply({
-  reply: { id, body, username, createdAt, updatedAt, likes },
+  reply: {
+    id,
+    body,
+    username,
+    createdAt,
+    updatedAt,
+    likes,
+    user: { id: userid },
+  },
 }) {
   const [liked, setLiked] = useState(false);
   const { user } = useContext(AuthContext);
@@ -47,6 +59,13 @@ export default function Reply({
     }
   };
 
+  const {
+    DropDown: MoreListDropdown,
+    show: showMoreListDropdown,
+    toggle: toggleMoreListDropdown,
+    setShow: setShowMoreListDropdown,
+  } = useDropdown(MoreList);
+
   return (
     <>
       <TweetContainer key={id}>
@@ -59,13 +78,27 @@ export default function Reply({
           <Row col>
             <StyledAbove>
               <TweeterUsername>{username}</TweeterUsername>
-              <TweeterUsername small> . {useAgo(createdAt)}</TweeterUsername>
+              <TweeterUsername small> . {useAgo(updatedAt)}</TweeterUsername>
+              {user.id === userid && (
+                <IconContainer onClick={(e) => e.preventDefault()}>
+                  <BsThreeDots onClick={toggleMoreListDropdown} />
+                </IconContainer>
+              )}
             </StyledAbove>
             <StyledAbove>
               <TweeterUsername small>
                 Replying to <span style={{ color: "#1da1f2" }}>@venom</span>
               </TweeterUsername>
             </StyledAbove>
+            <Row onClick={(e) => e.preventDefault()}>
+              {showMoreListDropdown && (
+                <MoreListDropdown
+                  onClick={(e) => e.preventDefault()}
+                  tweetId={id}
+                  setShow={setShowMoreListDropdown}
+                />
+              )}
+            </Row>
             <StyledAbove>
               <TweetContent>{body}</TweetContent>
             </StyledAbove>

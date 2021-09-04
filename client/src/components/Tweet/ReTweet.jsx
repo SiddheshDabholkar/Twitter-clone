@@ -28,7 +28,7 @@ import {
 } from "./";
 import { SAvatar, SAvatarContainer } from "../Avatar.jsx";
 import useDropdown from "../../hooks/useDropdown";
-import MoreList from "../Modals/MoreList";
+import MoreList from "../Dropdown/MoreList";
 import ReTweetD from "../Dropdown/ReTweetDropdown";
 
 import { LIKE_TWEET_MUTATION } from "../../graphql/mutation";

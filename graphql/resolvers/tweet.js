@@ -57,8 +57,7 @@ module.exports = {
           .populate("tweet likes replies user")
           .populate({ path: "tweet", populate: "user" })
           .sort({ createdAt: -1 });
-        console.log("tweets", tweets);
-        return await tweets;
+        return tweets;
       } catch (error) {
         throw new Error(e);
       }

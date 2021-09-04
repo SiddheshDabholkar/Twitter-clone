@@ -63,7 +63,7 @@ module.exports = gql`
     getTweet(tweetId: ID!): Tweet!
     getUserTweets(profileId: ID!): [Tweet]
     getSearchedUser(username: String): [User]
-    getReplies(tweetId: ID!): [Tweet]
+    getReplies(tweetId: ID): [Tweet]
   }
 
   type Mutation {

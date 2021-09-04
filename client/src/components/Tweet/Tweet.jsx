@@ -24,7 +24,7 @@ import {
 //modal component
 import useDropdown from "../../hooks/useDropdown";
 import ReTweet from "../Dropdown/ReTweetDropdown";
-import MoreList from "../Modals/MoreList";
+import MoreList from "../Dropdown/MoreList";
 
 import { LIKE_TWEET_MUTATION } from "../../graphql/mutation";
 
