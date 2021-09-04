@@ -6,19 +6,6 @@ const tweetSchema = new Schema(
     body: String,
     photo: String,
     username: String,
-    replies: [
-      {
-        type: new Schema(
-          {
-            body: String,
-            username: String,
-            // type: ObjectId,
-            // ref: "User",
-          },
-          { timestamps: true }
-        ),
-      },
-    ],
     likes: [
       {
         type: ObjectId,
@@ -34,6 +21,11 @@ const tweetSchema = new Schema(
       type: ObjectId,
       ref: "Tweet",
     },
+    parentTweet: {
+      type: ObjectId,
+      ref: "Tweet",
+    },
+    reply: [{ type: ObjectId, ref: "Tweet" }],
   },
   { timestamps: true }
 );

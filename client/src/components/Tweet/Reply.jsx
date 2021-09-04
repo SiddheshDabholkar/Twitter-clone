@@ -17,6 +17,8 @@ import { FaRegComment, FaRetweet, FaRegHeart } from "react-icons/fa";
 import { FiUpload } from "react-icons/fi";
 import { MdFavorite } from "react-icons/md";
 import { AuthContext } from "../../context/auth";
+import { LIKE_TWEET_MUTATION } from "../../graphql/mutation";
+import { useMutation } from "@apollo/client";
 
 const StyledAbove = styled(Above)`
   padding: 0;
@@ -24,26 +26,26 @@ const StyledAbove = styled(Above)`
 `;
 
 export default function Reply({
-  reply: { id, body, username, createdAt, updatedAt },
+  reply: { id, body, username, createdAt, updatedAt, likes },
 }) {
-  // const [liked, setLiked] = useState(false);
-  // const { user } = useContext(AuthContext);
+  const [liked, setLiked] = useState(false);
+  const { user } = useContext(AuthContext);
 
-  // useEffect(() => {
-  //   if (user && likes.find((like) => like.id === user.id)) {
-  //     setLiked(true);
-  //   } else setLiked(false);
-  // }, [user, likes]);
+  useEffect(() => {
+    if (user && likes.find((like) => like.id === user.id)) {
+      setLiked(true);
+    } else setLiked(false);
+  }, [user, likes]);
 
-  // const [likeTweet] = useMutation(LIKE_TWEET_MUTATION);
+  const [likeTweet] = useMutation(LIKE_TWEET_MUTATION);
 
-  // const likeIcon = () => {
-  //   if (liked) {
-  //     return <MdFavorite id="red" style={{ color: "red" }} />;
-  //   } else {
-  //     return <FaRegHeart id="red" />;
-  //   }
-  // };
+  const likeIcon = () => {
+    if (liked) {
+      return <MdFavorite id="red" style={{ color: "red" }} />;
+    } else {
+      return <FaRegHeart id="red" />;
+    }
+  };
 
   return (
     <>
@@ -76,8 +78,14 @@ export default function Reply({
           <IconContainer>
             <FaRetweet id="green" />
           </IconContainer>
-          {/* <IconContainer>{likeIcon()}</IconContainer> */}
-          <IconContainer></IconContainer>
+          <IconContainer
+            onClick={(e) => {
+              likeTweet({ variables: { tweetId: id } });
+              e.preventDefault();
+            }}
+          >
+            {likeIcon()}
+          </IconContainer>
           <IconContainer>
             <FiUpload id="blue" />
           </IconContainer>
