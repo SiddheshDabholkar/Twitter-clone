@@ -127,7 +127,7 @@ const LogoLinkContainer = styled.div`
 export default function SideBar() {
   const { user } = useContext(AuthContext);
   const [showLogOutModal, setShowLogOutModal] = useState(false);
-  const { Modal, show, toggle } = useModal(MakeTweetModal);
+  const { Modal, show, toggle, setShow } = useModal(MakeTweetModal);
 
   const links = [
     {
@@ -229,7 +229,13 @@ export default function SideBar() {
           <FiMoreHorizontal style={{ width: "20%", fontSize: "25px" }} />
         </SidebarFooter>
       </SideBarContainer>
-      {show && <Modal onClick={(e) => e.preventDefault()} toggle={toggle} />}
+      {show && (
+        <Modal
+          onClick={(e) => e.preventDefault()}
+          toggle={toggle}
+          setShow={setShow}
+        />
+      )}
     </>
   );
 }

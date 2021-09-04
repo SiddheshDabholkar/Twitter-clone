@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import styled from "styled-components";
 
 import { AiOutlineClose } from "react-icons/ai";
@@ -26,6 +26,7 @@ import { AuthContext } from "../../context/auth";
 import { TwetCon, Container } from "../Tweet/ReTweet";
 import { TweeterUsername } from "../../Typography";
 import { Link } from "react-router-dom";
+import useOnClickOutsideRef from "../../hooks/useOnClickOutsideRef";
 
 const ReTweetModalContainer = styled.div`
   display: flex;
@@ -68,7 +69,7 @@ const FootCont = styled.div`
   width: ${({ small }) => (small ? "40%" : "60%")};
 `;
 export default function ReTweetModal(props) {
-  const { toggle } = props;
+  const { toggle, setShow } = props;
   const {
     data: {
       id,
@@ -88,6 +89,8 @@ export default function ReTweetModal(props) {
     },
   } = props;
   const { user } = useContext(AuthContext);
+  const ref = useRef(null);
+  useOnClickOutsideRef(ref, () => setShow(false));
 
   const TweetInsideReTweet = () => {
     return (
@@ -100,7 +103,7 @@ export default function ReTweetModal(props) {
                 src={
                   profilePic
                     ? profilePic
-                    : "https://res.cloudinary.com/drntday51/image/upload/v1627108184/twitter/ptupstjuaejspvhj9mfj.jpg"
+                    : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
                 }
               />
             </Link>

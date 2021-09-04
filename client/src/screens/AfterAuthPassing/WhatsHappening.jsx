@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import { useQuery } from "@apollo/client";

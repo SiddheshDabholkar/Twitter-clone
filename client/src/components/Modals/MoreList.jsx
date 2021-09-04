@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { useMutation } from "@apollo/client";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { FETCH_TWEET } from "../../graphql/queries";
 import { DELETE_TWEET } from "../../graphql/mutation";
+import useOnClickOutside from "../../hooks/useOnClickOutsideRef";
 
 const ListModalContainer = styled.div`
   display: flex;
@@ -57,7 +58,9 @@ const ListNameContainer = styled.div`
   width: 80%;
 `;
 export default function MoreList(props) {
-  const { tweetId } = props;
+  const { tweetId, setShow } = props;
+  const ref = useRef(null);
+  useOnClickOutside(ref, () => setShow(false));
   const [deleteTweet] = useMutation(DELETE_TWEET, {
     variables: { tweetId },
     update(proxy, result) {
@@ -77,7 +80,7 @@ export default function MoreList(props) {
   });
   return (
     <>
-      <ListModalContainer>
+      <ListModalContainer ref={ref}>
         <ListModal>
           <ListBox onClick={deleteTweet}>
             <IconContainer>

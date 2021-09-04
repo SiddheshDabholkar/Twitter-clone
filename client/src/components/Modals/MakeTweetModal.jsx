@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import styled from "styled-components";
 
 import { AiOutlineClose } from "react-icons/ai";
@@ -15,6 +15,7 @@ import { SAvatar } from "../Avatar";
 import { SaveButton } from "./EditProfile";
 import { TweetInput } from "../Input";
 import { AuthContext } from "../../context/auth";
+import useOnClickOutsideRef from "../../hooks/useOnClickOutsideRef";
 
 const ReTweetModalContainer = styled.div`
   display: flex;
@@ -55,12 +56,15 @@ const FootCont = styled.div`
   justify-content: ${({ end }) => (end ? "flex-end" : "center")};
   width: ${({ small }) => (small ? "40%" : "60%")};
 `;
-export default function MakeTweetModal({ toggle }) {
+export default function MakeTweetModal({ toggle, setShow }) {
+  const ref = useRef(null);
   const { user } = useContext(AuthContext);
+  useOnClickOutsideRef(ref, () => setShow(false));
   return (
     <>
       <Bg transparent>
         <ReTweetModalContainer
+          ref={ref}
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();

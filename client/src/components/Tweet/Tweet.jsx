@@ -51,13 +51,20 @@ export default function Tweet(props) {
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
 
-  const { Modal, show, toggle } = useModal(MoreList);
+  // const { Modal, show, toggle, setShow } = useModal(MoreList);
 
   const {
     DropDown: ReTweetDropdown,
     show: showReTweetDropdown,
     toggle: toggleReTweetDropdown,
+    setShow: setShowReTweetDropDown,
   } = useDropdown(ReTweet);
+  const {
+    DropDown: MoreListDropdown,
+    show: showMoreListDropdown,
+    toggle: toggleMoreListDropdown,
+    setShow: setShowMoreListDropdown,
+  } = useDropdown(MoreList);
 
   useEffect(() => {
     if (user && likes.find((like) => like.id === user.id)) {
@@ -81,7 +88,13 @@ export default function Tweet(props) {
         <STweetContainer>
           <SAvatarContainer>
             <Link to={`/profile/${userid}`}>
-              <SAvatar src={profilePic} />
+              <SAvatar
+                src={
+                  profilePic
+                    ? profilePic
+                    : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
+                }
+              />
             </Link>
           </SAvatarContainer>
           <Restcontainer
@@ -100,13 +113,17 @@ export default function Tweet(props) {
               </Row>
               {user.id === userid && (
                 <IconContainer onClick={(e) => e.preventDefault()}>
-                  <BsThreeDots onClick={toggle} />
+                  <BsThreeDots onClick={toggleMoreListDropdown} />
                 </IconContainer>
               )}
             </Row>
             <Row onClick={(e) => e.preventDefault()}>
-              {show && (
-                <Modal onClick={(e) => e.preventDefault()} tweetId={id} />
+              {showMoreListDropdown && (
+                <MoreListDropdown
+                  onClick={(e) => e.preventDefault()}
+                  tweetId={id}
+                  setShow={setShowMoreListDropdown}
+                />
               )}
             </Row>
 
@@ -118,7 +135,6 @@ export default function Tweet(props) {
               <IconContainer onClick={(e) => e.preventDefault()}>
                 <FaRegComment id="blue" />
               </IconContainer>
-
               <IconContainer
                 onClick={(e) => {
                   e.preventDefault();
@@ -128,9 +144,9 @@ export default function Tweet(props) {
                 <FaRetweet id="green" />
                 {showReTweetDropdown && (
                   <ReTweetDropdown
-                    // onClick={(e) => e.preventDefault()}
                     tweetId={id}
                     data={props}
+                    setShow={setShowReTweetDropDown}
                   />
                 )}
               </IconContainer>
