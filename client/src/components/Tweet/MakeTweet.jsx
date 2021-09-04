@@ -57,7 +57,6 @@ export default function MakeTweet() {
   const handleClick = (e) => {
     hiddenFileInput.current.click();
   };
-  // const [makeTweet] = useMutation(MAKE_TWEET);
   const [makeTweet] = useMutation(MAKE_TWEET, {
     variables: { body: tweetBody, photo: url },
     update(proxy, result) {

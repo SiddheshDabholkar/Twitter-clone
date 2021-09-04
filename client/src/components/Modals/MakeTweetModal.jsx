@@ -1,5 +1,6 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import styled from "styled-components";
+import { useMutation } from "@apollo/client";
 
 import { AiOutlineClose } from "react-icons/ai";
 import { MdPermMedia } from "react-icons/md";
@@ -10,12 +11,20 @@ import { FiCalendar } from "react-icons/fi";
 
 import { Bg } from "./ModalUtils";
 import { BodyContainer, Navbar, NavbarInner, LeftContainer } from "./common";
-import { IconContainer, Restcontainer, STweetContainer } from "../Tweet";
+import {
+  IconContainer,
+  ImageUploaderButton,
+  Restcontainer,
+  STweetContainer,
+} from "../Tweet";
 import { SAvatar } from "../Avatar";
 import { SaveButton } from "./EditProfile";
 import { TweetInput } from "../Input";
 import { AuthContext } from "../../context/auth";
 import useOnClickOutsideRef from "../../hooks/useOnClickOutsideRef";
+import { MAKE_TWEET } from "../../graphql/mutation";
+import useUploadImage from "../../hooks/useUploadImage";
+import { FETCH_TWEET } from "../../graphql/queries";
 
 const ReTweetModalContainer = styled.div`
   display: flex;
@@ -56,10 +65,38 @@ const FootCont = styled.div`
   justify-content: ${({ end }) => (end ? "flex-end" : "center")};
   width: ${({ small }) => (small ? "40%" : "60%")};
 `;
+
 export default function MakeTweetModal({ toggle, setShow }) {
   const ref = useRef(null);
+  const [tweetBodyTM, setTweetBodyTM] = useState("");
+  const [selectPhotoTM, setSelectPhotoTM] = useState("");
   const { user } = useContext(AuthContext);
+
   useOnClickOutsideRef(ref, () => setShow(false));
+  const url = useUploadImage(selectPhotoTM);
+  console.log("url", url);
+
+  const hiddenFileInputMT = useRef(null);
+  const handleClick = (e) => {
+    hiddenFileInputMT.current.click();
+  };
+
+  const [makeTweet] = useMutation(MAKE_TWEET, {
+    variables: { body: tweetBodyTM, photo: url },
+    update(proxy, result) {
+      const data = proxy.readQuery({
+        query: FETCH_TWEET,
+      });
+      proxy.writeQuery({
+        query: FETCH_TWEET,
+        data: {
+          getTweets: [result.data.createTweet, ...data.getTweets],
+        },
+      });
+      setTweetBodyTM("");
+    },
+  });
+
   return (
     <>
       <Bg transparent>
@@ -102,11 +139,28 @@ export default function MakeTweetModal({ toggle, setShow }) {
                     placeholder="Whats's happening?"
                     cols="40"
                     rows="2"
+                    value={tweetBodyTM}
+                    onChange={(e) => setTweetBodyTM(e.target.value)}
                   />
                   <TweetFooter>
                     <FootCont small>
                       <IconContainer>
-                        <MdPermMedia id="blue" />
+                        <ImageUploaderButton onClick={handleClick}>
+                          <MdPermMedia
+                            id="blue"
+                            style={{ color: "#1da1f2", fontSize: "20px" }}
+                          />
+                        </ImageUploaderButton>
+                        <input
+                          type="file"
+                          ref={hiddenFileInputMT}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectPhotoTM(e.target.files[0]);
+                            // console.log("selected photo", selectPhotoTM);
+                          }}
+                          style={{ display: "none" }}
+                        />
                       </IconContainer>
                       <IconContainer>
                         <AiOutlineFileGif id="blue" />
@@ -122,7 +176,14 @@ export default function MakeTweetModal({ toggle, setShow }) {
                       </IconContainer>
                     </FootCont>
                     <FootCont end mr="10px">
-                      <SaveButton>tweet</SaveButton>
+                      <SaveButton
+                        onClick={(e) => {
+                          makeTweet();
+                          toggle();
+                        }}
+                      >
+                        tweet
+                      </SaveButton>
                     </FootCont>
                   </TweetFooter>
                 </Restcontainer>
