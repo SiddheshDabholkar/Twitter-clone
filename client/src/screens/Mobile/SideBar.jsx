@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 //
@@ -224,8 +224,14 @@ export default function SideBar() {
               }
             />
           </AvatarContainer>
-          <SmallParagrah style={{ width: "60%" }}>venom</SmallParagrah>
-          <FiMoreHorizontal style={{ width: "20%", fontSize: "25px" }} />
+          {width > 1280 && (
+            <>
+              <SmallParagrah style={{ width: "60%" }}>
+                {user.username}
+              </SmallParagrah>
+              <FiMoreHorizontal style={{ width: "20%", fontSize: "25px" }} />
+            </>
+          )}
         </SidebarFooter>
       </SideBarContainer>
       {show && (

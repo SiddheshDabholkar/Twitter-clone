@@ -1,5 +1,4 @@
 import React, { useContext, useRef, useState } from "react";
-import styled from "styled-components";
 import { useMutation } from "@apollo/client";
 
 import { AiOutlineClose } from "react-icons/ai";
@@ -10,7 +9,16 @@ import { RiBarChartHorizontalFill } from "react-icons/ri";
 import { FiCalendar } from "react-icons/fi";
 
 import { Bg } from "./ModalUtils";
-import { BodyContainer, Navbar, NavbarInner, LeftContainer } from "./common";
+import {
+  FootCont,
+  TweetFooter,
+  BodyContainer,
+  Navbar,
+  NavbarInner,
+  LeftContainer,
+  ReTweetModalContainer,
+  Acon,
+} from "./common";
 import {
   IconContainer,
   ImageUploaderButton,
@@ -26,45 +34,7 @@ import { MAKE_TWEET } from "../../graphql/mutation";
 import useUploadImage from "../../hooks/useUploadImage";
 import { FETCH_TWEET } from "../../graphql/queries";
 
-const ReTweetModalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 45%;
-  max-height: 60%;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14);
-  border-radius: 10px;
-`;
-
-const Acon = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  height: 100% !important;
-  width: 15% !important;
-`;
-
 //footer
-const TweetFooter = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  width: 100% !important;
-  margin-bottom: 0px;
-  border-top: 1px solid #e0dfdf;
-`;
-const FootCont = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-right: ${({ mr }) => mr};
-  justify-content: ${({ end }) => (end ? "flex-end" : "center")};
-  width: ${({ small }) => (small ? "40%" : "60%")};
-`;
 
 export default function MakeTweetModal({ toggle, setShow }) {
   const ref = useRef(null);
@@ -102,8 +72,8 @@ export default function MakeTweetModal({ toggle, setShow }) {
         <ReTweetModalContainer
           ref={ref}
           onClick={(e) => {
-            e.stopPropagation();
             e.preventDefault();
+            e.stopPropagation();
           }}
         >
           <BodyContainer>

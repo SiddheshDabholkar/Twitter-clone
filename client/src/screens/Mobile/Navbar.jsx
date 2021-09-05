@@ -1,12 +1,14 @@
 import styled from "styled-components";
 import useWindowSize from "../../hooks/useWindow";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 //
 import { StyledSearchInput } from "../../components/Search";
 import { CStyledButton } from "../../components/Buttons/CircleButton";
 import { SAvatar, SAvatarContainer } from "../../components/Avatar";
 import { ButtonContainer } from "../../components/Buttons/ButtonContainer";
 import GoBackButton from "../../components/Buttons/GoBackButton";
+import { useContext } from "react";
+import { AuthContext } from "../../context/auth";
 
 export const NavbarContainer = styled.div`
   display: flex;
@@ -62,6 +64,7 @@ export default function HomeNavbar() {
   const { pathname } = useLocation();
   const { width } = useWindowSize();
   const newPathname = pathname.substring(1);
+  const { user } = useContext(AuthContext);
 
   const ButtonDecider = () => {
     if (newPathname.startsWith("composetweet")) {
@@ -115,9 +118,11 @@ export default function HomeNavbar() {
       return (
         <>
           <Tohide>
-            <SAvatarContainer>
-              <SSAvatar />
-            </SAvatarContainer>
+            <Link to={`/profile/${user.id}`}>
+              <SAvatarContainer>
+                <SSAvatar src={user.profilePic} />
+              </SAvatarContainer>
+            </Link>
           </Tohide>
           <HeaderName>
             <h2>{newPathname}</h2>
@@ -126,15 +131,7 @@ export default function HomeNavbar() {
       );
     }
   };
-  {
-    /*
-    NOTE:
-    Twitter profile page shows name and number of 
-    tweets.If i try to show that over here.I ll need to use 
-    context.So to prevent it a separate navbar will be shown
-    in profile section
-  */
-  }
+
   if (newPathname.startsWith("profile")) {
     return null;
   } else {

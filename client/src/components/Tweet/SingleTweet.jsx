@@ -44,7 +44,7 @@ export default function SingleTweet() {
   let { tweetId } = useParams();
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
-  const { Modal, show, toggle } = useModal(MoreListReply);
+  const { Modal, show, toggle, setShow } = useModal(MoreListReply);
   const [likeTweet] = useMutation(LIKE_TWEET_MUTATION);
   const [likes, setLikes] = useState([]);
 
@@ -90,7 +90,7 @@ export default function SingleTweet() {
       return (
         <>
           {replies.map((reply) => (
-            <Reply reply={reply} />
+            <Reply reply={reply} key={reply.id} />
           ))}
         </>
       );
@@ -133,7 +133,13 @@ export default function SingleTweet() {
             </IconContainer>
           </Row>
           <Row onClick={(e) => e.preventDefault()}>
-            {show && <Modal onClick={(e) => e.preventDefault()} id={id} />}
+            {show && (
+              <Modal
+                onClick={(e) => e.preventDefault()}
+                id={id}
+                setShow={setShow}
+              />
+            )}
           </Row>
           <Row>
             <TweetContent>{body}</TweetContent>

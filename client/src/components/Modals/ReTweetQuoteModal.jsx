@@ -1,6 +1,4 @@
 import React, { useContext, useRef, useState } from "react";
-import styled from "styled-components";
-
 import { AiOutlineClose } from "react-icons/ai";
 import { MdPermMedia } from "react-icons/md";
 import { AiOutlineFileGif } from "react-icons/ai";
@@ -9,7 +7,16 @@ import { RiBarChartHorizontalFill } from "react-icons/ri";
 import { FiCalendar } from "react-icons/fi";
 
 import { Bg } from "./ModalUtils";
-import { BodyContainer, Navbar, NavbarInner, LeftContainer } from "./common";
+import {
+  BodyContainer,
+  Navbar,
+  NavbarInner,
+  LeftContainer,
+  ReTweetModalContainer,
+  Acon,
+  FootCont,
+  TweetFooter,
+} from "./common";
 import {
   IconContainer,
   Restcontainer,
@@ -27,57 +34,18 @@ import { AuthContext } from "../../context/auth";
 import { TwetCon, Container } from "../Tweet/ReTweet";
 import { TweeterUsername } from "../../Typography";
 import { Link } from "react-router-dom";
-import useOnClickOutsideRef from "../../hooks/useOnClickOutsideRef";
 import useUploadImage from "../../hooks/useUploadImage";
 import { MAKE_TWEET } from "../../graphql/mutation";
 import { FETCH_TWEET } from "../../graphql/queries";
 import { useMutation } from "@apollo/client";
 
-const ReTweetModalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 45%;
-  max-height: 60%;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14);
-  border-radius: 10px;
-`;
-
-const Acon = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  height: 100% !important;
-  width: 15% !important;
-`;
-
 //footer
-const TweetFooter = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  width: 100% !important;
-  margin-bottom: 0px;
-  margin-top: ${({ mt }) => mt};
-  border-top: 1px solid #e0dfdf;
-`;
-const FootCont = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-right: ${({ mr }) => mr};
-  justify-content: ${({ end }) => (end ? "flex-end" : "center")};
-  width: ${({ small }) => (small ? "40%" : "60%")};
-`;
+
 export default function ReTweetModal(props) {
   const { toggle, setShow } = props;
   const { user } = useContext(AuthContext);
-  const ref = useRef(null);
-  useOnClickOutsideRef(ref, () => setShow(false));
+  // const reff = useRef(null);
+  // useOnClickOutsideRef(reff, () => setShow(false));
   const [tweetBodyTM, setTweetBodyTM] = useState("");
   const [selectPhotoTM, setSelectPhotoTM] = useState("");
   const url = useUploadImage(selectPhotoTM);
@@ -164,10 +132,10 @@ export default function ReTweetModal(props) {
 
   return (
     <>
-      <Bg transparent>
+      <Bg transparent onClick={toggle}>
         <ReTweetModalContainer
-          ref={ref}
           onClick={(e) => {
+            console.log("clicked inside");
             e.stopPropagation();
             e.preventDefault();
           }}

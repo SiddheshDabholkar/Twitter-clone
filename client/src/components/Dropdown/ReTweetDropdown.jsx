@@ -1,10 +1,9 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { FaRetweet } from "react-icons/fa";
 import { BsPencil } from "react-icons/bs";
 import styled from "styled-components";
 import { Dropdown, Ul, Li } from "./DropDownUtils";
 import { useMutation } from "@apollo/client";
-import { AuthContext } from "../../context/auth";
 import ReTweetQuoteModal from "../Modals/ReTweetQuoteModal";
 import useModal from "../../hooks/useModal";
 
@@ -19,7 +18,6 @@ const Span = styled.span`
 
 export default function ReTweetDropdown(props) {
   const ref = useRef(null);
-  // const { user } = useContext(AuthContext);
   const { tweetId, setShow: sShow } = props;
   const {
     data: { tweet },
@@ -63,17 +61,7 @@ export default function ReTweetDropdown(props) {
           </Li>
         </Ul>
       </Dropdown>
-      {show && (
-        <Modal
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-          toggle={toggle}
-          data={tweet}
-          setShow={setShow}
-        />
-      )}
+      {show && <Modal data={tweet} toggle={toggle} setShow={setShow} />}
     </>
   );
 }

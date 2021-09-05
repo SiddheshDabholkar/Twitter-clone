@@ -47,6 +47,7 @@ export const Row = styled.div`
   justify-content: left;
   width: 90%;
   margin-top: 10px;
+
   /* margin: 10px 15px; */
   @media (max-width: 500px) {
     width: 85%;
@@ -92,18 +93,17 @@ export const TweetContent = styled.p`
 `;
 
 export const IconContainer = styled.div`
-  display: inline-block;
+  display: contents;
   position: relative;
   flex-direction: column;
   font-size: 20px;
   border-radius: 50%;
-  width: 25%;
+  width: 30%;
   align-items: center;
   justify-content: center;
   color: grey;
 
   #blue {
-    color: #1da1f2;
     :hover {
       color: #1da1f2;
       background-color: #1da1f273;
@@ -137,9 +137,9 @@ export const Above = styled.div`
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  :hover {
+  /* :hover {
     background-color: #f5f5f5;
-  }
+  } */
 `;
 export const RetweetedHeadingContainer = styled.div`
   display: flex;

@@ -74,12 +74,12 @@ export default function ReplyTweetButtons({ tweetId }) {
           <Row>
             <TweeterUsername small>Replying to </TweeterUsername>
           </Row>
-
           <PostSection>
             <TweetInput
               placeholder="Tweet Reply ?"
-              cols="40"
-              rows="5"
+              cols="30"
+              rows="3"
+              value={reply}
               onChange={(e) => setReply(e.target.value)}
             />
             <UtilContainer>
@@ -112,7 +112,10 @@ export default function ReplyTweetButtons({ tweetId }) {
                   txtColor="#fff"
                   bgColor="#1da1f2"
                   borderColor="transparent"
-                  onClick={makeReply}
+                  onClick={() => {
+                    makeReply();
+                    setReply("");
+                  }}
                 >
                   Reply
                 </StyledButton>
