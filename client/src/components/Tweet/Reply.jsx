@@ -22,7 +22,7 @@ import { BsThreeDots } from "react-icons/bs";
 
 import { AuthContext } from "../../context/auth";
 import { LIKE_TWEET_MUTATION } from "../../graphql/mutation";
-import MoreList from "../Dropdown/MoreList";
+import MoreListReply from "../Dropdown/MoreListReply";
 
 const StyledAbove = styled(Above)`
   padding: 0;
@@ -64,7 +64,7 @@ export default function Reply({
     show: showMoreListDropdown,
     toggle: toggleMoreListDropdown,
     setShow: setShowMoreListDropdown,
-  } = useDropdown(MoreList);
+  } = useDropdown(MoreListReply);
 
   return (
     <>

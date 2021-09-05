@@ -2,9 +2,10 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 import { useMutation } from "@apollo/client";
 import { RiDeleteBinLine } from "react-icons/ri";
-import { FETCH_TWEET, FETCH_TWEET_REPLIES } from "../../graphql/queries";
+import { FETCH_TWEET_REPLIES } from "../../graphql/queries";
 import { DELETE_TWEET } from "../../graphql/mutation";
 import useOnClickOutside from "../../hooks/useOnClickOutsideRef";
+import { useParams } from "react-router";
 
 const ListModalContainer = styled.div`
   display: flex;
@@ -59,6 +60,7 @@ const ListNameContainer = styled.div`
 `;
 export default function MoreListReply(props) {
   const { tweetId, setShow } = props;
+  const { tweetId: parentTweetId } = useParams();
   const ref = useRef(null);
   useOnClickOutside(ref, () => setShow(false));
 
@@ -67,6 +69,7 @@ export default function MoreListReply(props) {
     update(proxy, result) {
       const d = proxy.readQuery({
         query: FETCH_TWEET_REPLIES,
+        variables: { tweetId: parentTweetId },
       });
       console.log("d", d);
       const filteredData = d.getReplies.filter(
@@ -74,6 +77,7 @@ export default function MoreListReply(props) {
       );
       proxy.writeQuery({
         query: FETCH_TWEET_REPLIES,
+        variables: { tweetId: parentTweetId },
         data: {
           getReplies: filteredData,
         },

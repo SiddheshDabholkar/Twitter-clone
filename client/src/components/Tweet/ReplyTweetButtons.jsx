@@ -21,7 +21,7 @@ import {
 } from ".";
 import useUploadImage from "../../hooks/useUploadImage";
 import { MAKE_TWEET } from "../../graphql/mutation";
-import { FETCH_TWEET, FETCH_TWEET_REPLIES } from "../../graphql/queries";
+import { FETCH_TWEET_REPLIES } from "../../graphql/queries";
 //
 const RestCon = styled.div`
   display: flex;
