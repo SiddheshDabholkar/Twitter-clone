@@ -12,6 +12,7 @@ import {
   IconContainer,
   TweetContent,
   SLink,
+  ImageContainer,
 } from ".";
 import { SAvatarContainer, Avatar } from "../Avatar";
 import { TweeterUsername } from "../../Typography/index";
@@ -24,6 +25,18 @@ import { BsThreeDots } from "react-icons/bs";
 import { AuthContext } from "../../context/auth";
 import { LIKE_TWEET_MUTATION } from "../../graphql/mutation";
 import MoreListReply from "../Dropdown/MoreListReply";
+
+const Left = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 30%;
+`;
+const Right = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 60%;
+  justify-content: flex-end;
+`;
 
 const StyledAbove = styled(Above)`
   padding: 0;
@@ -38,6 +51,7 @@ export default function Reply({
     createdAt,
     updatedAt,
     likes,
+    photo,
     user: { id: userid },
   },
 }) {
@@ -79,13 +93,20 @@ export default function Reply({
             </Restcontainer>
             <Row col>
               <StyledAbove>
-                <TweeterUsername>{username}</TweeterUsername>
-                <TweeterUsername small> . {useAgo(updatedAt)}</TweeterUsername>
-                {user.id === userid && (
-                  <IconContainer onClick={(e) => e.preventDefault()}>
-                    <BsThreeDots onClick={toggleMoreListDropdown} />
-                  </IconContainer>
-                )}
+                <Left>
+                  <TweeterUsername>{username}</TweeterUsername>
+                  <TweeterUsername small>
+                    {" "}
+                    . {useAgo(updatedAt)}
+                  </TweeterUsername>
+                </Left>
+                <Right>
+                  {user.id === userid && (
+                    <IconContainer onClick={(e) => e.preventDefault()}>
+                      <BsThreeDots onClick={toggleMoreListDropdown} />
+                    </IconContainer>
+                  )}
+                </Right>
               </StyledAbove>
               <StyledAbove>
                 <TweeterUsername small>
@@ -104,6 +125,7 @@ export default function Reply({
               <StyledAbove>
                 <TweetContent>{body}</TweetContent>
               </StyledAbove>
+              {photo && <ImageContainer src={photo} />}
             </Row>
           </Above>
           <Row style={{ justifyContent: "space-around", marginBottom: "10px" }}>
