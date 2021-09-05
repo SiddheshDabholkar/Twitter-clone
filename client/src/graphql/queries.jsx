@@ -17,13 +17,6 @@ export const GET_SINGLE_TWEET = gql`
         username
         profilePic
       }
-      replies {
-        id
-        body
-        username
-        createdAt
-        updatedAt
-      }
     }
   }
 `;
@@ -157,6 +150,51 @@ export const FETCH_SEARCHED_USER = gql`
       location
       website
       name
+    }
+  }
+`;
+export const FETCH_TWEET_REPLIES = gql`
+  query getReplies($tweetId: ID!) {
+    getReplies(tweetId: $tweetId) {
+      id
+      body
+      username
+      createdAt
+      photo
+      updatedAt
+      likes {
+        id
+        username
+        phone
+        email
+        profilePic
+        banner
+        bio
+        location
+        website
+        name
+      }
+      user {
+        id
+        username
+        phone
+        email
+        token
+        createdAt
+        updatedAt
+        profilePic
+      }
+      tweet {
+        id
+        body
+        photo
+        username
+        createdAt
+        user {
+          id
+          profilePic
+        }
+      }
     }
   }
 `;

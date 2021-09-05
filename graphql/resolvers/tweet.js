@@ -7,7 +7,7 @@ module.exports = {
     //*-----------------------------------//
     async getTweets() {
       try {
-        const tweets = await Tweet.find()
+        const tweets = await Tweet.find({ parentTweet: null })
           .sort({ createdAt: -1 })
           .populate("tweet likes replies user")
           .populate({ path: "tweet", populate: "user" });
@@ -34,7 +34,7 @@ module.exports = {
     //*-----------------------------------//
     async getUserTweets(_, { profileId }) {
       try {
-        const tweeets = await Tweet.find()
+        const tweeets = await Tweet.find({ parentTweet: null })
           .populate("tweet likes replies user")
           .populate({ path: "tweet", populate: "user" })
           .sort({ createdAt: -1 });
@@ -51,10 +51,21 @@ module.exports = {
       }
     },
     //*-----------------------------------//
+    async getReplies(_, { tweetId }) {
+      try {
+        const tweets = await Tweet.find({ parentTweet: tweetId })
+          .populate("tweet likes replies user")
+          .populate({ path: "tweet", populate: "user" })
+          .sort({ createdAt: -1 });
+        return tweets;
+      } catch (error) {
+        throw new Error(e);
+      }
+    },
   },
   Mutation: {
     //*-----------------------------------//
-    async createTweet(_, { body, photo }, context) {
+    async createTweet(_, { body, photo, tweetId }, context) {
       const user = checkAuth(context);
       if (body.trim() === "") {
         throw new Error("Post body cannot be empty");
@@ -64,6 +75,7 @@ module.exports = {
         photo,
         user: user.id,
         username: user.username,
+        parentTweet: tweetId,
       });
       const tweet = await newTweet.save();
       await tweet.populate("user").execPopulate();

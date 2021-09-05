@@ -39,12 +39,6 @@ const SIconContainer = styled(IconContainer)`
   margin: 10px;
 `;
 
-// TODO:
-// After mutation , We have to refresh
-// the page to see the new Tweet
-// checkout the ben awad youtube video
-// how to update cache after mutation
-
 export default function MakeTweet() {
   const { user } = useContext(AuthContext);
   const { pathname } = useLocation();

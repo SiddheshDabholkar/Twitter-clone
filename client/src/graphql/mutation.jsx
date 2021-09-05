@@ -61,22 +61,9 @@ export const EDIT_PROFILE = gql`
     }
   }
 `;
-export const MAKE_REPLY = gql`
-  mutation createReply($body: String!, $tweetId: String!) {
-    createReply(body: $body, tweetId: $tweetId) {
-      id
-      username
-      replies {
-        id
-        body
-        username
-      }
-    }
-  }
-`;
 export const MAKE_TWEET = gql`
-  mutation createTweet($body: String!, $photo: String) {
-    createTweet(body: $body, photo: $photo) {
+  mutation createTweet($body: String!, $photo: String, $tweetId: ID) {
+    createTweet(body: $body, photo: $photo, tweetId: $tweetId) {
       id
       body
       username
@@ -94,11 +81,6 @@ export const MAKE_TWEET = gql`
         location
         website
         name
-      }
-      replies {
-        id
-        body
-        username
       }
       tweet {
         id

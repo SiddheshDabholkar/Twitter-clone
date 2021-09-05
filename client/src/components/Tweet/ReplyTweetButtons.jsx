@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import { useMutation } from "@apollo/client";
 //
@@ -17,8 +17,11 @@ import {
   PostSection,
   UtilContainer,
   UploadcontentContainer,
+  ImageUploaderButton,
 } from ".";
-import { MAKE_REPLY } from "../../graphql/mutation";
+import useUploadImage from "../../hooks/useUploadImage";
+import { MAKE_TWEET } from "../../graphql/mutation";
+import { FETCH_TWEET_REPLIES } from "../../graphql/queries";
 //
 const RestCon = styled.div`
   display: flex;
@@ -29,7 +32,30 @@ const RestCon = styled.div`
 
 export default function ReplyTweetButtons({ tweetId }) {
   const [reply, setReply] = useState("");
-  const [makeReply] = useMutation(MAKE_REPLY);
+  const [selectPhoto, setSelectPhoto] = useState("");
+  const url = useUploadImage(selectPhoto);
+
+  const hiddenFileInput = useRef(null);
+  const handleClick = (e) => {
+    hiddenFileInput.current.click();
+  };
+
+  const [makeReply] = useMutation(MAKE_TWEET, {
+    variables: { body: reply, photo: url, tweetId },
+    update(proxy, result) {
+      const data = proxy.readQuery({
+        query: FETCH_TWEET_REPLIES,
+        variables: { tweetId },
+      });
+      proxy.writeQuery({
+        query: FETCH_TWEET_REPLIES,
+        variables: { tweetId },
+        data: {
+          getReplies: [result.data.createTweet, ...data.getReplies],
+        },
+      });
+    },
+  });
 
   return (
     <>
@@ -59,7 +85,20 @@ export default function ReplyTweetButtons({ tweetId }) {
             <UtilContainer>
               <UploadcontentContainer>
                 <IconContainer>
-                  <MdPermMedia style={{ fontSize: "25px", color: "#1da1f2" }} />
+                  <ImageUploaderButton onClick={handleClick}>
+                    <MdPermMedia
+                      id="blue"
+                      style={{ color: "#1da1f2", fontSize: "20px" }}
+                    />
+                  </ImageUploaderButton>
+                  <input
+                    type="file"
+                    ref={hiddenFileInput}
+                    onChange={(e) => {
+                      setSelectPhoto(e.target.files[0]);
+                    }}
+                    style={{ display: "none" }}
+                  />
                 </IconContainer>
                 <IconContainer>
                   <AiOutlineFileGif
@@ -73,9 +112,7 @@ export default function ReplyTweetButtons({ tweetId }) {
                   txtColor="#fff"
                   bgColor="#1da1f2"
                   borderColor="transparent"
-                  onClick={() =>
-                    makeReply({ variables: { body: reply, tweetId: tweetId } })
-                  }
+                  onClick={makeReply}
                 >
                   Reply
                 </StyledButton>

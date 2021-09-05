@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery, useMutation } from "@apollo/client";
@@ -21,12 +21,13 @@ import {
   ImageContainer,
 } from "./";
 import useModal from "../../hooks/useModal";
-import MoreList from "../Modals/MoreList";
+// import MoreList from "../Dropdown/MoreList";
+import MoreListReply from "../Dropdown/MoreListReply";
 import { ago } from "../../utils/timeago";
 import { AuthContext } from "../../context/auth";
 
 import { LIKE_TWEET_MUTATION } from "../../graphql/mutation";
-import { GET_SINGLE_TWEET } from "../../graphql/queries";
+import { GET_SINGLE_TWEET, FETCH_TWEET_REPLIES } from "../../graphql/queries";
 
 const StatContainer = styled.div`
   display: flex;
@@ -38,16 +39,25 @@ const StatContainer = styled.div`
 const Scount = styled.span`
   color: black;
 `;
+
 export default function SingleTweet() {
   let { tweetId } = useParams();
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
-  const { Modal, show, toggle } = useModal(MoreList);
+  const { Modal, show, toggle } = useModal(MoreListReply);
   const [likeTweet] = useMutation(LIKE_TWEET_MUTATION);
   const [likes, setLikes] = useState([]);
 
   const { data: SingleTweetData, loading: SingleTweetLoading } = useQuery(
     GET_SINGLE_TWEET,
+    {
+      variables: {
+        tweetId,
+      },
+    }
+  );
+  const { data: SingleReplyData, loading: SingleReplyLoading } = useQuery(
+    FETCH_TWEET_REPLIES,
     {
       variables: {
         tweetId,
@@ -75,14 +85,18 @@ export default function SingleTweet() {
   }, [user, likes]);
 
   const Replies = () => {
-    const replies = SingleTweetData && SingleTweetData.getTweet.replies;
-    return (
-      <>
-        {replies.map((reply) => (
-          <Reply reply={reply} />
-        ))}
-      </>
-    );
+    if (!SingleReplyLoading) {
+      const replies = SingleReplyData && SingleReplyData.getReplies;
+      return (
+        <>
+          {replies.map((reply) => (
+            <Reply reply={reply} />
+          ))}
+        </>
+      );
+    } else {
+      return <h1>loading...</h1>;
+    }
   };
 
   if (SingleTweetLoading) {
