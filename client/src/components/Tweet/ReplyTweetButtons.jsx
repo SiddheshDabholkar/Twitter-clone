@@ -45,15 +45,15 @@ export default function ReplyTweetButtons({ tweetId }) {
     update(proxy, result) {
       const data = proxy.readQuery({
         query: FETCH_TWEET_REPLIES,
+        variables: { tweetId },
       });
-      console.log("data", data);
       proxy.writeQuery({
         query: FETCH_TWEET_REPLIES,
+        variables: { tweetId },
         data: {
           getReplies: [result.data.createTweet, ...data.getReplies],
         },
       });
-      setReply("");
     },
   });
 

@@ -21,7 +21,6 @@ import { RiFileListLine } from "react-icons/ri";
 import { HiOutlineUser } from "react-icons/hi";
 import { CgMoreO } from "react-icons/cg";
 import { FiMoreHorizontal } from "react-icons/fi";
-import useOnClickOutsideRef from "../../hooks/useOnClickOutsideRef";
 import MakeTweetModal from "../../components/Modals/MakeTweetModal";
 import useModal from "../../hooks/useModal";
 

@@ -61,19 +61,21 @@ export default function MoreListReply(props) {
   const { tweetId, setShow } = props;
   const ref = useRef(null);
   useOnClickOutside(ref, () => setShow(false));
+
   const [deleteReply] = useMutation(DELETE_TWEET, {
     variables: { tweetId },
     update(proxy, result) {
       const d = proxy.readQuery({
         query: FETCH_TWEET_REPLIES,
       });
-      const filteredData = d.getTweets.filter(
+      console.log("d", d);
+      const filteredData = d.getReplies.filter(
         (i) => i.id !== result.data.deleteTweet
       );
       proxy.writeQuery({
         query: FETCH_TWEET_REPLIES,
         data: {
-          getTweets: filteredData,
+          getReplies: filteredData,
         },
       });
     },
@@ -87,9 +89,7 @@ export default function MoreListReply(props) {
               <RiDeleteBinLine style={{ color: "black" }} />
             </IconContainer>
             <ListNameContainer>
-              <span style={{ color: "black" }} onClick={deleteReply}>
-                delete
-              </span>
+              <span style={{ color: "black" }}>delete</span>
             </ListNameContainer>
           </ListBox>
         </ListModal>

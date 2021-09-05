@@ -21,7 +21,8 @@ import {
   ImageContainer,
 } from "./";
 import useModal from "../../hooks/useModal";
-import MoreList from "../Dropdown/MoreList";
+// import MoreList from "../Dropdown/MoreList";
+import MoreListReply from "../Dropdown/MoreListReply";
 import { ago } from "../../utils/timeago";
 import { AuthContext } from "../../context/auth";
 
@@ -43,7 +44,7 @@ export default function SingleTweet() {
   let { tweetId } = useParams();
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
-  const { Modal, show, toggle } = useModal(MoreList);
+  const { Modal, show, toggle } = useModal(MoreListReply);
   const [likeTweet] = useMutation(LIKE_TWEET_MUTATION);
   const [likes, setLikes] = useState([]);
 
