@@ -224,8 +224,12 @@ export default function SideBar() {
               }
             />
           </AvatarContainer>
-          <SmallParagrah style={{ width: "60%" }}>venom</SmallParagrah>
-          <FiMoreHorizontal style={{ width: "20%", fontSize: "25px" }} />
+          {width > 720 && (
+            <>
+              <SmallParagrah style={{ width: "60%" }}>venom</SmallParagrah>
+              <FiMoreHorizontal style={{ width: "20%", fontSize: "25px" }} />
+            </>
+          )}
         </SidebarFooter>
       </SideBarContainer>
       {show && (

@@ -9,7 +9,7 @@ import { GrEmoji } from "react-icons/gr";
 import { RiBarChartHorizontalFill } from "react-icons/ri";
 import { FiCalendar } from "react-icons/fi";
 
-import { Bg } from "./ModalUtils";
+import { Bg, ModalContainer } from "./ModalUtils";
 import { BodyContainer, Navbar, NavbarInner, LeftContainer } from "./common";
 import {
   IconContainer,
@@ -100,13 +100,20 @@ export default function MakeTweetModal({ toggle, setShow }) {
   return (
     <>
       <Bg transparent>
-        <ReTweetModalContainer
+        <ModalContainer
           ref={ref}
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
           }}
         >
+          {/* <ReTweetModalContainer
+            ref={ref}
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            }}
+          > */}
           <BodyContainer>
             <Navbar style={{ borderBottom: "1px solid #00011110" }} long>
               <NavbarInner>
@@ -197,7 +204,8 @@ export default function MakeTweetModal({ toggle, setShow }) {
               </STweetContainer>
             </BodyContainer>
           </BodyContainer>
-        </ReTweetModalContainer>
+          {/* </ReTweetModalContainer> */}
+        </ModalContainer>
       </Bg>
     </>
   );
