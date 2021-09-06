@@ -20,6 +20,8 @@ import {
   UploadcontentContainer,
   Restcontainer,
   ImageUploaderButton,
+  ImageContainer,
+  SRow,
 } from "./";
 import useUploadImage from "../../hooks/useUploadImage";
 import { AuthContext } from "../../context/auth";
@@ -114,6 +116,13 @@ export default function MakeTweet() {
             rows="5"
             onChange={(e) => setTweetBody(e.target.value)}
           />
+          {selectPhoto && (
+            <ImageContainer
+              src={URL.createObjectURL(selectPhoto)}
+              height="90%"
+              width="90%"
+            />
+          )}
           <UtilContainer>
             <Div width="70%">
               <UploadcontentContainer>
@@ -129,7 +138,6 @@ export default function MakeTweet() {
                     ref={hiddenFileInput}
                     onChange={(e) => {
                       setSelectPhoto(e.target.files[0]);
-                      // console.log("selected photo", selectPhoto);
                     }}
                     style={{ display: "none" }}
                   />

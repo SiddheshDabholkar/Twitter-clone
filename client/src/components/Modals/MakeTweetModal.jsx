@@ -13,6 +13,7 @@ import { Bg } from "./ModalUtils";
 import { BodyContainer, Navbar, NavbarInner, LeftContainer } from "./common";
 import {
   IconContainer,
+  ImageContainer,
   ImageUploaderButton,
   Restcontainer,
   STweetContainer,
@@ -117,7 +118,7 @@ export default function MakeTweetModal({ toggle, setShow }) {
                 </LeftContainer>
               </NavbarInner>
             </Navbar>
-            <BodyContainer mt="10px">
+            <BodyContainer mt="10px" scroll>
               <STweetContainer noborder noHover no>
                 <Acon>
                   <SAvatar
@@ -141,6 +142,13 @@ export default function MakeTweetModal({ toggle, setShow }) {
                     value={tweetBodyTM}
                     onChange={(e) => setTweetBodyTM(e.target.value)}
                   />
+                  {selectPhotoTM && (
+                    <ImageContainer
+                      src={URL.createObjectURL(selectPhotoTM)}
+                      height="90%"
+                      width="90%"
+                    />
+                  )}
                   <TweetFooter>
                     <FootCont small>
                       <IconContainer>

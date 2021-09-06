@@ -58,12 +58,11 @@ export const ImageContainer = styled.img`
   align-items: center;
   justify-content: center;
   border-radius: 20px;
-  border: 1px solid grey;
-  min-width: 90%;
+  border: 1px solid transparent;
   margin: 15px 0px 15px 0px;
   @media (max-width: 500px) {
-    min-width: 85%;
-    min-height: 90%;
+    max-width: 85%;
+    max-height: 90%;
   }
 `;
 export const STweetContainer = styled(TweetContainer)`
@@ -92,7 +91,8 @@ export const TweetContent = styled.p`
 `;
 
 export const IconContainer = styled.div`
-  display: inline-block;
+  /* display: inline-block; */
+  display: ${({ p }) => (p ? "contents" : "inline-block")};
   position: relative;
   flex-direction: column;
   font-size: 20px;
@@ -103,7 +103,6 @@ export const IconContainer = styled.div`
   color: grey;
 
   #blue {
-    color: #1da1f2;
     :hover {
       color: #1da1f2;
       background-color: #1da1f273;
@@ -137,9 +136,9 @@ export const Above = styled.div`
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  :hover {
+  /* :hover {
     background-color: #f5f5f5;
-  }
+  } */
 `;
 export const RetweetedHeadingContainer = styled.div`
   display: flex;

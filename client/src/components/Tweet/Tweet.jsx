@@ -128,7 +128,7 @@ export default function Tweet(props) {
             <Row>
               <TweetContent>{body}</TweetContent>
             </Row>
-            {photo && <ImageContainer src={photo} />}
+            {photo && <ImageContainer src={photo} height="90%" width="90%" />}
             <Row style={{ justifyContent: "space-around" }}>
               <IconContainer onClick={(e) => e.preventDefault()}>
                 <FaRegComment id="blue" />

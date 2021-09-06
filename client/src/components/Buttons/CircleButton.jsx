@@ -21,6 +21,7 @@ export const CStyledButton = styled.button`
     text-decoration: none;
   }
   @media (max-width: 1280px) {
+    width: 60px;
     padding: 0px !important;
     margin: 0px !important;
     border-radius: 50%;

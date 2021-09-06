@@ -160,13 +160,14 @@ export default function SingleTweet() {
             </StatContainer>
           </Row>
           <SRow>
-            <IconContainer>
+            <IconContainer p>
               <FaRegComment id="blue" />
             </IconContainer>
-            <IconContainer>
+            <IconContainer p>
               <FaRetweet id="green" />
             </IconContainer>
             <IconContainer
+              p
               onClick={(e) => {
                 e.preventDefault();
                 likeTweet({ variables: { tweetId: id } });
@@ -175,7 +176,7 @@ export default function SingleTweet() {
             >
               {likeIcon()}
             </IconContainer>
-            <IconContainer>
+            <IconContainer p>
               <FiUpload id="blue" />
             </IconContainer>
           </SRow>

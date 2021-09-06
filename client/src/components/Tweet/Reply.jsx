@@ -11,6 +11,8 @@ import {
   Above,
   IconContainer,
   TweetContent,
+  ImageContainer,
+  SLink,
 } from ".";
 import { SAvatarContainer, Avatar } from "../Avatar";
 import { TweeterUsername } from "../../Typography/index";
@@ -29,6 +31,18 @@ const StyledAbove = styled(Above)`
   margin: 0;
 `;
 
+const Left = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 30%;
+`;
+const Right = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 60%;
+  justify-content: flex-end;
+`;
+
 export default function Reply({
   reply: {
     id,
@@ -37,6 +51,7 @@ export default function Reply({
     createdAt,
     updatedAt,
     likes,
+    photo,
     user: { id: userid },
   },
 }) {
@@ -68,62 +83,73 @@ export default function Reply({
 
   return (
     <>
-      <TweetContainer key={id}>
-        <Above>
-          <Restcontainer col style={{ width: "10%" }}>
-            <SAvatarContainer>
-              <Avatar />
-            </SAvatarContainer>
-          </Restcontainer>
-          <Row col>
-            <StyledAbove>
-              <TweeterUsername>{username}</TweeterUsername>
-              <TweeterUsername small> . {useAgo(updatedAt)}</TweeterUsername>
-              {user.id === userid && (
-                <IconContainer onClick={(e) => e.preventDefault()}>
-                  <BsThreeDots onClick={toggleMoreListDropdown} />
-                </IconContainer>
-              )}
-            </StyledAbove>
-            <StyledAbove>
-              <TweeterUsername small>
-                Replying to <span style={{ color: "#1da1f2" }}>@venom</span>
-              </TweeterUsername>
-            </StyledAbove>
-            <Row onClick={(e) => e.preventDefault()}>
-              {showMoreListDropdown && (
-                <MoreListDropdown
-                  onClick={(e) => e.preventDefault()}
-                  tweetId={id}
-                  setShow={setShowMoreListDropdown}
-                />
-              )}
+      <SLink to={`/tweet/${id}`} col key={id}>
+        <TweetContainer>
+          <Above>
+            <Restcontainer col style={{ width: "10%" }}>
+              <SAvatarContainer>
+                <Avatar />
+              </SAvatarContainer>
+            </Restcontainer>
+            <Row col>
+              <StyledAbove>
+                <Left>
+                  <TweeterUsername>{username}</TweeterUsername>
+                  <TweeterUsername small>
+                    {" "}
+                    . {useAgo(updatedAt)}
+                  </TweeterUsername>
+                </Left>
+                <Right>
+                  {user.id === userid && (
+                    <IconContainer onClick={(e) => e.preventDefault()}>
+                      <BsThreeDots onClick={toggleMoreListDropdown} />
+                    </IconContainer>
+                  )}
+                </Right>
+              </StyledAbove>
+              <StyledAbove>
+                <TweeterUsername small>
+                  Replying to <span style={{ color: "#1da1f2" }}>@venom</span>
+                </TweeterUsername>
+              </StyledAbove>
+              <Row onClick={(e) => e.preventDefault()}>
+                {showMoreListDropdown && (
+                  <MoreListDropdown
+                    onClick={(e) => e.preventDefault()}
+                    tweetId={id}
+                    setShow={setShowMoreListDropdown}
+                  />
+                )}
+              </Row>
+              <StyledAbove>
+                <TweetContent>{body}</TweetContent>
+              </StyledAbove>
+              {photo && <ImageContainer src={photo} />}
             </Row>
-            <StyledAbove>
-              <TweetContent>{body}</TweetContent>
-            </StyledAbove>
+          </Above>
+          <Row style={{ justifyContent: "space-around", marginBottom: "10px" }}>
+            <IconContainer p>
+              <FaRegComment id="blue" />
+            </IconContainer>
+            <IconContainer p>
+              <FaRetweet id="green" />
+            </IconContainer>
+            <IconContainer
+              p
+              onClick={(e) => {
+                likeTweet({ variables: { tweetId: id } });
+                e.preventDefault();
+              }}
+            >
+              {likeIcon()}
+            </IconContainer>
+            <IconContainer p>
+              <FiUpload id="blue" />
+            </IconContainer>
           </Row>
-        </Above>
-        <Row style={{ justifyContent: "space-around" }}>
-          <IconContainer>
-            <FaRegComment id="blue" />
-          </IconContainer>
-          <IconContainer>
-            <FaRetweet id="green" />
-          </IconContainer>
-          <IconContainer
-            onClick={(e) => {
-              likeTweet({ variables: { tweetId: id } });
-              e.preventDefault();
-            }}
-          >
-            {likeIcon()}
-          </IconContainer>
-          <IconContainer>
-            <FiUpload id="blue" />
-          </IconContainer>
-        </Row>
-      </TweetContainer>
+        </TweetContainer>
+      </SLink>
     </>
   );
 }
