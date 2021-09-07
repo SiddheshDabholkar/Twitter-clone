@@ -79,7 +79,6 @@ export default function Tweet(props) {
       return <FaRegHeart id="red" />;
     }
   };
-
   return (
     <>
       <SLink to={`/tweet/${id}`} col key={id}>

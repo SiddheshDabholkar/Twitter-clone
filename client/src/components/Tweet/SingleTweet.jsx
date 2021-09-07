@@ -138,7 +138,7 @@ export default function SingleTweet() {
           <Row>
             <TweetContent>{body}</TweetContent>
           </Row>
-          {photo && <ImageContainer src={photo} />}
+          {photo && <ImageContainer src={photo} height="80%" width="90%" />}
           <Row>
             <TweeterUsername small>{ago(createdAt)}</TweeterUsername>
           </Row>

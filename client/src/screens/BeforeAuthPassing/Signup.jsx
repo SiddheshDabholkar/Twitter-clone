@@ -18,7 +18,7 @@ import {
 import { MainContainer } from "../../container/MainContainer";
 import { CardContainer } from "../../container/CardContainer";
 import { AuthContext } from "../../context/auth";
-import { useDisableBodyScroll } from "../../hooks/useDisableBodyScroll";
+// import { useDisableBodyScroll } from "../../hooks/useDisableBodyScroll";
 import { SIGN_UP } from "../../graphql/mutation";
 // import Confirmotp from "./Confirmotp";
 

@@ -8,7 +8,7 @@ import {
 import WelcomePage from "./screens/BeforeAuthPassing/Welcome";
 import Login from "./screens/BeforeAuthPassing/Login";
 import Signup from "./screens/BeforeAuthPassing/Signup";
-import Confirmotp from "./screens/BeforeAuthPassing/Confirmotp";
+// import Confirmotp from "./screens/BeforeAuthPassing/Confirmotp";
 import Profile from "./screens/AfterAuthPassing/Profile";
 import Home from "./screens/AfterAuthPassing/Home";
 //
@@ -22,7 +22,7 @@ import { RestContainer } from "./container/RestContainer";
 //
 import WhatsHappening from "./screens/AfterAuthPassing/WhatsHappening";
 import FeaturesNotReady from "./screens/AfterAuthPassing/FeatureNotReady";
-import MakeTweet from "./components/Tweet/MakeTweet";
+// import MakeTweet from "./components/Tweet/MakeTweet";
 import SingleTweet from "./components/Tweet/SingleTweet";
 //
 import { AuthProvider } from "./context/auth";
@@ -38,7 +38,7 @@ const Routing = () => {
         <Route exact path="/" component={WelcomePage} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
-        <Route exact path="/confirmotp" component={Confirmotp} />
+        {/* <Route exact path="/confirmotp" component={Confirmotp} /> */}
         <HomeContainer>
           <SideBar />
           <MiddleContainer>
@@ -53,7 +53,7 @@ const Routing = () => {
               <Route exact path="/bookmarks" component={FeaturesNotReady} />
               <Route exact path="/lists" component={FeaturesNotReady} />
               <Route exact path="/more" component={FeaturesNotReady} />
-              <Route exact path="/composetweet" component={MakeTweet} />
+              {/* <Route exact path="/composetweet" component={MakeTweet} /> */}
               <FloatingButton />
             </RestContainer>
             <Footer />
@@ -62,7 +62,7 @@ const Routing = () => {
         </HomeContainer>
       </Switch>
       {background && <Route path="/signup" children={<Signup />} />}
-      {background && <Route path="/confirmotp" children={<Confirmotp />} />}
+      {/* {background && <Route path="/confirmotp" children={<Confirmotp />} />} */}
     </>
   );
 };

@@ -8,7 +8,7 @@ import { GrEmoji } from "react-icons/gr";
 import { RiBarChartHorizontalFill } from "react-icons/ri";
 import { FiCalendar } from "react-icons/fi";
 
-import { Bg } from "./ModalUtils";
+import { Bg, ModalContainer } from "./ModalUtils";
 import { BodyContainer, Navbar, NavbarInner, LeftContainer } from "./common";
 import {
   IconContainer,
@@ -74,10 +74,10 @@ const FootCont = styled.div`
   width: ${({ small }) => (small ? "40%" : "60%")};
 `;
 export default function ReTweetModal(props) {
-  const { toggle, setShow } = props;
+  const { onClose, show } = props;
   const { user } = useContext(AuthContext);
-  const ref = useRef(null);
-  useOnClickOutsideRef(ref, () => setShow(false));
+  // const ref = useRef(null);
+  // useOnClickOutsideRef(ref, () => setShow(false));
   const [tweetBodyTM, setTweetBodyTM] = useState("");
   const [selectPhotoTM, setSelectPhotoTM] = useState("");
   const url = useUploadImage(selectPhotoTM);
@@ -164,21 +164,32 @@ export default function ReTweetModal(props) {
 
   return (
     <>
-      <Bg transparent>
-        <ReTweetModalContainer
-          ref={ref}
+      <Bg transparent onClick={onClose}>
+        <ModalContainer
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
           }}
         >
-          <BodyContainer>
+          {/* <ReTweetModalContainer
+          ref={ref}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+          > */}
+          <BodyContainer
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+          >
             <Navbar style={{ borderBottom: "1px solid #00011110" }} long>
               <NavbarInner>
                 <LeftContainer>
                   <AiOutlineClose
                     style={{ fontSize: "30px" }}
-                    onClick={toggle}
+                    onClick={onClose}
                   />
                 </LeftContainer>
               </NavbarInner>
@@ -245,7 +256,7 @@ export default function ReTweetModal(props) {
                       <SaveButton
                         onClick={(e) => {
                           makeTweet();
-                          toggle();
+                          onClose();
                         }}
                       >
                         tweet
@@ -256,7 +267,8 @@ export default function ReTweetModal(props) {
               </STweetContainer>
             </BodyContainer>
           </BodyContainer>
-        </ReTweetModalContainer>
+          {/* </ReTweetModalContainer> */}
+        </ModalContainer>
       </Bg>
     </>
   );
