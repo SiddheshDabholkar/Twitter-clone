@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { FaFeatherAlt } from "react-icons/fa";
+import MakeTweetModal from "../Modals/MakeTweetModal";
+import useModal from "../../hooks/useModal";
 
 export const Button = styled.button`
   display: flex;
@@ -21,11 +23,13 @@ export const Button = styled.button`
 `;
 
 export default function FloatingButton() {
+  const { Modal, show, toggle, setShow } = useModal(MakeTweetModal);
   return (
     <>
-      <Button>
+      <Button onClick={toggle}>
         <FaFeatherAlt style={{ color: "#fff", fontSize: "22px" }} />
       </Button>
+      {show && <Modal toggle={toggle} setShow={setShow} />}
     </>
   );
 }
