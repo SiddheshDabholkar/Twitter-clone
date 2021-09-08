@@ -38,6 +38,7 @@ export default function ReTweetDropdown(props) {
           getTweets: [result.data.reTweet, ...data.getTweets],
         },
       });
+      sShow(false);
     },
   });
 
