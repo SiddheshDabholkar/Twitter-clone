@@ -1,5 +1,4 @@
 import React, { useContext, useRef, useState } from "react";
-import styled from "styled-components";
 
 import { AiOutlineClose } from "react-icons/ai";
 import { MdPermMedia } from "react-icons/md";
@@ -9,7 +8,15 @@ import { RiBarChartHorizontalFill } from "react-icons/ri";
 import { FiCalendar } from "react-icons/fi";
 
 import { Bg, ModalContainer } from "./ModalUtils";
-import { BodyContainer, Navbar, NavbarInner, LeftContainer } from "./common";
+import {
+  BodyContainer,
+  Navbar,
+  NavbarInner,
+  LeftContainer,
+  FootCont,
+  Acon,
+  TweetFooter,
+} from "./common";
 import {
   IconContainer,
   Restcontainer,
@@ -33,51 +40,12 @@ import { MAKE_TWEET } from "../../graphql/mutation";
 import { FETCH_TWEET } from "../../graphql/queries";
 import { useMutation } from "@apollo/client";
 
-const ReTweetModalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 45%;
-  max-height: 60%;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14);
-  border-radius: 10px;
-`;
-
-const Acon = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  height: 100% !important;
-  width: 15% !important;
-`;
-
-//footer
-const TweetFooter = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  width: 100% !important;
-  margin-bottom: 0px;
-  margin-top: ${({ mt }) => mt};
-  border-top: 1px solid #e0dfdf;
-`;
-const FootCont = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-right: ${({ mr }) => mr};
-  justify-content: ${({ end }) => (end ? "flex-end" : "center")};
-  width: ${({ small }) => (small ? "40%" : "60%")};
-`;
-export default function ReTweetModal(props) {
-  const { onClose, show } = props;
+export default function ReTweeQuoteModal(props) {
+  const { toggle, toggleModal, setShowModal } = props;
+  console.log("props", props);
   const { user } = useContext(AuthContext);
-  // const ref = useRef(null);
-  // useOnClickOutsideRef(ref, () => setShow(false));
+  const ref = useRef(null);
+  useOnClickOutsideRef(ref, () => setShowModal(false));
   const [tweetBodyTM, setTweetBodyTM] = useState("");
   const [selectPhotoTM, setSelectPhotoTM] = useState("");
   const url = useUploadImage(selectPhotoTM);
@@ -88,15 +56,15 @@ export default function ReTweetModal(props) {
       username,
       createdAt,
       photo,
-      user: {
-        id: userid,
-        // username: userUsername,
-        // phone,
-        // email,
-        // createdAt: userCreatedAt,
-        // updatedAt: userUpdatedAt,
-        profilePic,
-      },
+      // user: {
+      // id: userid,
+      // username: userUsername,
+      // phone,
+      // email,
+      // createdAt: userCreatedAt,
+      // updatedAt: userUpdatedAt,
+      // profilePic,
+      // },
     },
   } = props;
 
@@ -110,16 +78,16 @@ export default function ReTweetModal(props) {
       <TwetCon full>
         <Container>
           <SAvatarContainer>
-            <Link to={`/profile/${userid}`}>
-              <SAvatar
-                small
-                src={
-                  profilePic
-                    ? profilePic
-                    : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
-                }
-              />
-            </Link>
+            {/* <Link to={`/profile/${userid}`}> */}
+            <SAvatar
+              small
+              // src={
+              //   profilePic
+              //     ? profilePic
+              //     : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
+              // }
+            />
+            {/* </Link> */}
           </SAvatarContainer>
           <Restcontainer
             col
@@ -164,20 +132,14 @@ export default function ReTweetModal(props) {
 
   return (
     <>
-      <Bg transparent onClick={onClose}>
+      <Bg transparent>
         <ModalContainer
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-          }}
-        >
-          {/* <ReTweetModalContainer
           ref={ref}
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
           }}
-          > */}
+        >
           <BodyContainer
             onClick={(e) => {
               e.preventDefault();
@@ -189,7 +151,7 @@ export default function ReTweetModal(props) {
                 <LeftContainer>
                   <AiOutlineClose
                     style={{ fontSize: "30px" }}
-                    onClick={onClose}
+                    onClick={toggleModal}
                   />
                 </LeftContainer>
               </NavbarInner>
@@ -234,7 +196,6 @@ export default function ReTweetModal(props) {
                           onClick={(e) => {
                             e.stopPropagation();
                             setSelectPhotoTM(e.target.files[0]);
-                            // console.log("selected photo", selectPhotoTM);
                           }}
                           style={{ display: "none" }}
                         />
@@ -256,7 +217,7 @@ export default function ReTweetModal(props) {
                       <SaveButton
                         onClick={(e) => {
                           makeTweet();
-                          onClose();
+                          toggle();
                         }}
                       >
                         tweet
@@ -267,7 +228,6 @@ export default function ReTweetModal(props) {
               </STweetContainer>
             </BodyContainer>
           </BodyContainer>
-          {/* </ReTweetModalContainer> */}
         </ModalContainer>
       </Bg>
     </>
