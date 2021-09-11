@@ -1,5 +1,5 @@
-import React, { useContext, useRef, useState } from "react";
 
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { MdPermMedia } from "react-icons/md";
 import { AiOutlineFileGif } from "react-icons/ai";
@@ -13,9 +13,9 @@ import {
   Navbar,
   NavbarInner,
   LeftContainer,
-  FootCont,
   Acon,
   TweetFooter,
+  FootCont,
 } from "./common";
 import {
   IconContainer,
@@ -40,12 +40,14 @@ import { MAKE_TWEET } from "../../graphql/mutation";
 import { FETCH_TWEET } from "../../graphql/queries";
 import { useMutation } from "@apollo/client";
 
+
 export default function ReTweeQuoteModal(props) {
   const { toggle, toggleModal, setShowModal } = props;
   console.log("props", props);
   const { user } = useContext(AuthContext);
   const ref = useRef(null);
   useOnClickOutsideRef(ref, () => setShowModal(false));
+
   const [tweetBodyTM, setTweetBodyTM] = useState("");
   const [selectPhotoTM, setSelectPhotoTM] = useState("");
   const url = useUploadImage(selectPhotoTM);
@@ -134,6 +136,7 @@ export default function ReTweeQuoteModal(props) {
     <>
       <Bg transparent>
         <ModalContainer
+
           ref={ref}
           onClick={(e) => {
             e.stopPropagation();
