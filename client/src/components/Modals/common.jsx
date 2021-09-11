@@ -44,7 +44,6 @@ export const Acon = styled.div`
   width: 15% !important;
 `;
 
-//footer
 export const TweetFooter = styled.div`
   display: flex;
   flex-direction: row;

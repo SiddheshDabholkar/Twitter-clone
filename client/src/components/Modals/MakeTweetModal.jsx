@@ -1,5 +1,4 @@
 import React, { useContext, useRef, useState } from "react";
-import styled from "styled-components";
 import { useMutation } from "@apollo/client";
 
 import { AiOutlineClose } from "react-icons/ai";

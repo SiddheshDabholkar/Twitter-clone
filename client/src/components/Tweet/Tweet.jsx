@@ -25,6 +25,7 @@ import {
 import useDropdown from "../../hooks/useDropdown";
 import ReTweet from "../Dropdown/ReTweetDropdown";
 import MoreList from "../Dropdown/MoreList";
+import ReTweetModal from "../Modals/ReTweetQuoteModal";
 
 import { LIKE_TWEET_MUTATION } from "../../graphql/mutation";
 
@@ -51,11 +52,16 @@ export default function Tweet(props) {
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
 
+  const { Modal, show, toggle, setShow } = useModal(ReTweetModal);
+
   const {
     DropDown: ReTweetDropdown,
     show: showReTweetDropdown,
     toggle: toggleReTweetDropdown,
     setShow: setShowReTweetDropDown,
+    showModal,
+    setShowModal,
+    toggleModal,
   } = useDropdown(ReTweet);
   const {
     DropDown: MoreListDropdown,
@@ -144,6 +150,7 @@ export default function Tweet(props) {
                     tweetId={id}
                     data={props}
                     setShow={setShowReTweetDropDown}
+                    setShowModal={setShowModal}
                   />
                 )}
               </IconContainer>
@@ -162,6 +169,19 @@ export default function Tweet(props) {
           </Restcontainer>
         </STweetContainer>
       </SLink>
+      {showModal && (
+        <Modal
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          toggle={toggle}
+          data={props}
+          setShow={setShow}
+          setShowModal={setShowModal}
+          toggleModal={toggleModal}
+        />
+      )}
     </>
   );
 }

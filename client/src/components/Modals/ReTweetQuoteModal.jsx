@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
 
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { MdPermMedia } from "react-icons/md";
 import { AiOutlineFileGif } from "react-icons/ai";
@@ -40,11 +40,14 @@ import { MAKE_TWEET } from "../../graphql/mutation";
 import { FETCH_TWEET } from "../../graphql/queries";
 import { useMutation } from "@apollo/client";
 
-export default function ReTweetModal(props) {
-  const { onClose, show, setShow } = props;
+
+export default function ReTweeQuoteModal(props) {
+  const { toggle, toggleModal, setShowModal } = props;
+  console.log("props", props);
   const { user } = useContext(AuthContext);
   const ref = useRef(null);
-  useOnClickOutsideRef(ref, () => setShow(false));
+  useOnClickOutsideRef(ref, () => setShowModal(false));
+
   const [tweetBodyTM, setTweetBodyTM] = useState("");
   const [selectPhotoTM, setSelectPhotoTM] = useState("");
   const url = useUploadImage(selectPhotoTM);
@@ -55,15 +58,15 @@ export default function ReTweetModal(props) {
       username,
       createdAt,
       photo,
-      user: {
-        id: userid,
-        // username: userUsername,
-        // phone,
-        // email,
-        // createdAt: userCreatedAt,
-        // updatedAt: userUpdatedAt,
-        profilePic,
-      },
+      // user: {
+      // id: userid,
+      // username: userUsername,
+      // phone,
+      // email,
+      // createdAt: userCreatedAt,
+      // updatedAt: userUpdatedAt,
+      // profilePic,
+      // },
     },
   } = props;
 
@@ -77,16 +80,16 @@ export default function ReTweetModal(props) {
       <TwetCon full>
         <Container>
           <SAvatarContainer>
-            <Link to={`/profile/${userid}`}>
-              <SAvatar
-                small
-                src={
-                  profilePic
-                    ? profilePic
-                    : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
-                }
-              />
-            </Link>
+            {/* <Link to={`/profile/${userid}`}> */}
+            <SAvatar
+              small
+              // src={
+              //   profilePic
+              //     ? profilePic
+              //     : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
+              // }
+            />
+            {/* </Link> */}
           </SAvatarContainer>
           <Restcontainer
             col
@@ -133,19 +136,13 @@ export default function ReTweetModal(props) {
     <>
       <Bg transparent>
         <ModalContainer
+
           ref={ref}
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
           }}
         >
-          {/* <ReTweetModalContainer
-          ref={ref}
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-          }}
-          > */}
           <BodyContainer
             onClick={(e) => {
               e.preventDefault();
@@ -157,7 +154,7 @@ export default function ReTweetModal(props) {
                 <LeftContainer>
                   <AiOutlineClose
                     style={{ fontSize: "30px" }}
-                    onClick={onClose}
+                    onClick={toggleModal}
                   />
                 </LeftContainer>
               </NavbarInner>
@@ -202,7 +199,6 @@ export default function ReTweetModal(props) {
                           onClick={(e) => {
                             e.stopPropagation();
                             setSelectPhotoTM(e.target.files[0]);
-                            // console.log("selected photo", selectPhotoTM);
                           }}
                           style={{ display: "none" }}
                         />
@@ -224,7 +220,7 @@ export default function ReTweetModal(props) {
                       <SaveButton
                         onClick={(e) => {
                           makeTweet();
-                          onClose();
+                          toggle();
                         }}
                       >
                         tweet
@@ -235,7 +231,6 @@ export default function ReTweetModal(props) {
               </STweetContainer>
             </BodyContainer>
           </BodyContainer>
-          {/* </ReTweetModalContainer> */}
         </ModalContainer>
       </Bg>
     </>
