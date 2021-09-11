@@ -123,8 +123,8 @@ export const FOLLOW_UNFOLLOW = gql`
   }
 `;
 export const MAKE_RETWEET = gql`
-  mutation reTweet($body: String, $tweetId: ID!) {
-    reTweet(body: $body, tweetId: $tweetId) {
+  mutation reTweet($body: String, $tweetId: ID!, $photo: String) {
+    reTweet(body: $body, tweetId: $tweetId, photo: $photo) {
       id
       body
       username

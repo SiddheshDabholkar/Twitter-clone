@@ -125,7 +125,7 @@ export default function Reply({
               <StyledAbove>
                 <TweetContent>{body}</TweetContent>
               </StyledAbove>
-              {photo && <ImageContainer src={photo} />}
+              {photo && <ImageContainer src={photo} height="90%" width="90%" />}
             </Row>
           </Above>
           <Row style={{ justifyContent: "space-around", marginBottom: "10px" }}>

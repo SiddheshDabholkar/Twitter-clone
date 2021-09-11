@@ -72,7 +72,7 @@ module.exports = gql`
     createTweet(body: String!, photo: String, tweetId: ID): Tweet!
     deleteTweet(tweetId: ID!): String
     likeTweet(tweetId: ID!): Tweet!
-    reTweet(tweetId: ID!, body: String): Tweet!
+    reTweet(tweetId: ID!, body: String, photo: String): Tweet!
     editProfile(
       name: String
       username: String

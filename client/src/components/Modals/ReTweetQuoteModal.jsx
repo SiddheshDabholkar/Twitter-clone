@@ -1,5 +1,4 @@
-
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { MdPermMedia } from "react-icons/md";
 import { AiOutlineFileGif } from "react-icons/ai";
@@ -27,6 +26,7 @@ import {
   ImageContainer,
   ImageUploaderButton,
 } from "../Tweet";
+
 import { SAvatar, SAvatarContainer } from "../Avatar";
 import { SaveButton } from "./EditProfile";
 import { TweetInput } from "../Input";
@@ -36,14 +36,12 @@ import { TweeterUsername } from "../../Typography";
 import { Link } from "react-router-dom";
 import useOnClickOutsideRef from "../../hooks/useOnClickOutsideRef";
 import useUploadImage from "../../hooks/useUploadImage";
-import { MAKE_TWEET } from "../../graphql/mutation";
+import { MAKE_RETWEET } from "../../graphql/mutation";
 import { FETCH_TWEET } from "../../graphql/queries";
 import { useMutation } from "@apollo/client";
 
-
 export default function ReTweeQuoteModal(props) {
   const { toggle, toggleModal, setShowModal } = props;
-  console.log("props", props);
   const { user } = useContext(AuthContext);
   const ref = useRef(null);
   useOnClickOutsideRef(ref, () => setShowModal(false));
@@ -51,24 +49,25 @@ export default function ReTweeQuoteModal(props) {
   const [tweetBodyTM, setTweetBodyTM] = useState("");
   const [selectPhotoTM, setSelectPhotoTM] = useState("");
   const url = useUploadImage(selectPhotoTM);
+
+  console.log("props", props);
+
   const {
-    data: {
-      id,
-      body,
-      username,
-      createdAt,
-      photo,
-      // user: {
-      // id: userid,
+    id,
+    body,
+    username,
+    createdAt,
+    photo,
+    user: {
+      id: userid,
       // username: userUsername,
       // phone,
       // email,
       // createdAt: userCreatedAt,
       // updatedAt: userUpdatedAt,
-      // profilePic,
-      // },
+      profilePic,
     },
-  } = props;
+  } = props.data.tweet || props.data.retweet;
 
   const hiddenFileInputMT = useRef(null);
   const handleClick = (e) => {
@@ -80,16 +79,16 @@ export default function ReTweeQuoteModal(props) {
       <TwetCon full>
         <Container>
           <SAvatarContainer>
-            {/* <Link to={`/profile/${userid}`}> */}
-            <SAvatar
-              small
-              // src={
-              //   profilePic
-              //     ? profilePic
-              //     : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
-              // }
-            />
-            {/* </Link> */}
+            <Link to={`/profile/${userid}`}>
+              <SAvatar
+                small
+                src={
+                  profilePic
+                    ? profilePic
+                    : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
+                }
+              />
+            </Link>
           </SAvatarContainer>
           <Restcontainer
             col
@@ -108,7 +107,7 @@ export default function ReTweeQuoteModal(props) {
               <Row>
                 <TweetContent>{body}</TweetContent>
               </Row>
-              {photo && <ImageContainer src={photo} />}
+              {photo && <ImageContainer src={photo} height="90%" width="90%" />}
             </SLink>
           </Restcontainer>
         </Container>
@@ -116,8 +115,8 @@ export default function ReTweeQuoteModal(props) {
     );
   };
 
-  const [makeTweet] = useMutation(MAKE_TWEET, {
-    variables: { body: tweetBodyTM, photo: url },
+  const [makeTweet] = useMutation(MAKE_RETWEET, {
+    variables: { body: tweetBodyTM, photo: url, tweetId: id },
     update(proxy, result) {
       const data = proxy.readQuery({
         query: FETCH_TWEET,
@@ -129,6 +128,7 @@ export default function ReTweeQuoteModal(props) {
         },
       });
       setTweetBodyTM("");
+      toggleModal();
     },
   });
 
@@ -136,7 +136,6 @@ export default function ReTweeQuoteModal(props) {
     <>
       <Bg transparent>
         <ModalContainer
-
           ref={ref}
           onClick={(e) => {
             e.stopPropagation();

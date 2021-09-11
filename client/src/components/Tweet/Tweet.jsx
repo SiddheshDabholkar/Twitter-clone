@@ -40,11 +40,11 @@ export default function Tweet(props) {
       likes,
       user: {
         id: userid,
-        username: userUsername,
-        phone,
-        email,
-        createdAt: userCreatedAt,
-        updatedAt: userUpdatedAt,
+        // username: userUsername,
+        // phone,
+        // email,
+        // createdAt: userCreatedAt,
+        // updatedAt: userUpdatedAt,
         profilePic,
       },
     },
@@ -63,6 +63,7 @@ export default function Tweet(props) {
     setShowModal,
     toggleModal,
   } = useDropdown(ReTweet);
+
   const {
     DropDown: MoreListDropdown,
     show: showMoreListDropdown,
@@ -151,6 +152,7 @@ export default function Tweet(props) {
                     data={props}
                     setShow={setShowReTweetDropDown}
                     setShowModal={setShowModal}
+                    toggle={toggleReTweetDropdown}
                   />
                 )}
               </IconContainer>

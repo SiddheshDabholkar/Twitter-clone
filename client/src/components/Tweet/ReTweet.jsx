@@ -30,8 +30,10 @@ import { SAvatar, SAvatarContainer } from "../Avatar.jsx";
 import useDropdown from "../../hooks/useDropdown";
 import MoreList from "../Dropdown/MoreList";
 import ReTweetD from "../Dropdown/ReTweetDropdown";
+import ReTweetModal from "../Modals/ReTweetQuoteModal";
 
 import { LIKE_TWEET_MUTATION } from "../../graphql/mutation";
+import useModal from "../../hooks/useModal";
 
 export const Container = styled.div`
   display: flex;
@@ -58,15 +60,15 @@ export default function ReTweet(props) {
       body,
       username,
       createdAt,
-      updatedAt,
+      // updatedAt,
       likes,
       user: {
         id: userid,
-        username: userUsername,
-        phone,
-        email,
-        createdAt: userCreatedAt,
-        updatedAt: userUpdatedAt,
+        // username: userUsername,
+        // phone,
+        // email,
+        // createdAt: userCreatedAt,
+        // updatedAt: userUpdatedAt,
         profilePic,
       },
       tweet: {
@@ -75,7 +77,7 @@ export default function ReTweet(props) {
         photo: tweetPhoto,
         username: tweetUsername,
         createdAt: tweetCreatedAt,
-        updatedAt: tweetUpdatedAt,
+        // updatedAt: tweetUpdatedAt,
         user: { id: insideUserId, profilePic: insideUserProfilePic },
       },
     },
@@ -85,11 +87,16 @@ export default function ReTweet(props) {
   const hookretweetCreatedAt = useAgo(createdAt);
   const hooktweetCreatedAt = useAgo(tweetCreatedAt);
 
+  const { Modal, show, toggle, setShow } = useModal(ReTweetModal);
+
   const {
     DropDown: ReTweetDropdown,
     show: showReTweetDropdown,
     toggle: toggleReTweetDropdown,
     setShow: setShowReTweetDropDown,
+    showModal,
+    setShowModal,
+    toggleModal,
   } = useDropdown(ReTweetD);
 
   const {
@@ -137,6 +144,8 @@ export default function ReTweet(props) {
                 tweetId={id}
                 data={props}
                 setShow={setShowReTweetDropDown}
+                setShowModal={setShowModal}
+                toggle={toggleReTweetDropdown}
               />
             )}
           </IconContainer>
@@ -231,7 +240,7 @@ export default function ReTweet(props) {
         <Row>
           <TweetContent>{body}</TweetContent>
         </Row>
-        {photo && <ImageContainer src={photo} />}
+        {photo && <ImageContainer src={photo} height="90%" width="90%" />}
         {tir && <TweetInsideReTweet />}
         <BottomButtons tweetId={likeid} />
       </>
@@ -280,6 +289,19 @@ export default function ReTweet(props) {
             </Restcontainer>
           </STweetContainer>
         </SLink>
+        {showModal && (
+          <Modal
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+            toggle={toggle}
+            data={props}
+            setShow={setShow}
+            setShowModal={setShowModal}
+            toggleModal={toggleModal}
+          />
+        )}
       </>
     );
   } else {
@@ -316,6 +338,19 @@ export default function ReTweet(props) {
             </Restcontainer>
           </STweetContainer>
         </SLink>
+        {showModal && (
+          <Modal
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+            toggle={toggle}
+            data={props}
+            setShow={setShow}
+            setShowModal={setShowModal}
+            toggleModal={toggleModal}
+          />
+        )}
       </>
     );
   }
