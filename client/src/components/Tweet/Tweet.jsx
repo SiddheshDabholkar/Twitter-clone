@@ -89,7 +89,7 @@ export default function Tweet(props) {
   return (
     <>
       <SLink to={`/tweet/${id}`} col key={id}>
-        <STweetContainer>
+        <STweetContainer no>
           <SAvatarContainer>
             <Link to={`/profile/${userid}`}>
               <SAvatar

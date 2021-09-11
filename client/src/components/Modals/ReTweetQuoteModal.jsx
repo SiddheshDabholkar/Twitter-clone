@@ -130,6 +130,7 @@ export default function ReTweeQuoteModal(props) {
       setTweetBodyTM("");
       toggleModal();
     },
+    addTypename: false,
   });
 
   return (

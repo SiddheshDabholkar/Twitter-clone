@@ -82,12 +82,13 @@ export default function ReTweet(props) {
       },
     },
   } = props;
+
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
   const hookretweetCreatedAt = useAgo(createdAt);
   const hooktweetCreatedAt = useAgo(tweetCreatedAt);
 
-  const { Modal, show, toggle, setShow } = useModal(ReTweetModal);
+  const { Modal, toggle, setShow } = useModal(ReTweetModal);
 
   const {
     DropDown: ReTweetDropdown,
@@ -197,6 +198,9 @@ export default function ReTweet(props) {
                 <Row>
                   <TweetContent>{tweetBody}</TweetContent>
                 </Row>
+                {tweetPhoto && (
+                  <ImageContainer src={tweetPhoto} height="90%" width="90%" />
+                )}
               </SLink>
             </Restcontainer>
           </Container>
