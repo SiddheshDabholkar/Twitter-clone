@@ -11,6 +11,7 @@ import SearchModal from "../../components/Modals/SearchModal";
 import { StyledSearchInput } from "../../components/Search";
 import useOnClickOutsideRef from "../../hooks/useOnClickOutsideRef";
 import { FETCH_SEARCHED_USER } from "../../graphql/queries";
+import useDropdown from "../../hooks/useDropdown";
 // import Search from "../../components/Search";
 
 const WhatsHappeningContainer = styled.div`
@@ -191,6 +192,7 @@ export default function WhatsHappening() {
   const { pathname } = useLocation();
   const newPathname = pathname.substring(1);
   const modalRef = useOnClickOutsideRef(() => setshowSearchModal(false));
+  const { DropDown, show, toggle, setShow } = useDropdown(SearchModal);
 
   const { loading, data } = useQuery(FETCH_SEARCHED_USER, {
     variables: { username: query },
@@ -233,20 +235,19 @@ export default function WhatsHappening() {
               if (e.target.value.length > 0) {
                 const q = e.target.value;
                 setQuery(q);
-                q.length > 0
-                  ? setshowSearchModal(true)
-                  : setshowSearchModal(false);
+                q.length > 0 ? setShow(true) : setShow(false);
               }
             }}
-            onClick={() => setshowSearchModal(!showSearchModal)}
+            onClick={() => setShow(true)}
           ></StyledSearchInput>
         </SearchContainer>
         <RestContainer>
-          <SearchModal
+          {/* <SearchModal
             showSearchModal={showSearchModal}
             data={data && data}
             ref={modalRef}
-          />
+          /> */}
+          {show && <DropDown data={data} show={show} setShow={setShow} />}
           {/* Whats happening */}
           <SubContainer>
             <Title title="Whats Happening" />

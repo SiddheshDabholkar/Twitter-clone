@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { TweeterUsername, SmallParagraph } from "../../Typography";
 import { SAvatarContainer, SAvatar } from "../Avatar";
-import { Link } from "react-router-dom";
 import { SLink } from "../Tweet";
+import useOnClickOutside from "../../hooks/useOnClickOutsideRef";
 
 const SearchModalContainer = styled.div`
   display: flex;
@@ -34,7 +34,10 @@ const InfoContainer = styled.div`
   flex-direction: column;
 `;
 
-export default function SearchModal({ showSearchModal, data }) {
+export default function SearchModal({ show, data, setShow }) {
+  const ref = useRef(null);
+  useOnClickOutside(ref, () => setShow(false));
+
   const UserExists = () => {
     if (data && data.getSearchedUser.length > 0) {
       const userdata = data.getSearchedUser;
@@ -76,10 +79,10 @@ export default function SearchModal({ showSearchModal, data }) {
     }
   };
 
-  if (showSearchModal) {
+  if (show) {
     return (
       <>
-        <SearchModalContainer>
+        <SearchModalContainer ref={ref}>
           <UserExists />
         </SearchModalContainer>
       </>
