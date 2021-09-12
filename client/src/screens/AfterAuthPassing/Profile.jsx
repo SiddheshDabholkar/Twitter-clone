@@ -104,14 +104,14 @@ export default function Profile() {
     if (data) {
       const userInfo = data.getUser;
       const { followers } = userInfo;
-      console.log(checkIFUserISFollowing(followers));
+      // console.log(checkIFUserISFollowing(followers));
       if (checkIFUserISFollowing(followers)) {
         SETFOLLOWING(true);
       } else {
         SETFOLLOWING(false);
       }
     }
-  }, [data]);
+  }, [user.id, data]);
 
   const DecideButton = () => {
     if (user.id === profileId) {

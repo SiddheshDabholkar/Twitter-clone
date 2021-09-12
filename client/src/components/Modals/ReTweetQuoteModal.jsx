@@ -50,8 +50,6 @@ export default function ReTweeQuoteModal(props) {
   const [selectPhotoTM, setSelectPhotoTM] = useState("");
   const url = useUploadImage(selectPhotoTM);
 
-  console.log("props", props);
-
   const {
     id,
     body,
@@ -118,19 +116,19 @@ export default function ReTweeQuoteModal(props) {
   const [makeTweet] = useMutation(MAKE_RETWEET, {
     variables: { body: tweetBodyTM, photo: url, tweetId: id },
     update(proxy, result) {
+      // console.log("result", result);
       const data = proxy.readQuery({
         query: FETCH_TWEET,
       });
       proxy.writeQuery({
         query: FETCH_TWEET,
         data: {
-          getTweets: [result.data.createTweet, ...data.getTweets],
+          getTweets: [result.data.reTweet, ...data.getTweets],
         },
       });
       setTweetBodyTM("");
       toggleModal();
     },
-    addTypename: false,
   });
 
   return (
@@ -204,16 +202,28 @@ export default function ReTweeQuoteModal(props) {
                         />
                       </IconContainer>
                       <IconContainer>
-                        <AiOutlineFileGif id="blue" />
+                        <AiOutlineFileGif
+                          id="blue"
+                          style={{ color: "#1da1f2", fontSize: "20px" }}
+                        />
                       </IconContainer>
                       <IconContainer>
-                        <GrEmoji id="blue" />
+                        <GrEmoji
+                          id="blue"
+                          style={{ color: "#1da1f2", fontSize: "20px" }}
+                        />{" "}
                       </IconContainer>
                       <IconContainer>
-                        <RiBarChartHorizontalFill id="blue" />
+                        <RiBarChartHorizontalFill
+                          id="blue"
+                          style={{ color: "#1da1f2", fontSize: "20px" }}
+                        />{" "}
                       </IconContainer>
                       <IconContainer>
-                        <FiCalendar id="blue" />
+                        <FiCalendar
+                          id="blue"
+                          style={{ color: "#1da1f2", fontSize: "20px" }}
+                        />{" "}
                       </IconContainer>
                     </FootCont>
                     <FootCont end mr="10px">

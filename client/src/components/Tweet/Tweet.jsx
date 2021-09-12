@@ -52,7 +52,7 @@ export default function Tweet(props) {
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
 
-  const { Modal, show, toggle, setShow } = useModal(ReTweetModal);
+  const { Modal, toggle, setShow } = useModal(ReTweetModal);
 
   const {
     DropDown: ReTweetDropdown,
@@ -116,7 +116,7 @@ export default function Tweet(props) {
                 </TweeterUsername>
               </Row>
               {user.id === userid && (
-                <IconContainer onClick={(e) => e.preventDefault()}>
+                <IconContainer onClick={(e) => e.preventDefault()} p>
                   <BsThreeDots onClick={toggleMoreListDropdown} />
                 </IconContainer>
               )}

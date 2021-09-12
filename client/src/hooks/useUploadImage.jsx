@@ -17,9 +17,9 @@ export default function useUploadImage(selectedPhoto) {
         .then((res) => res.json())
         .then((data) => {
           setAssetUrl(data.url);
-          console.log("photo data.url", data.url);
-        })
-        .catch((err) => console.log(err));
+          // console.log("photo data.url", data.url);
+        });
+      // .catch((err) => console.log(err));
     }
   }, [selectedPhoto]);
   return assetUrl;

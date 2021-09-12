@@ -71,7 +71,6 @@ export default function MoreListReply(props) {
         query: FETCH_TWEET_REPLIES,
         variables: { tweetId: parentTweetId },
       });
-      console.log("d", d);
       const filteredData = d.getReplies.filter(
         (i) => i.id !== result.data.deleteTweet
       );

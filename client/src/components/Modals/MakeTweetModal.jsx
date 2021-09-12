@@ -144,16 +144,28 @@ export default function MakeTweetModal({ toggle, setShow }) {
                         />
                       </IconContainer>
                       <IconContainer>
-                        <AiOutlineFileGif id="blue" />
+                        <AiOutlineFileGif
+                          id="blue"
+                          style={{ color: "#1da1f2", fontSize: "20px" }}
+                        />
                       </IconContainer>
                       <IconContainer>
-                        <GrEmoji id="blue" />
+                        <GrEmoji
+                          id="blue"
+                          style={{ color: "#1da1f2", fontSize: "20px" }}
+                        />
                       </IconContainer>
                       <IconContainer>
-                        <RiBarChartHorizontalFill id="blue" />
+                        <RiBarChartHorizontalFill
+                          id="blue"
+                          style={{ color: "#1da1f2", fontSize: "20px" }}
+                        />
                       </IconContainer>
                       <IconContainer>
-                        <FiCalendar id="blue" />
+                        <FiCalendar
+                          id="blue"
+                          style={{ color: "#1da1f2", fontSize: "20px" }}
+                        />
                       </IconContainer>
                     </FootCont>
                     <FootCont end mr="10px">

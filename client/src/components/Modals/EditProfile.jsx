@@ -103,7 +103,7 @@ export default function EditProfile({ toggle }) {
   useEffect(() => {
     const load = data.getUser;
     const setEditProfileInputData = (load) => {
-      console.log(load.name);
+      // console.log(load.name);
       load.name && setName(load.name);
       load.website && setWebsite(load.website);
       load.location && setLocation(load.location);
@@ -180,7 +180,7 @@ export default function EditProfile({ toggle }) {
                           ref={hiddenFileBannerInput}
                           onChange={(e) => {
                             setSelectBanner(e.target.files[0]);
-                            console.log(selectBanner);
+                            // console.log(selectBanner);
                           }}
                           style={{ display: "none" }}
                         />
@@ -207,7 +207,7 @@ export default function EditProfile({ toggle }) {
                             ref={hiddenFileProfileInput}
                             onChange={(e) => {
                               setSelectProfile(e.target.files[0]);
-                              console.log("select profile", selectProfile);
+                              // console.log("select profile", selectProfile);
                             }}
                             style={{ display: "none" }}
                           />

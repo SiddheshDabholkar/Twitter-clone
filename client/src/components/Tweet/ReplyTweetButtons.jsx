@@ -18,6 +18,7 @@ import {
   UtilContainer,
   UploadcontentContainer,
   ImageUploaderButton,
+  ImageContainer,
 } from ".";
 import useUploadImage from "../../hooks/useUploadImage";
 import { MAKE_TWEET } from "../../graphql/mutation";
@@ -82,6 +83,13 @@ export default function ReplyTweetButtons({ tweetId }) {
               rows="5"
               onChange={(e) => setReply(e.target.value)}
             />
+            {selectPhoto && (
+              <ImageContainer
+                src={URL.createObjectURL(selectPhoto)}
+                height="300px"
+                width="90%"
+              />
+            )}
             <UtilContainer>
               <UploadcontentContainer>
                 <IconContainer>
@@ -112,7 +120,9 @@ export default function ReplyTweetButtons({ tweetId }) {
                   txtColor="#fff"
                   bgColor="#1da1f2"
                   borderColor="transparent"
-                  onClick={makeReply}
+                  onClick={() => {
+                    makeReply();
+                  }}
                 >
                   Reply
                 </StyledButton>
