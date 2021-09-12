@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { UPLOAD_PRESET, CLOUDINARY_NAME } from "../Keys";
 
 export default function useUploadImage(selectedPhoto) {
   const [assetUrl, setAssetUrl] = useState("");
+  const UPLOAD_PRESET = process.env.UPLOAD_PRESET;
+  const CLOUDINARY_NAME = process.env.CLOUDINARY_NAME;
 
   useEffect(() => {
     if (selectedPhoto) {

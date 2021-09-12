@@ -22,6 +22,7 @@
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.26.2",
     "cookie-parser": "^1.4.5",
+    "dotenv": "^10.0.0",
     "graphql": "^15.5.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.12",

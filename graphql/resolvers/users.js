@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const checkAuth = require("../../utils/checkAuth");
 
 const User = require("../../model/User");
-const { SECRET_KEY } = require("../../Keys");
+const SECRET_KEY = process.env.SECRET_KEY;
 const {
   validateRegisterInput,
   validateLoginInput,
