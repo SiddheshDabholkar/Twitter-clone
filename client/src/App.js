@@ -28,6 +28,7 @@ import SingleTweet from "./components/Tweet/SingleTweet";
 import { AuthProvider } from "./context/auth";
 //
 import FloatingButton from "./components/Buttons/FloatingButton";
+import Explore from "./screens/AfterAuthPassing/Explore";
 //
 const Routing = () => {
   let location = useLocation();
@@ -47,7 +48,7 @@ const Routing = () => {
               <Route exact path="/profile/:profileId" component={Profile} />
               <Route exact path="/tweet/:tweetId" component={SingleTweet} />
               <Route exact path="/home" component={Home} />
-              <Route exact path="/explore" component={FeaturesNotReady} />
+              <Route exact path="/explore" component={Explore} />
               <Route exact path="/notification" component={FeaturesNotReady} />
               <Route exact path="/messages" component={FeaturesNotReady} />
               <Route exact path="/bookmarks" component={FeaturesNotReady} />

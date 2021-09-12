@@ -1,6 +1,5 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { useLocation } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 //
 import { Avatar, AvatarContainer } from "../../components/Avatar";
@@ -9,23 +8,15 @@ import { StyledButton } from "../../components/Buttons/AuthButton";
 import { RestContainer } from "../../container/RestContainer";
 import SearchModal from "../../components/Modals/SearchModal";
 import { StyledSearchInput } from "../../components/Search";
-import useOnClickOutsideRef from "../../hooks/useOnClickOutsideRef";
 import { FETCH_SEARCHED_USER } from "../../graphql/queries";
 import useDropdown from "../../hooks/useDropdown";
-// import Search from "../../components/Search";
 
-const WhatsHappeningContainer = styled.div`
+export const WhatsHappeningContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 30%;
-  /*
-  Note:- if u change height to auto or 100% 
-  both the home section and whats happening section
-  will scroll,which is unwanted thats y provided 100
-  vertical height
-  */
   height: 100vh;
   border: 1px solid #80808038;
   border-bottom: 0px;
@@ -187,42 +178,12 @@ const SStyledButton = styled(StyledButton)`
 `;
 
 export default function WhatsHappening() {
-  const [showSearchModal, setshowSearchModal] = useState(false);
   const [query, setQuery] = useState("");
-  const { pathname } = useLocation();
-  const newPathname = pathname.substring(1);
-  const modalRef = useOnClickOutsideRef(() => setshowSearchModal(false));
   const { DropDown, show, toggle, setShow } = useDropdown(SearchModal);
 
   const { loading, data } = useQuery(FETCH_SEARCHED_USER, {
     variables: { username: query },
   });
-
-  // const SearchShower = () => {
-  //   if (newPathname.startsWith("explore")) {
-  //     return null;
-  //   } else {
-  //     return (
-  //       <>
-  //         <SearchContainer>
-  //           {/* <Search /> */}
-  //           <StyledSearchInput
-  //             placeholder="Search twitter"
-  //             value={query}
-  //             onChange={(e) => {
-  //               const q = e.target.value;
-  //               setQuery(q);
-  //               q.length > 0
-  //                 ? setshowSearchModal(true)
-  //                 : setshowSearchModal(false);
-  //             }}
-  //             onClick={() => setshowSearchModal(!showSearchModal)}
-  //           ></StyledSearchInput>
-  //         </SearchContainer>
-  //       </>
-  //     );
-  //   }
-  // };
 
   return (
     <>

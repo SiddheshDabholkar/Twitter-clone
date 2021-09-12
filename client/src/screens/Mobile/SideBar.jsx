@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 //
@@ -9,7 +9,7 @@ import { AvatarContainer, Avatar } from "../../components/Avatar";
 import { Logo, LogoContainer } from "../../components/Logo";
 import { ButtonContainer } from "../../components/Buttons/ButtonContainer";
 import { CStyledButton } from "../../components/Buttons/CircleButton";
-import LogOutModal from "../../components/Modals/LogoutModal";
+import LogOutModal from "../../components/Dropdown/LogoutDropdown";
 import { SmallParagrah } from "../AfterAuthPassing/WhatsHappening";
 // icons
 import { FaFeatherAlt } from "react-icons/fa";
@@ -23,6 +23,7 @@ import { CgMoreO } from "react-icons/cg";
 import { FiMoreHorizontal } from "react-icons/fi";
 import MakeTweetModal from "../../components/Modals/MakeTweetModal";
 import useModal from "../../hooks/useModal";
+import useDropdown from "../../hooks/useDropdown";
 
 //styles
 const SideBarContainer = styled.div`
@@ -125,8 +126,12 @@ const LogoLinkContainer = styled.div`
 
 export default function SideBar() {
   const { user } = useContext(AuthContext);
-  const [showLogOutModal, setShowLogOutModal] = useState(false);
   const { Modal, show, toggle, setShow } = useModal(MakeTweetModal);
+  const {
+    DropDown,
+    show: showLGD,
+    setShow: setShowLGD,
+  } = useDropdown(LogOutModal);
 
   const links = [
     {
@@ -213,8 +218,8 @@ export default function SideBar() {
             </CStyledButton>
           </ButtonContainer>
         </LogoLinkContainer>
-        <LogOutModal showLogOutModal={showLogOutModal} />
-        <SidebarFooter onClick={() => setShowLogOutModal(!showLogOutModal)}>
+        {showLGD && <DropDown show={showLGD} setShow={setShowLGD} />}
+        <SidebarFooter onClick={() => setShowLGD(1)}>
           <AvatarContainer style={{ width: "20%" }}>
             <Avatar
               src={

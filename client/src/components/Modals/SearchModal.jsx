@@ -4,12 +4,13 @@ import { TweeterUsername, SmallParagraph } from "../../Typography";
 import { SAvatarContainer, SAvatar } from "../Avatar";
 import { SLink } from "../Tweet";
 import useOnClickOutside from "../../hooks/useOnClickOutsideRef";
+import { useLocation } from "react-router";
 
 const SearchModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: fixed;
-  width: 26%;
+  width: ${({ lrg }) => (lrg ? "96%" : "26%")};
   overflow-y: scroll;
   max-height: 50%;
   align-items: center;
@@ -20,6 +21,18 @@ const SearchModalContainer = styled.div`
   border-radius: 15px;
   margin-top: 0px;
   box-shadow: 0 5px 10px #7a6f6f66, 0 15px 40px #8a8a8a66;
+  @media (min-width: 1024px) {
+    width: ${({ lrg }) => (lrg ? " 47%" : "26%")};
+  }
+  @media (max-width: 1023px) {
+    width: ${({ lrg }) => (lrg ? "60%" : "26%")};
+  }
+  @media (max-width: 1000px) {
+    width: ${({ lrg }) => (lrg ? "81%" : "26%")};
+  }
+  @media (max-width: 500px) {
+    width: ${({ lrg }) => (lrg ? "96%" : "26%")};
+  }
 `;
 
 const UserCard = styled.div`
@@ -37,6 +50,8 @@ const InfoContainer = styled.div`
 export default function SearchModal({ show, data, setShow }) {
   const ref = useRef(null);
   useOnClickOutside(ref, () => setShow(false));
+  const { pathname } = useLocation();
+  const newPathname = pathname.substring(1);
 
   const UserExists = () => {
     if (data && data.getSearchedUser.length > 0) {
@@ -85,6 +100,15 @@ export default function SearchModal({ show, data, setShow }) {
         <SearchModalContainer ref={ref}>
           <UserExists />
         </SearchModalContainer>
+        {/* {newPathname.startsWith("explore") ? (
+          <SearchModalContainer ref={ref} lrg>
+            <UserExists />
+          </SearchModalContainer>
+        ) : (
+          <SearchModalContainer ref={ref}>
+            <UserExists />
+          </SearchModalContainer>
+        )} */}
       </>
     );
   } else return null;
