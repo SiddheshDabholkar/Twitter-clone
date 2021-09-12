@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const MiddleContainer = styled.div`
   display: flex;
   flex-direction: column;
-  /* Dont change this height bitch */
   height: 100vh;
   width: 50%;
   border: 1px solid #80808038;
