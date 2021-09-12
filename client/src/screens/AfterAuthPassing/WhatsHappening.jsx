@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useQuery } from "@apollo/client";
 //
@@ -196,7 +196,11 @@ export default function WhatsHappening() {
               if (e.target.value.length > 0) {
                 const q = e.target.value;
                 setQuery(q);
+                console.log("q", q);
+                console.log("query", query);
                 q.length > 0 ? setShow(true) : setShow(false);
+              } else {
+                setQuery("");
               }
             }}
             onClick={() => setShow(true)}
