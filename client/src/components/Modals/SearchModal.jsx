@@ -97,10 +97,7 @@ export default function SearchModal({ show, data, setShow }) {
   if (show) {
     return (
       <>
-        <SearchModalContainer ref={ref}>
-          <UserExists />
-        </SearchModalContainer>
-        {/* {newPathname.startsWith("explore") ? (
+        {newPathname.startsWith("explore") ? (
           <SearchModalContainer ref={ref} lrg>
             <UserExists />
           </SearchModalContainer>
@@ -108,7 +105,7 @@ export default function SearchModal({ show, data, setShow }) {
           <SearchModalContainer ref={ref}>
             <UserExists />
           </SearchModalContainer>
-        )} */}
+        )}
       </>
     );
   } else return null;

@@ -34,6 +34,8 @@ export default function Explore() {
                 const q = e.target.value;
                 setQuery(q);
                 q.length > 0 ? setShow(true) : setShow(false);
+              } else {
+                setQuery("");
               }
             }}
             onClick={() => setShow(true)}
