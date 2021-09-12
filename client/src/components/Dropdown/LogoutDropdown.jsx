@@ -1,8 +1,9 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import styled from "styled-components";
 import { AuthContext } from "../../context/auth";
 import { useHistory } from "react-router-dom";
 import { SAvatarContainer, SAvatar } from "../Avatar";
+import useOnClickOutside from "../../hooks/useOnClickOutsideRef";
 
 const LogOutModalContainer = styled.div`
   display: flex;
@@ -68,42 +69,42 @@ const SmallP = styled.p`
   color: ${({ color }) => (color ? "grey" : "#000")};
 `;
 
-export default function LogOutModal({ showLogOutModal }) {
-  const { user, logout } = useContext(AuthContext);
+export default function LogOutDropdown({ setShow }) {
+  const ref = useRef(null);
   const history = useHistory();
+  const { user, logout } = useContext(AuthContext);
+  useOnClickOutside(ref, () => setShow(false));
 
   const handleClick = () => {
     logout();
     history.push("/");
   };
 
-  if (showLogOutModal) {
-    return (
-      <>
-        <LogOutModalContainer>
-          <StyledCard>
-            <CardCon>
-              <SSAvatrcont>
-                <SAvatar
-                  small
-                  src={
-                    user.profilePic
-                      ? user.profilePic
-                      : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
-                  }
-                />
-              </SSAvatrcont>
-              <SmallPContainer>
-                <SmallP bold>{user.username}</SmallP>
-                <SmallP color>{user.email}</SmallP>
-              </SmallPContainer>
-            </CardCon>
-          </StyledCard>
-          <StyledCard onClick={handleClick} pointer>
-            logout @{user.username}
-          </StyledCard>
-        </LogOutModalContainer>
-      </>
-    );
-  } else return null;
+  return (
+    <>
+      <LogOutModalContainer ref={ref}>
+        <StyledCard>
+          <CardCon>
+            <SSAvatrcont>
+              <SAvatar
+                small
+                src={
+                  user.profilePic
+                    ? user.profilePic
+                    : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
+                }
+              />
+            </SSAvatrcont>
+            <SmallPContainer>
+              <SmallP bold>{user.username}</SmallP>
+              <SmallP color>{user.email}</SmallP>
+            </SmallPContainer>
+          </CardCon>
+        </StyledCard>
+        <StyledCard onClick={handleClick} pointer>
+          logout @{user.username}
+        </StyledCard>
+      </LogOutModalContainer>
+    </>
+  );
 }
