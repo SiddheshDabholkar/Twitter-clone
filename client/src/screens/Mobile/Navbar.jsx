@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
 import useWindowSize from "../../hooks/useWindow";
 import { Link, useLocation } from "react-router-dom";
@@ -64,38 +64,12 @@ const ButtonAndTweetContainer = styled.div`
 export default function HomeNavbar() {
   const { pathname } = useLocation();
   const { width } = useWindowSize();
+  const [query, setQuery] = useState("");
   const newPathname = pathname.substring(1);
   const { user } = useContext(AuthContext);
 
-  const ButtonDecider = () => {
-    if (newPathname.startsWith("composetweet")) {
-      return (
-        <>
-          <ButtonContainer>
-            <CStyledButton
-              small
-              txtColor="#fff"
-              bgColor="#1da1f2"
-              borderColor="transparent"
-            >
-              tweet
-            </CStyledButton>
-          </ButtonContainer>
-        </>
-      );
-    } else return null;
-  };
-
   const TweetHeaders = () => {
-    if (newPathname.startsWith("explore")) {
-      return (
-        <>
-          <SearchContainer>
-            <StyledSearchInput placeholder="search" />
-          </SearchContainer>
-        </>
-      );
-    } else if (newPathname.startsWith("tweet")) {
+    if (newPathname.startsWith("tweet")) {
       return (
         <>
           <GoBackButton />
@@ -120,7 +94,7 @@ export default function HomeNavbar() {
     }
   };
 
-  if (newPathname.startsWith("profile")) {
+  if (newPathname.startsWith("profile") || newPathname.startsWith("explore")) {
     return null;
   } else {
     return (
