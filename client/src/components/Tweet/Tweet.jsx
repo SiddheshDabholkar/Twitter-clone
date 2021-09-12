@@ -40,11 +40,11 @@ export default function Tweet(props) {
       likes,
       user: {
         id: userid,
-        username: userUsername,
-        phone,
-        email,
-        createdAt: userCreatedAt,
-        updatedAt: userUpdatedAt,
+        // username: userUsername,
+        // phone,
+        // email,
+        // createdAt: userCreatedAt,
+        // updatedAt: userUpdatedAt,
         profilePic,
       },
     },
@@ -52,7 +52,7 @@ export default function Tweet(props) {
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
 
-  const { Modal, show, toggle, setShow } = useModal(ReTweetModal);
+  const { Modal, toggle, setShow } = useModal(ReTweetModal);
 
   const {
     DropDown: ReTweetDropdown,
@@ -63,6 +63,7 @@ export default function Tweet(props) {
     setShowModal,
     toggleModal,
   } = useDropdown(ReTweet);
+
   const {
     DropDown: MoreListDropdown,
     show: showMoreListDropdown,
@@ -88,7 +89,7 @@ export default function Tweet(props) {
   return (
     <>
       <SLink to={`/tweet/${id}`} col key={id}>
-        <STweetContainer>
+        <STweetContainer no>
           <SAvatarContainer>
             <Link to={`/profile/${userid}`}>
               <SAvatar
@@ -115,7 +116,7 @@ export default function Tweet(props) {
                 </TweeterUsername>
               </Row>
               {user.id === userid && (
-                <IconContainer onClick={(e) => e.preventDefault()}>
+                <IconContainer onClick={(e) => e.preventDefault()} p>
                   <BsThreeDots onClick={toggleMoreListDropdown} />
                 </IconContainer>
               )}
@@ -151,6 +152,7 @@ export default function Tweet(props) {
                     data={props}
                     setShow={setShowReTweetDropDown}
                     setShowModal={setShowModal}
+                    toggle={toggleReTweetDropdown}
                   />
                 )}
               </IconContainer>

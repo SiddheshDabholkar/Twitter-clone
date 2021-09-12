@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery, useMutation } from "@apollo/client";
@@ -20,8 +20,7 @@ import {
   SRow,
   ImageContainer,
 } from "./";
-import useModal from "../../hooks/useModal";
-// import MoreList from "../Dropdown/MoreList";
+import useDropdown from "../../hooks/useDropdown";
 import MoreListReply from "../Dropdown/MoreListReply";
 import { ago } from "../../utils/timeago";
 import { AuthContext } from "../../context/auth";
@@ -44,7 +43,7 @@ export default function SingleTweet() {
   let { tweetId } = useParams();
   const { user } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
-  const { Modal, show, toggle } = useModal(MoreListReply);
+  const { DropDown, show, toggle, setShow } = useDropdown(MoreListReply);
   const [likeTweet] = useMutation(LIKE_TWEET_MUTATION);
   const [likes, setLikes] = useState([]);
 
@@ -133,7 +132,13 @@ export default function SingleTweet() {
             </IconContainer>
           </Row>
           <Row onClick={(e) => e.preventDefault()}>
-            {show && <Modal onClick={(e) => e.preventDefault()} id={id} />}
+            {show && (
+              <DropDown
+                onClick={(e) => e.preventDefault()}
+                id={id}
+                setShow={setShow}
+              />
+            )}
           </Row>
           <Row>
             <TweetContent>{body}</TweetContent>

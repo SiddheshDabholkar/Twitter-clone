@@ -16,7 +16,7 @@ const Span = styled.span`
 
 export default function ReTweetDropdown(props) {
   const ref = useRef(null);
-  const { tweetId, setShow: sShow, setShowModal } = props;
+  const { tweetId, setShow: sShow, setShowModal, toggle } = props;
   const [body] = useState("");
   useOnClickOutside(ref, () => sShow(false));
 
@@ -53,6 +53,7 @@ export default function ReTweetDropdown(props) {
           <Li
             onClick={(e) => {
               setShowModal(true);
+              toggle();
             }}
           >
             <FaRetweet />

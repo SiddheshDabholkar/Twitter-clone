@@ -82,7 +82,7 @@ module.exports = {
       return tweet;
     },
     //*-----------------------------------//
-    async reTweet(_, { tweetId, body }, context) {
+    async reTweet(_, { tweetId, body, photo }, context) {
       const user = checkAuth(context);
       const tweet = await Tweet.findById(tweetId)
         // .populate("tweet tweet.user")
@@ -93,6 +93,7 @@ module.exports = {
         body,
         user: user.id,
         tweet,
+        photo,
         username: user.username,
       });
       const reTweet = await newReTweet.save();

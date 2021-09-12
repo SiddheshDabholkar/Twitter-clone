@@ -119,7 +119,7 @@ export default function MakeTweet() {
           {selectPhoto && (
             <ImageContainer
               src={URL.createObjectURL(selectPhoto)}
-              height="90%"
+              height="300px"
               width="90%"
             />
           )}
