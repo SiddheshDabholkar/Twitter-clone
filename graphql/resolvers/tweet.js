@@ -88,7 +88,6 @@ module.exports = {
         // .populate("tweet tweet.user")
         .populate({ path: "tweet", populate: "user" })
         .exec();
-      console.log("tweet", tweet);
       const newReTweet = new Tweet({
         body,
         user: user.id,
