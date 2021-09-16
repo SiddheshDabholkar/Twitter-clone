@@ -184,7 +184,7 @@ export default function Profile() {
               src={
                 data
                   ? profilePic
-                  : "https://res.cloudinary.com/drntday51/image/upload/v1627108184/twitter/ptupstjuaejspvhj9mfj.jpg"
+                  : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
               }
             />
           </AvatarContainer>

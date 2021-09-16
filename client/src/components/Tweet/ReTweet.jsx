@@ -177,7 +177,7 @@ export default function ReTweet(props) {
                 src={
                   insideUserProfilePic
                     ? insideUserProfilePic
-                    : "https://res.cloudinary.com/drntday51/image/upload/v1627108184/twitter/ptupstjuaejspvhj9mfj.jpg"
+                    : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
                 }
               />
             </SAvatarContainer>
@@ -270,7 +270,7 @@ export default function ReTweet(props) {
                   src={
                     insideUserProfilePic
                       ? insideUserProfilePic
-                      : "https://res.cloudinary.com/drntday51/image/upload/v1627108184/twitter/ptupstjuaejspvhj9mfj.jpg"
+                      : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
                   }
                 />
               </Link>
@@ -319,7 +319,7 @@ export default function ReTweet(props) {
                   src={
                     profilePic
                       ? profilePic
-                      : "https://res.cloudinary.com/drntday51/image/upload/v1627108184/twitter/ptupstjuaejspvhj9mfj.jpg"
+                      : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
                   }
                 />
               </Link>
