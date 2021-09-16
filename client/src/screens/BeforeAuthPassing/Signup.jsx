@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 // import { Link, useLocation, useHistory } from "react-router-dom";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 //
 import { StyledInput } from "../../components/Input";
 import { SmallHeader } from "../../Typography";
 // import { SmallHeader, SmallParagraph } from "../../Typography";
 import { Logo, LogoContainer } from "../../components/Logo";
-import { StyledButton } from "../../components/Buttons/AuthButton";
+import { StyledLinkButton } from "../../components/Buttons/AuthButton";
 import { ButtonContainer } from "../../components/Buttons/ButtonContainer";
 import {
   Bg,
@@ -95,7 +95,16 @@ export default function Signin({ onClose, show }) {
               />
               {/* <Input /> */}
               <ButtonContainer>
-                <StyledButton
+                <StyledLinkButton
+                  bgColor="#1da1f2"
+                  borderColor="transparent"
+                  txtColor="#fff"
+                  style={{ width: "100%" }}
+                  onClick={signup}
+                >
+                  Signup
+                </StyledLinkButton>
+                {/* <StyledButton
                   bgColor="#1da1f2"
                   borderColor="transparent"
                   txtColor="#fff"
@@ -114,7 +123,7 @@ export default function Signin({ onClose, show }) {
                   >
                     Signup
                   </Link>
-                </StyledButton>
+                </StyledButton> */}
               </ButtonContainer>
             </CardContainer>
           </ModalContent>

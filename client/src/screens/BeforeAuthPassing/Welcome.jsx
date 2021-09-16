@@ -1,9 +1,9 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 //
 import { MainContainer } from "../../container/MainContainer";
-import { StyledButton } from "../../components/Buttons/AuthButton";
+import { StyledLinkButton } from "../../components/Buttons/AuthButton";
 import { ButtonContainer } from "../../components/Buttons/ButtonContainer";
 import { Logo, LogoContainer } from "../../components/Logo";
 import Signup from "./Signup";
@@ -72,23 +72,20 @@ export default function WelcomePage() {
               <StyledHeader>Happening now</StyledHeader>
               <StyledHeader small>join Twitter today</StyledHeader>
               <ButtonContainer>
-                <StyledButton
+                <StyledLinkButton
+                  to={{
+                    pathname: "/signup",
+                    state: { background: location },
+                  }}
                   bgColor="#1da1f2"
-                  borderColor="transparent"
+                  border="0px solid transparent"
                   txtColor="#fff"
                   onClick={() => {
                     setShow(true);
                   }}
                 >
-                  <Link
-                    to={{
-                      pathname: "/signup",
-                      state: { background: location },
-                    }}
-                  >
-                    Signup
-                  </Link>
-                </StyledButton>
+                  Signup
+                </StyledLinkButton>
                 <Signup
                   show={show}
                   onClose={() => {
@@ -96,13 +93,15 @@ export default function WelcomePage() {
                     history.goBack();
                   }}
                 />
-                <StyledButton
+
+                <StyledLinkButton
+                  to="/login"
                   bgColor={"#fff"}
-                  borderColor="#1da1f2"
+                  border="1px solid #1da1f2"
                   txtColor="#1da1f2"
                 >
-                  <Link to="/login">Login</Link>
-                </StyledButton>
+                  Login
+                </StyledLinkButton>
               </ButtonContainer>
             </RightContainer>
           </MainContainer>

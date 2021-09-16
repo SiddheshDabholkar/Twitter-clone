@@ -12,7 +12,7 @@ export const NavbarContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   width: 50%;
-  height: 70px;
+  height: 50px;
   top: 0;
   background-color: #fff;
   position: fixed;

@@ -7,7 +7,7 @@ import { useForm } from "../../hooks/useForm";
 import { MainContainer } from "../../container/MainContainer";
 import { CardContainer } from "../../container/CardContainer";
 import { ButtonContainer } from "../../components/Buttons/ButtonContainer";
-import { StyledButton } from "../../components/Buttons/AuthButton";
+import { StyledLinkButton } from "../../components/Buttons/AuthButton";
 import { SmallHeader, SmallParagraph } from "../../Typography";
 import { StyledInput } from "../../components/Input";
 import { Logo, LogoContainer } from "../../components/Logo";
@@ -18,7 +18,7 @@ import { LOGIN_USER } from "../../graphql/mutation";
 
 export default function Login() {
   const context = useContext(AuthContext);
-  const [errors, setErrors] = useState({});
+  const [setErrors] = useState({});
   const history = useHistory();
   const location = useLocation();
   const [show, setShow] = useState(false);
@@ -53,7 +53,9 @@ export default function Login() {
             <Logo src={`${process.env.PUBLIC_URL}/icons8-twitter.svg`} />
           </LogoContainer>
           <SmallHeader>Log in to Twitter</SmallHeader>
-          <form onSubmit={onSubmit}>
+          <form
+          //  onSubmit={onSubmit}
+          >
             <MainContainer col>
               <StyledInput
                 placeholder="password"
@@ -69,7 +71,17 @@ export default function Login() {
               />
             </MainContainer>
             <ButtonContainer>
-              <StyledButton
+              <StyledLinkButton
+                // type="submit"
+                input
+                txtColor="#fff"
+                bgColor="#1da1f2"
+                border="0px solid transparent"
+                onClick={onSubmit}
+              >
+                login
+              </StyledLinkButton>
+              {/* <StyledButton
                 type="submit"
                 input
                 txtColor="#fff"
@@ -77,7 +89,7 @@ export default function Login() {
                 borderColor="transparent"
               >
                 login
-              </StyledButton>
+              </StyledButton> */}
             </ButtonContainer>
           </form>
 

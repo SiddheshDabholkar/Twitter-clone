@@ -11,7 +11,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 
 const httpLink = new HttpLink({
-  uri: "https://tweeetr.herokuapp.com/",
+  uri: "/graphql",
 });
 
 const authLink = setContext(() => {
