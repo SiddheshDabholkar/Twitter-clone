@@ -1,5 +1,7 @@
 # NOTE
 
+### Work in progress
+
 This twitter clone is built using `nodejs,react,mongodb,apolloclient,graphql,expressjs and other utilities.`.
 
 | Features             |          |
