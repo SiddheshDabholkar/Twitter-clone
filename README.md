@@ -32,24 +32,21 @@ cd client
 npm i
 ```
 
-create `.env` file in client folder
-
-```
-    CLOUDINARY_NAME= "CLOUDINARY_NAME"
-    UPLOAD_PRESET= "CLOUDINARY_UPLOAD_PRESET"
-```
-
 create `.env` file in root
 
 ```
     MONGODB="CONNECTION_STRING/DRIVER_CODE"
     SECRET_KEY="YOUR_SECRET_KEY"
+    CLOUDINARY_NAME="YOUR_CLOUDINARY_NAME"
+    CLOUDINARY_API_KEY="YOUR_CLOUDINARY_API_KEY"
+    CLOUDINARY_API_SECRET="YOUR_CLOUDINARY_API_SECRET"
 ```
 
 install nodemon in root if u haven't
 
 ```
 npm i nodemon
+//or
 yarn add nodemon
 ```
 

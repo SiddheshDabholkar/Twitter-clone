@@ -10,10 +10,15 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
+const uri =
+  process.env.NODE_ENV === "production"
+    ? "https://tweeetr.herokuapp.com/"
+    : "http://localhost:5000";
+
 const httpLink = new HttpLink({
-  uri: "http://localhost:5000",
-  // uri: "/graphql",
+  // uri: "http://localhost:5000",
   // uri: "https://tweeetr.herokuapp.com/",
+  uri,
 });
 
 const authLink = setContext(() => {
