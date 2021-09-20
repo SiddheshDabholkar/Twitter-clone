@@ -109,11 +109,12 @@ module.exports = {
         // .populate("tweet tweet.user")
         .populate({ path: "tweet", populate: "user" })
         .exec();
+      const photoUrl = photo && (await uploadImage(photo));
       const newReTweet = new Tweet({
         body,
         user: user.id,
         tweet,
-        photo,
+        photo: photoUrl,
         username: user.username,
       });
       const reTweet = await newReTweet.save();

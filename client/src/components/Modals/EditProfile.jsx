@@ -13,7 +13,6 @@ import { Parent } from "../../screens/AfterAuthPassing/Profile";
 import { EditProfileInput, EditProfileTextArea } from "../Input";
 import { AiOutlineClose, AiOutlineCamera } from "react-icons/ai";
 import { ImageUploaderButton } from "../Tweet/index";
-import useUploadImage from "../../hooks/useUploadImage";
 import { useParams } from "react-router-dom";
 import { Navbar, NavbarInner, LeftContainer, BodyContainer } from "./common";
 import { EDIT_PROFILE } from "../../graphql/mutation";
@@ -85,9 +84,6 @@ export default function EditProfile({ toggle }) {
   const [location, setLocation] = useState("");
   const [bio, setBio] = useState("");
 
-  const profileurl = useUploadImage(selectProfile);
-  const bannerurl = useUploadImage(selectBanner);
-
   useEffect(() => {
     if (selectBanner) {
       setSelectBanner(selectBanner);
@@ -126,8 +122,8 @@ export default function EditProfile({ toggle }) {
       website,
       location,
       bio,
-      profilePic: profileurl,
-      banner: bannerurl,
+      profilePic: selectProfile,
+      banner: selectBanner,
     },
   });
 
@@ -179,8 +175,15 @@ export default function EditProfile({ toggle }) {
                           type="file"
                           ref={hiddenFileBannerInput}
                           onChange={(e) => {
-                            setSelectBanner(e.target.files[0]);
                             // console.log(selectBanner);
+                            const file = e.target.files[0];
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.readAsDataURL(file);
+                              reader.onloadend = () => {
+                                setSelectBanner(reader.result);
+                              };
+                            }
                           }}
                           style={{ display: "none" }}
                         />
@@ -206,8 +209,15 @@ export default function EditProfile({ toggle }) {
                             type="file"
                             ref={hiddenFileProfileInput}
                             onChange={(e) => {
-                              setSelectProfile(e.target.files[0]);
-                              // console.log("select profile", selectProfile);
+                              const file = e.target.files[0];
+                              if (file) {
+                                const reader = new FileReader();
+                                reader.readAsDataURL(file);
+                                reader.onloadend = () => {
+                                  setSelectProfile(reader.result);
+                                };
+                                // console.log("select profile", selectProfile);
+                              }
                             }}
                             style={{ display: "none" }}
                           />

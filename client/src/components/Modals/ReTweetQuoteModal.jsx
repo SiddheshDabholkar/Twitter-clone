@@ -35,7 +35,6 @@ import { TwetCon, Container } from "../Tweet/ReTweet";
 import { TweeterUsername } from "../../Typography";
 import { Link } from "react-router-dom";
 import useOnClickOutsideRef from "../../hooks/useOnClickOutsideRef";
-import useUploadImage from "../../hooks/useUploadImage";
 import { MAKE_RETWEET } from "../../graphql/mutation";
 import { FETCH_TWEET } from "../../graphql/queries";
 import { useMutation } from "@apollo/client";
@@ -48,7 +47,6 @@ export default function ReTweeQuoteModal(props) {
 
   const [tweetBodyTM, setTweetBodyTM] = useState("");
   const [selectPhotoTM, setSelectPhotoTM] = useState("");
-  const url = useUploadImage(selectPhotoTM);
 
   const {
     id,
@@ -114,7 +112,7 @@ export default function ReTweeQuoteModal(props) {
   };
 
   const [makeTweet] = useMutation(MAKE_RETWEET, {
-    variables: { body: tweetBodyTM, photo: url, tweetId: id },
+    variables: { body: tweetBodyTM, photo: selectPhotoTM, tweetId: id },
     update(proxy, result) {
       // console.log("result", result);
       const data = proxy.readQuery({
@@ -181,6 +179,13 @@ export default function ReTweeQuoteModal(props) {
                     value={tweetBodyTM}
                     onChange={(e) => setTweetBodyTM(e.target.value)}
                   />
+                  {selectPhotoTM && (
+                    <ImageContainer
+                      src={selectPhotoTM}
+                      height="300px"
+                      width="90%"
+                    />
+                  )}
                   <TweetInsideReTweet />
                   <TweetFooter mt="15px">
                     <FootCont small>
@@ -196,7 +201,14 @@ export default function ReTweeQuoteModal(props) {
                           ref={hiddenFileInputMT}
                           onClick={(e) => {
                             e.stopPropagation();
-                            setSelectPhotoTM(e.target.files[0]);
+                            const file = e.target.files[0];
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.readAsDataURL(file);
+                              reader.onloadend = () => {
+                                setSelectPhotoTM(reader.result);
+                              };
+                            }
                           }}
                           style={{ display: "none" }}
                         />

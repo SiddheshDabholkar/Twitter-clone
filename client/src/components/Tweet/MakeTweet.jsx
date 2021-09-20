@@ -21,9 +21,7 @@ import {
   Restcontainer,
   ImageUploaderButton,
   ImageContainer,
-  SRow,
 } from "./";
-import useUploadImage from "../../hooks/useUploadImage";
 import { AuthContext } from "../../context/auth";
 
 import { FETCH_TWEET } from "../../graphql/queries";
@@ -47,7 +45,6 @@ export default function MakeTweet() {
   const newPathname = pathname.substring(1);
   const [tweetBody, setTweetBody] = useState("");
   const [selectPhoto, setSelectPhoto] = useState("");
-  // const url = useUploadImage(selectPhoto);
 
   const hiddenFileInput = useRef(null);
   const handleClick = (e) => {
@@ -139,11 +136,13 @@ export default function MakeTweet() {
                     ref={hiddenFileInput}
                     onChange={(e) => {
                       const file = e.target.files[0];
-                      const reader = new FileReader();
-                      reader.readAsDataURL(file);
-                      reader.onloadend = () => {
-                        setSelectPhoto(reader.result);
-                      };
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onloadend = () => {
+                          setSelectPhoto(reader.result);
+                        };
+                      }
                     }}
                     style={{ display: "none" }}
                   />
