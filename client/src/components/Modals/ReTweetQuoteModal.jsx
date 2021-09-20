@@ -133,6 +133,7 @@ export default function ReTweeQuoteModal(props) {
     <>
       <Bg transparent>
         <ModalContainer
+          sm
           ref={ref}
           onClick={(e) => {
             e.stopPropagation();
