@@ -66,6 +66,7 @@ export default function MakeTweetModal({ toggle, setShow }) {
     <>
       <Bg transparent>
         <ModalContainer
+          sm
           ref={ref}
           onClick={(e) => {
             e.stopPropagation();

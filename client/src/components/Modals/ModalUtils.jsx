@@ -40,10 +40,14 @@ export const ModalContainer = styled.div`
   box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14);
 
   @media (min-width: 920px) {
-    margin: ${({ sm }) => (sm ? "7% 20%" : "5% 25%")};
-    height: auto;
+    margin: ${({ sm }) => (sm ? "14% 20%" : "5% 25%")};
+    /* height: auto; */
+    /* max-height: 50%; */
   }
-
+  @media (min-width: 620px) {
+    margin: ${({ sm }) => (sm ? "14% 20%" : "5% 25%")};
+    /* max-height: 50%; */
+  }
   @media (max-width: 620px) {
     margin: auto !important;
     width: 100% !important;
