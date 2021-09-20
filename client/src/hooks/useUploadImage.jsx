@@ -18,6 +18,7 @@ export default function useUploadImage(selectedPhoto) {
       fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/image/upload`, {
         method: "post",
         body: data,
+        mode: "cors",
       })
         .then((res) => res.json())
         .then((data) => {
