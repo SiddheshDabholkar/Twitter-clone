@@ -20,7 +20,6 @@ import {
   ImageUploaderButton,
   ImageContainer,
 } from ".";
-import useUploadImage from "../../hooks/useUploadImage";
 import { MAKE_TWEET } from "../../graphql/mutation";
 import { FETCH_TWEET_REPLIES } from "../../graphql/queries";
 //
@@ -34,7 +33,6 @@ const RestCon = styled.div`
 export default function ReplyTweetButtons({ tweetId }) {
   const [reply, setReply] = useState("");
   const [selectPhoto, setSelectPhoto] = useState("");
-  const url = useUploadImage(selectPhoto);
 
   const hiddenFileInput = useRef(null);
   const handleClick = (e) => {
@@ -42,7 +40,7 @@ export default function ReplyTweetButtons({ tweetId }) {
   };
 
   const [makeReply] = useMutation(MAKE_TWEET, {
-    variables: { body: reply, photo: url, tweetId },
+    variables: { body: reply, photo: selectPhoto, tweetId },
     update(proxy, result) {
       const data = proxy.readQuery({
         query: FETCH_TWEET_REPLIES,
@@ -84,11 +82,7 @@ export default function ReplyTweetButtons({ tweetId }) {
               onChange={(e) => setReply(e.target.value)}
             />
             {selectPhoto && (
-              <ImageContainer
-                src={URL.createObjectURL(selectPhoto)}
-                height="300px"
-                width="90%"
-              />
+              <ImageContainer src={selectPhoto} height="300px" width="90%" />
             )}
             <UtilContainer>
               <UploadcontentContainer>
@@ -103,7 +97,14 @@ export default function ReplyTweetButtons({ tweetId }) {
                     type="file"
                     ref={hiddenFileInput}
                     onChange={(e) => {
-                      setSelectPhoto(e.target.files[0]);
+                      const file = e.target.files[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onloadend = () => {
+                          setSelectPhoto(reader.result);
+                        };
+                      }
                     }}
                     style={{ display: "none" }}
                   />

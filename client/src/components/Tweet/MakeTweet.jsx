@@ -21,9 +21,7 @@ import {
   Restcontainer,
   ImageUploaderButton,
   ImageContainer,
-  SRow,
 } from "./";
-import useUploadImage from "../../hooks/useUploadImage";
 import { AuthContext } from "../../context/auth";
 
 import { FETCH_TWEET } from "../../graphql/queries";
@@ -47,14 +45,13 @@ export default function MakeTweet() {
   const newPathname = pathname.substring(1);
   const [tweetBody, setTweetBody] = useState("");
   const [selectPhoto, setSelectPhoto] = useState("");
-  const url = useUploadImage(selectPhoto);
 
   const hiddenFileInput = useRef(null);
   const handleClick = (e) => {
     hiddenFileInput.current.click();
   };
   const [makeTweet] = useMutation(MAKE_TWEET, {
-    variables: { body: tweetBody, photo: url },
+    variables: { body: tweetBody, photo: selectPhoto },
     update(proxy, result) {
       const data = proxy.readQuery({
         query: FETCH_TWEET,
@@ -118,7 +115,8 @@ export default function MakeTweet() {
           />
           {selectPhoto && (
             <ImageContainer
-              src={URL.createObjectURL(selectPhoto)}
+              // src={URL.createObjectURL(selectPhoto)}
+              src={selectPhoto}
               height="300px"
               width="90%"
             />
@@ -137,7 +135,14 @@ export default function MakeTweet() {
                     type="file"
                     ref={hiddenFileInput}
                     onChange={(e) => {
-                      setSelectPhoto(e.target.files[0]);
+                      const file = e.target.files[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onloadend = () => {
+                          setSelectPhoto(reader.result);
+                        };
+                      }
                     }}
                     style={{ display: "none" }}
                   />

@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useMutation } from "@apollo/client";
 
 import { AiOutlineClose } from "react-icons/ai";
@@ -31,7 +31,6 @@ import { TweetInput } from "../Input";
 import { AuthContext } from "../../context/auth";
 import useOnClickOutsideRef from "../../hooks/useOnClickOutsideRef";
 import { MAKE_TWEET } from "../../graphql/mutation";
-import useUploadImage from "../../hooks/useUploadImage";
 import { FETCH_TWEET } from "../../graphql/queries";
 
 export default function MakeTweetModal({ toggle, setShow }) {
@@ -41,7 +40,6 @@ export default function MakeTweetModal({ toggle, setShow }) {
   const { user } = useContext(AuthContext);
 
   useOnClickOutsideRef(ref, () => setShow(false));
-  const url = useUploadImage(selectPhotoTM);
 
   const hiddenFileInputMT = useRef(null);
   const handleClick = (e) => {
@@ -49,7 +47,7 @@ export default function MakeTweetModal({ toggle, setShow }) {
   };
 
   const [makeTweet] = useMutation(MAKE_TWEET, {
-    variables: { body: tweetBodyTM, photo: url },
+    variables: { body: tweetBodyTM, photo: selectPhotoTM },
     update(proxy, result) {
       const data = proxy.readQuery({
         query: FETCH_TWEET,
@@ -118,7 +116,7 @@ export default function MakeTweetModal({ toggle, setShow }) {
                   />
                   {selectPhotoTM && (
                     <ImageContainer
-                      src={URL.createObjectURL(selectPhotoTM)}
+                      src={selectPhotoTM}
                       height="90%"
                       width="90%"
                     />
@@ -137,8 +135,16 @@ export default function MakeTweetModal({ toggle, setShow }) {
                           ref={hiddenFileInputMT}
                           onClick={(e) => {
                             e.stopPropagation();
-                            setSelectPhotoTM(e.target.files[0]);
-                            // console.log("selected photo", selectPhotoTM);
+                            // e.preventDefault();
+                            const file = e.target.files[0];
+                            console.log("file", file);
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.readAsDataURL(file);
+                              reader.onloadend = () => {
+                                setSelectPhotoTM(reader.result);
+                              };
+                            }
                           }}
                           style={{ display: "none" }}
                         />

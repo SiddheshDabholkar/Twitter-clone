@@ -1,6 +1,26 @@
 const { AuthenticationError, UserInputError } = require("apollo-server-errors");
 const Tweet = require("../../model/Tweet");
 const checkAuth = require("../../utils/checkAuth");
+const cloudinary = require("cloudinary");
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const uploadImage = async (photo) => {
+  try {
+    const result = await cloudinary.v2.uploader.upload(photo, {
+      allowed_formats: ["jpg", "png"],
+      public_id: "",
+      folder: "twitter",
+    });
+    return result.url;
+  } catch (e) {
+    throw new Error(e);
+  }
+};
 
 module.exports = {
   Query: {
@@ -70,9 +90,10 @@ module.exports = {
       if (body.trim() === "") {
         throw new Error("Post body cannot be empty");
       }
+      const photoUrl = photo && (await uploadImage(photo));
       const newTweet = new Tweet({
         body,
-        photo,
+        photo: photoUrl,
         user: user.id,
         username: user.username,
         parentTweet: tweetId,
@@ -88,11 +109,12 @@ module.exports = {
         // .populate("tweet tweet.user")
         .populate({ path: "tweet", populate: "user" })
         .exec();
+      const photoUrl = photo && (await uploadImage(photo));
       const newReTweet = new Tweet({
         body,
         user: user.id,
         tweet,
-        photo,
+        photo: photoUrl,
         username: user.username,
       });
       const reTweet = await newReTweet.save();
