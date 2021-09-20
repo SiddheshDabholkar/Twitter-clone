@@ -16,10 +16,10 @@ const uploadImage = async (photo) => {
       public_id: "",
       folder: "twitter",
     });
+    return result.url;
   } catch (e) {
-    return `Image could not be uploaded:${e.message}`;
+    throw new Error(e);
   }
-  return `Successful-Photo URL: ${result.url}`;
 };
 
 module.exports = {
@@ -90,9 +90,10 @@ module.exports = {
       if (body.trim() === "") {
         throw new Error("Post body cannot be empty");
       }
+      const photoUrl = photo && (await uploadImage(photo));
       const newTweet = new Tweet({
         body,
-        photo: photo && uploadImage(photo),
+        photo: photoUrl,
         user: user.id,
         username: user.username,
         parentTweet: tweetId,
