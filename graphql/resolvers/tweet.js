@@ -1,6 +1,26 @@
 const { AuthenticationError, UserInputError } = require("apollo-server-errors");
 const Tweet = require("../../model/Tweet");
 const checkAuth = require("../../utils/checkAuth");
+const cloudinary = require("cloudinary");
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const uploadImage = async (photo) => {
+  try {
+    const result = await cloudinary.v2.uploader.upload(photo, {
+      allowed_formats: ["jpg", "png"],
+      public_id: "",
+      folder: "twitter",
+    });
+  } catch (e) {
+    return `Image could not be uploaded:${e.message}`;
+  }
+  return `Successful-Photo URL: ${result.url}`;
+};
 
 module.exports = {
   Query: {
@@ -72,7 +92,7 @@ module.exports = {
       }
       const newTweet = new Tweet({
         body,
-        photo,
+        photo: photo && uploadImage(photo),
         user: user.id,
         username: user.username,
         parentTweet: tweetId,
