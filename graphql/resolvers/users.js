@@ -173,7 +173,9 @@ module.exports = {
       try {
         const user = await User.findById(userId);
         const pPic = profilePic && (await uploadImage(profilePic));
+        console.log("pPic", profilePic && (await uploadImage(profilePic)));
         const bPic = banner && (await uploadImage(banner));
+        console.log("bPic", bPic);
         if (user) {
           if (username !== undefined) {
             user.username = username;
