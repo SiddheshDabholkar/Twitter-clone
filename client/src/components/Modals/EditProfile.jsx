@@ -16,7 +16,7 @@ import { ImageUploaderButton } from "../Tweet/index";
 import { useParams } from "react-router-dom";
 import { Navbar, NavbarInner, LeftContainer, BodyContainer } from "./common";
 import { EDIT_PROFILE } from "../../graphql/mutation";
-import { FETCH_USER, GET_USER_DATA } from "../../graphql/queries";
+import { FETCH_USER } from "../../graphql/queries";
 
 export const SaveButton = styled.button`
   display: flex;
@@ -70,7 +70,7 @@ export default function EditProfile({ toggle, userInfo }) {
   const { banner: ubanner, profilePic: uprofilePic } = userInfo;
   console.log("userInfo", userInfo);
   const { profileId } = useParams();
-  const { loading, data } = useQuery(GET_USER_DATA, {
+  const { loading, data } = useQuery(FETCH_USER, {
     variables: { userId: profileId },
   });
 

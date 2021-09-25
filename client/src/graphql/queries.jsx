@@ -119,19 +119,11 @@ export const FETCH_MY_TWEETS = gql`
         body
         username
         createdAt
+        user {
+          id
+          profilePic
+        }
       }
-    }
-  }
-`;
-export const GET_USER_DATA = gql`
-  query getUser($userId: ID!) {
-    getUser(userId: $userId) {
-      name
-      website
-      location
-      bio
-      profilePic
-      banner
     }
   }
 `;
