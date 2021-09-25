@@ -10,26 +10,7 @@ const {
   validateLoginInput,
 } = require("../../utils/validator");
 
-const cloudinary = require("cloudinary");
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
-const uploadImage = async (photo) => {
-  try {
-    const result = await cloudinary.v2.uploader.upload(photo, {
-      allowed_formats: ["jpg", "png"],
-      public_id: "",
-      folder: "twitter",
-    });
-    return result.url;
-  } catch (e) {
-    throw new Error(e);
-  }
-};
+const { uploadImage } = require("../uploadImage");
 
 module.exports = {
   Query: {
