@@ -16,7 +16,7 @@ import { ImageUploaderButton } from "../Tweet/index";
 import { useParams } from "react-router-dom";
 import { Navbar, NavbarInner, LeftContainer, BodyContainer } from "./common";
 import { EDIT_PROFILE } from "../../graphql/mutation";
-import { GET_USER_DATA } from "../../graphql/queries";
+import { FETCH_USER, GET_USER_DATA } from "../../graphql/queries";
 
 export const SaveButton = styled.button`
   display: flex;
@@ -66,7 +66,9 @@ const FormContainer = styled.div`
   padding: 20px 90px;
 `;
 
-export default function EditProfile({ toggle }) {
+export default function EditProfile({ toggle, userInfo }) {
+  const { banner: ubanner, profilePic: uprofilePic } = userInfo;
+  console.log("userInfo", userInfo);
   const { profileId } = useParams();
   const { loading, data } = useQuery(GET_USER_DATA, {
     variables: { userId: profileId },
@@ -125,6 +127,30 @@ export default function EditProfile({ toggle }) {
       profilePic: selectProfile,
       banner: selectBanner,
     },
+    // refetchQueries: [
+    //   {
+    //     query: FETCH_USER,
+    //     variables: {
+    //       userId: profileId,
+    //     },
+    //   },
+    // ],
+    // update(cache, result) {
+    //   const data = cache.readQuery({
+    //     query: FETCH_USER,
+    //     variables: {
+    //       userId: profileId,
+    //     },
+    //   });
+    //   console.log("data", data);
+    //   console.log("result", result);
+    //   cache.writeQuery({
+    //     query: FETCH_USER,
+    //     data: {
+    //       getUser: result.editProfile,
+    //     },
+    //   });
+    // },
   });
 
   if (loading) {
@@ -163,7 +189,11 @@ export default function EditProfile({ toggle }) {
                     <TwitterBannerContainerPlus>
                       <TwitterBanner
                         height
-                        src="https://res.cloudinary.com/drntday51/image/upload/v1627672203/djjmszfofddf407p8rwp.png"
+                        src={
+                          ubanner !== "" && ubanner
+                            ? ubanner
+                            : "https://res.cloudinary.com/drntday51/image/upload/v1627672203/djjmszfofddf407p8rwp.png"
+                        }
                       />
                       <ImgConUpdate>
                         <ImageUploaderButton onClick={handleClickBanner}>
@@ -192,7 +222,11 @@ export default function EditProfile({ toggle }) {
                     <AvatarContainer height>
                       <AvtarConatinerplus>
                         <Avatar
-                          src="https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
+                          src={
+                            uprofilePic !== "" && uprofilePic
+                              ? uprofilePic
+                              : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
+                          }
                           style={{
                             height: "130px",
                             width: "130px",

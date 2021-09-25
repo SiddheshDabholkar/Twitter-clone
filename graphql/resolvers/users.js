@@ -171,37 +171,37 @@ module.exports = {
       try {
         const user = await User.findById(userId);
         if (user) {
-          if (username !== undefined || null) {
+          if (username !== null || username !== undefined || username != "") {
             user.username = username;
           }
-          if (password !== undefined || null) {
+          if (password !== undefined || null || "") {
             user.password = password;
           }
-          if (email !== undefined || null) {
+          if (email !== undefined || null || "") {
             user.email = email;
           }
-          if (phone !== undefined || null) {
+          if (phone !== undefined || null || "") {
             user.phone = phone;
           }
           if (profilePic !== undefined || null || "") {
             user.profilePic = profilePic;
           }
-          if (banner !== undefined || null || "") {
+          if (banner !== null || "") {
             user.banner = banner;
           }
-          if (token !== undefined || null) {
+          if (token !== undefined || null || "") {
             user.token = token;
           }
-          if (bio !== undefined || null) {
+          if (bio !== undefined || null || "") {
             user.bio = bio;
           }
-          if (location !== undefined || null) {
+          if (location !== undefined || null || "") {
             user.location = location;
           }
-          if (website !== undefined || null) {
+          if (website !== undefined || null || "") {
             user.website = website;
           }
-          if (name !== undefined || null) {
+          if (name !== undefined || null || "") {
             user.name = name;
           }
           user.save();
