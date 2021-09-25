@@ -68,7 +68,6 @@ const FormContainer = styled.div`
 
 export default function EditProfile({ toggle, userInfo }) {
   const { banner: ubanner, profilePic: uprofilePic } = userInfo;
-  console.log("userInfo", userInfo);
   const { profileId } = useParams();
   const { loading, data } = useQuery(FETCH_USER, {
     variables: { userId: profileId },
@@ -127,14 +126,14 @@ export default function EditProfile({ toggle, userInfo }) {
       profilePic: selectProfile,
       banner: selectBanner,
     },
-    // refetchQueries: [
-    //   {
-    //     query: FETCH_USER,
-    //     variables: {
-    //       userId: profileId,
-    //     },
-    //   },
-    // ],
+    refetchQueries: [
+      {
+        query: FETCH_USER,
+        variables: {
+          userId: profileId,
+        },
+      },
+    ],
     // update(cache, result) {
     //   const data = cache.readQuery({
     //     query: FETCH_USER,
@@ -144,12 +143,12 @@ export default function EditProfile({ toggle, userInfo }) {
     //   });
     //   console.log("data", data);
     //   console.log("result", result);
-    //   cache.writeQuery({
-    //     query: FETCH_USER,
-    //     data: {
-    //       getUser: result.editProfile,
-    //     },
-    //   });
+    //   // cache.writeQuery({
+    //   //   query: FETCH_USER,
+    //   //   data: {
+    //   //     getUser: result.editProfile,
+    //   //   },
+    //   // });
     // },
   });
 
