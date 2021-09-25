@@ -18,7 +18,7 @@ import { LOGIN_USER } from "../../graphql/mutation";
 
 export default function Login() {
   const context = useContext(AuthContext);
-  const [setErrors] = useState({});
+  const [errors, setErrors] = useState({});
   const history = useHistory();
   const location = useLocation();
   const [show, setShow] = useState(false);

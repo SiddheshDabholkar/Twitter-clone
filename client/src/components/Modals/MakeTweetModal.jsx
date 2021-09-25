@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useContext,
+  useRef,
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
 import { useMutation } from "@apollo/client";
 
 import { AiOutlineClose } from "react-icons/ai";
@@ -68,10 +74,10 @@ export default function MakeTweetModal({ toggle, setShow }) {
         <ModalContainer
           sm
           ref={ref}
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-          }}
+          // onClick={(e) => {
+          //   e.preventDefault();
+          //   e.stopPropagation();
+          // }}
         >
           {/* <ReTweetModalContainer
             ref={ref}
@@ -134,7 +140,7 @@ export default function MakeTweetModal({ toggle, setShow }) {
                         <input
                           type="file"
                           ref={hiddenFileInputMT}
-                          onClick={(e) => {
+                          onChange={(e) => {
                             e.stopPropagation();
                             // e.preventDefault();
                             const file = e.target.files[0];

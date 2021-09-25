@@ -135,16 +135,16 @@ export default function ReTweeQuoteModal(props) {
         <ModalContainer
           sm
           ref={ref}
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-          }}
+          // onClick={(e) => {
+          //   e.stopPropagation();
+          //   e.preventDefault();
+          // }}
         >
           <BodyContainer
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
+          // onClick={(e) => {
+          //   e.preventDefault();
+          //   e.stopPropagation();
+          // }}
           >
             <Navbar style={{ borderBottom: "1px solid #00011110" }} long>
               <NavbarInner>
@@ -200,7 +200,7 @@ export default function ReTweeQuoteModal(props) {
                         <input
                           type="file"
                           ref={hiddenFileInputMT}
-                          onClick={(e) => {
+                          onChange={(e) => {
                             e.stopPropagation();
                             const file = e.target.files[0];
                             if (file) {

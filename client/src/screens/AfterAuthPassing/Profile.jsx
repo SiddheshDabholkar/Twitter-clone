@@ -150,15 +150,15 @@ export default function Profile() {
   } else {
     const userInfo = data.getUser;
     const {
-      id,
-      username,
-      phone,
-      email,
+      // id,
+      // username,
+      // phone,
+      // email,
       profilePic,
       banner,
       bio,
       location,
-      website,
+      // website,
       name,
       following,
       followers,
@@ -172,7 +172,7 @@ export default function Profile() {
           <TwitterBannerCotainer>
             <TwitterBanner
               src={
-                data
+                data && data.banner !== ""
                   ? banner
                   : "https://res.cloudinary.com/drntday51/image/upload/v1627108184/twitter/ptupstjuaejspvhj9mfj.jpg"
               }
@@ -182,7 +182,7 @@ export default function Profile() {
             <Avatar
               style={{ height: "150px", width: "150px" }}
               src={
-                data
+                data && data.profilePic !== ""
                   ? profilePic
                   : "https://res.cloudinary.com/drntday51/image/upload/v1627672437/rchs2sorpbxtkilgisyn.png"
               }
@@ -216,7 +216,7 @@ export default function Profile() {
           </LocationnJoinContainer>
         </BioContainer>
         <ProfileTab />
-        {show && <Modal toggle={toggle} />}
+        {show && <Modal toggle={toggle} userInfo={userInfo} />}
       </>
     );
   }
