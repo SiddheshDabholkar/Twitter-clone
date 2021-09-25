@@ -10,6 +10,27 @@ const {
   validateLoginInput,
 } = require("../../utils/validator");
 
+const cloudinary = require("cloudinary");
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const uploadImage = async (photo) => {
+  try {
+    const result = await cloudinary.v2.uploader.upload(photo, {
+      allowed_formats: ["jpg", "png"],
+      public_id: "",
+      folder: "twitter",
+    });
+    return result.url;
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
 module.exports = {
   Query: {
     async getUsers() {
@@ -170,38 +191,49 @@ module.exports = {
     ) {
       try {
         const user = await User.findById(userId);
+        const pPic = profilePic && (await uploadImage(profilePic));
+        const bPic = banner && (await uploadImage(banner));
         if (user) {
-          if (username !== null || username !== undefined || username != "") {
+          if (username !== undefined) {
             user.username = username;
           }
-          if (password !== undefined || null || "") {
+          if (userId !== undefined) {
+            user.userId = userId;
+          }
+          if (password !== undefined) {
             user.password = password;
           }
-          if (email !== undefined || null || "") {
+          if (email !== undefined) {
             user.email = email;
           }
-          if (phone !== undefined || null || "") {
+          if (phone !== undefined) {
             user.phone = phone;
           }
-          if (profilePic !== undefined || null || "") {
-            user.profilePic = profilePic;
+          if (profilePic !== undefined) {
+            if (profilePic.length > 0) {
+              // user.profilePic = profilePic;
+              user.profilePic = pPic;
+            }
           }
-          if (banner !== null || "") {
-            user.banner = banner;
+          if (banner !== undefined) {
+            if (banner.length > 0) {
+              // user.banner = banner;
+              user.banner = bPic;
+            }
           }
-          if (token !== undefined || null || "") {
+          if (token !== undefined) {
             user.token = token;
           }
-          if (bio !== undefined || null || "") {
+          if (bio !== undefined) {
             user.bio = bio;
           }
-          if (location !== undefined || null || "") {
+          if (location !== undefined) {
             user.location = location;
           }
-          if (website !== undefined || null || "") {
+          if (website !== undefined) {
             user.website = website;
           }
-          if (name !== undefined || null || "") {
+          if (name !== undefined) {
             user.name = name;
           }
           user.save();
