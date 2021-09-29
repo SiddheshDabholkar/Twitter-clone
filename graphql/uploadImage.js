@@ -22,7 +22,7 @@ module.exports = {
         })
         .catch((e) => {
           console.log("error lol", e);
-          throw new Error(e);
+          throw new Error(e?.message);
         });
       return result;
     } catch (e) {
