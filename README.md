@@ -1,11 +1,5 @@
 # NOTE
 
-### Work in progress
-## thing left to do:
-1. Update cache after editingprofile
-2. Fix footer
-3. Likes and retweet count
-
 This twitter clone is built using `nodejs,react,mongodb,apolloclient,graphql,expressjs and other utilities.`.
 
 | Features             |          |
@@ -41,9 +35,7 @@ create `.env` file in root
 ```
     MONGODB="CONNECTION_STRING/DRIVER_CODE"
     SECRET_KEY="YOUR_SECRET_KEY"
-    CLOUDINARY_NAME="YOUR_CLOUDINARY_NAME"
-    CLOUDINARY_API_KEY="YOUR_CLOUDINARY_API_KEY"
-    CLOUDINARY_API_SECRET="YOUR_CLOUDINARY_API_SECRET"
+
 ```
 
 install nodemon in root if u haven't
