@@ -182,14 +182,20 @@ export default function MakeTweetModal({ toggle, setShow }) {
                       </IconContainer>
                     </FootCont>
                     <FootCont end mr="10px">
-                      <SaveButton
-                        onClick={(e) => {
-                          makeTweet();
-                          toggle();
-                        }}
-                      >
-                        tweet
-                      </SaveButton>
+                      {tweetBodyTM.length > 0 ? (
+                        <SaveButton
+                          onClick={(e) => {
+                            makeTweet();
+                            toggle();
+                          }}
+                        >
+                          tweet
+                        </SaveButton>
+                      ) : (
+                        <SaveButton style={{ backgroundColor: "#9bd7ff" }}>
+                          tweet
+                        </SaveButton>
+                      )}
                     </FootCont>
                   </TweetFooter>
                 </Restcontainer>

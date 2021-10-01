@@ -16,6 +16,13 @@ import Signup from "./Signup";
 import { LOGIN_USER } from "../../graphql/mutation";
 //
 
+import styled from "styled-components";
+
+export const Span = styled.span`
+  color: red;
+  font-size: 15px;
+`;
+
 export default function Login() {
   const context = useContext(AuthContext);
   const [errors, setErrors] = useState({});
@@ -70,6 +77,8 @@ export default function Login() {
                 onChange={onChange}
               />
             </MainContainer>
+            {errors && <Span>{errors.general}</Span>}
+
             <ButtonContainer>
               <StyledLinkButton
                 // type="submit"

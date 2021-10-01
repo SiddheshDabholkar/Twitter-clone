@@ -71,17 +71,31 @@ export default function MakeTweet() {
     } else {
       return (
         <>
-          <ButtonContainer>
-            <CStyledButton
-              small
-              txtColor="#fff"
-              bgColor="#1da1f2"
-              borderColor="transparent"
-              onClick={makeTweet}
-            >
-              tweet
-            </CStyledButton>
-          </ButtonContainer>
+          {tweetBody.length > 0 ? (
+            <ButtonContainer>
+              <CStyledButton
+                small
+                txtColor="#fff"
+                bgColor="#1da1f2"
+                borderColor="transparent"
+                onClick={makeTweet}
+              >
+                tweet
+              </CStyledButton>
+            </ButtonContainer>
+          ) : (
+            <ButtonContainer>
+              <CStyledButton
+                small
+                txtColor="#fff"
+                bgColor="#9bd7ff"
+                borderColor="transparent"
+                // onClick={makeTweet}
+              >
+                tweet
+              </CStyledButton>
+            </ButtonContainer>
+          )}
         </>
       );
     }

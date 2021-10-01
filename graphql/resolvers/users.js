@@ -56,11 +56,13 @@ module.exports = {
       //* cheking if user already exists with same email || phone number || username
       const usedUsername = await User.findOne({ username });
       if (usedUsername) {
-        throw new UserInputError("username already in use", {
-          errors: {
-            username: "username already taken",
-          },
-        });
+        errors.general = "username already in use";
+        throw new UserInputError("username already in use", { errors });
+        // throw new UserInputError("username already in use", {
+        //   errors: {
+        //     username: "username already taken",
+        //   },
+        // });
       }
 
       // const usedEmail = await User.findOne({ email });
